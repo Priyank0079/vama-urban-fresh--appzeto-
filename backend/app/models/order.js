@@ -60,6 +60,14 @@ const orderSchema = new mongoose.Schema(
         lng: Number,
       },
     },
+    /**
+     * @deprecated Phase 4 (P4-7). Use the canonical `paymentMode` +
+     * `paymentStatus` top-level fields and the `paymentBreakdown` nested
+     * doc instead. This nested doc remains as a legacy mirror for the
+     * frontend; the `pre('save')`/`pre('findOneAndUpdate')` sync hooks
+     * keep `payment.method` / `payment.status` aligned with the canonical
+     * fields. Will be removed in Phase 7.
+     */
     payment: {
       method: {
         type: String,
@@ -73,6 +81,12 @@ const orderSchema = new mongoose.Schema(
       },
       transactionId: String,
     },
+    /**
+     * @deprecated Phase 4 (P4-7). Use the canonical `paymentBreakdown`
+     * nested doc (frozen finance snapshot) instead. Kept as a read-only
+     * mirror for legacy clients. Writes here propagate via the pre('save')
+     * snapshot logic; new flows should write to `paymentBreakdown.*`.
+     */
     pricing: {
       subtotal: Number,
       deliveryFee: Number,
@@ -305,6 +319,13 @@ const orderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Delivery",
     },
+    /**
+     * @deprecated Phase 4 (P4-9). Use the canonical `deliveryBoy` field.
+     * All indexes and the workflow state machine reference `deliveryBoy`.
+     * The pre('save') and pre('findOneAndUpdate') hooks mirror writes
+     * between the two until Phase 7 drops this field. NEW code should
+     * read/write `deliveryBoy` only.
+     */
     deliveryPartner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Delivery",
@@ -540,8 +561,71 @@ orderSchema.pre('save', function(next) {
   next();
 });
 
+// Phase 4 P4-1: keep legacy mirror fields in sync on every findOneAndUpdate.
+//
+// The Order document has two parallel representations:
+//   - Canonical: `paymentStatus`, `orderStatus`, `paymentMode`
+//   - Legacy:    `payment.status`, `payment.method`, `status`
+//
+// The `pre('save')` hook below handles document-style saves, but a direct
+// `Order.findOneAndUpdate({_id}, { $set: { paymentStatus: "PAID" }})` would
+// previously leave `payment.status: "pending"` — drift accumulates.
+//
+// This hook normalises ANY findOneAndUpdate / updateOne / updateMany that
+// hits the schema with a $set on a canonical field. It NEVER overrides an
+// explicit legacy-field write — if the caller already supplied both, we
+// respect their intent.
+const PAYMENT_STATUS_TO_LEGACY = {
+  PAID: "completed",
+  CASH_COLLECTED: "completed",
+  COD_RECONCILED: "completed",
+  REFUNDED: "refunded",
+  FAILED: "failed",
+};
+
+function deriveLegacyPaymentStatus(canonical) {
+  return PAYMENT_STATUS_TO_LEGACY[canonical] || "pending";
+}
+
+function mirrorCanonicalToLegacy(update) {
+  if (!update || typeof update !== "object") return;
+  const set = update.$set || update;
+  if (!set || typeof set !== "object") return;
+
+  // status ↔ orderStatus mirror (both are user-facing).
+  if (set.status && set.orderStatus == null) {
+    set.orderStatus = set.status;
+  }
+  if (set.orderStatus && set.status == null) {
+    set.status = set.orderStatus;
+  }
+
+  // paymentStatus → payment.status (legacy nested doc).
+  if (set.paymentStatus && set["payment.status"] == null) {
+    set["payment.status"] = deriveLegacyPaymentStatus(set.paymentStatus);
+  }
+
+  // paymentMode → payment.method (legacy nested doc). The legacy enum
+  // values are "cash" / "online" / "wallet"; we never derive "wallet"
+  // automatically (it is set explicitly by the wallet-payment flow).
+  if (set.paymentMode && set["payment.method"] == null) {
+    set["payment.method"] = set.paymentMode === "ONLINE" ? "online" : "cash";
+  }
+
+  // deliveryBoy ↔ deliveryPartner mirror (Phase 4 P4-9 prep).
+  if (set.deliveryBoy && set.deliveryPartner == null) {
+    set.deliveryPartner = set.deliveryBoy;
+  }
+  if (set.deliveryPartner && set.deliveryBoy == null) {
+    set.deliveryBoy = set.deliveryPartner;
+  }
+
+  // Re-attach if we were mutating a $set wrapper.
+  if (update.$set) update.$set = set;
+}
+
 orderSchema.pre('findOneAndUpdate', function(next) {
-  const update = this.getUpdate();
+  const update = this.getUpdate() || {};
   if (update.$unset && update.$unset.customer) {
     const error = new Error('Cannot unset customer field from order');
     error.name = 'ValidationError';
@@ -552,7 +636,17 @@ orderSchema.pre('findOneAndUpdate', function(next) {
     error.name = 'ValidationError';
     return next(error);
   }
+  mirrorCanonicalToLegacy(update);
   next();
 });
+
+// Phase 4 P4-1: same mirror for updateOne / updateMany.
+function preUpdateMirror(next) {
+  const update = this.getUpdate() || {};
+  mirrorCanonicalToLegacy(update);
+  next();
+}
+orderSchema.pre('updateOne', preUpdateMirror);
+orderSchema.pre('updateMany', preUpdateMirror);
 
 export default mongoose.model("Order", orderSchema);

@@ -1,6 +1,7 @@
 import Wallet from "../../models/wallet.js";
 import Payout from "../../models/payout.js";
 import Order from "../../models/order.js";
+import User from "../../models/customer.js";
 import {
   LEDGER_DIRECTION,
   ORDER_PAYMENT_STATUS,
@@ -23,6 +24,58 @@ function assertPositiveAmount(amount) {
     throw new Error("Amount must be greater than 0");
   }
   return normalized;
+}
+
+/**
+ * Phase 4 P4-3 — keep the legacy `User.walletBalance` field in sync with
+ * the canonical `Wallet({ownerType:"CUSTOMER"})` document whenever the
+ * wallet is mutated for a customer.
+ *
+ * Old code paths that directly mutate `User.walletBalance` (e.g.
+ * `orderPlacementService` line ~445 — wallet redemption at checkout) are
+ * NOT affected by this helper; they continue to update the User document
+ * themselves. Phase 4b will migrate those call sites to walletService and
+ * the User-side write will then be the only authority.
+ *
+ * Callers that already mutate User.walletBalance can opt out by passing
+ * `syncUserWalletBalance: false` to avoid double-counting.
+ */
+async function maybeSyncUserWalletBalance({
+  ownerType,
+  ownerId,
+  signedDelta,
+  syncUserWalletBalance,
+  session,
+}) {
+  if (syncUserWalletBalance === false) return;
+  if (ownerType !== OWNER_TYPE.CUSTOMER) return;
+  if (!ownerId) return;
+  if (!signedDelta || !Number.isFinite(signedDelta)) return;
+
+  const inc = roundCurrency(signedDelta);
+  if (inc === 0) return;
+
+  // Use $inc so concurrent wallet movements compose correctly without
+  // a read-modify-write race. We deliberately do NOT throw if the user
+  // doesn't exist — the canonical Wallet write has already succeeded
+  // and a missing user row is a pre-existing data anomaly that should
+  // not abort the money flow.
+  try {
+    await User.updateOne(
+      { _id: ownerId },
+      { $inc: { walletBalance: inc } },
+      session ? { session } : {},
+    );
+  } catch (error) {
+    // Surface as a soft log only — the wallet (canonical) is already
+    // correct. Drift will be caught by the P2-9 verifier.
+    if (typeof console !== "undefined" && console.warn) {
+      console.warn(
+        "[walletService] User.walletBalance sync failed; canonical Wallet is authoritative",
+        { userId: String(ownerId), inc, error: error.message },
+      );
+    }
+  }
 }
 
 /**
@@ -128,6 +181,10 @@ export async function creditWallet({
   metadata = null,
   idempotencyKey = null,
   correlationId = null,
+  // Phase 4 P4-3: dual-write to legacy `User.walletBalance`. Default ON
+  // (additive — no caller relied on the old behaviour); flip to `false`
+  // if the caller already writes User.walletBalance directly.
+  syncUserWalletBalance = true,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -166,6 +223,18 @@ export async function creditWallet({
     session,
   });
 
+  // Phase 4 P4-3: legacy mirror. Only applies for the `available` bucket
+  // since User.walletBalance only ever represented the available balance.
+  if (bucket === "available") {
+    await maybeSyncUserWalletBalance({
+      ownerType,
+      ownerId,
+      signedDelta: normalizedAmount,
+      syncUserWalletBalance,
+      session,
+    });
+  }
+
   return {
     wallet,
     amount: normalizedAmount,
@@ -192,6 +261,8 @@ export async function debitWallet({
   metadata = null,
   idempotencyKey = null,
   correlationId = null,
+  // Phase 4 P4-3: dual-write to legacy `User.walletBalance`. See creditWallet.
+  syncUserWalletBalance = true,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -233,6 +304,16 @@ export async function debitWallet({
     session,
   });
 
+  if (bucket === "available") {
+    await maybeSyncUserWalletBalance({
+      ownerType,
+      ownerId,
+      signedDelta: -normalizedAmount,
+      syncUserWalletBalance,
+      session,
+    });
+  }
+
   return {
     wallet,
     amount: normalizedAmount,
@@ -258,6 +339,8 @@ export async function movePendingToAvailable({
   metadata = null,
   idempotencyKey = null,
   correlationId = null,
+  // Phase 4 P4-3: dual-write to legacy `User.walletBalance`. See creditWallet.
+  syncUserWalletBalance = true,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -272,6 +355,16 @@ export async function movePendingToAvailable({
   wallet.pendingBalance = roundCurrency(wallet.pendingBalance - normalizedAmount);
   wallet.availableBalance = roundCurrency(wallet.availableBalance + normalizedAmount);
   await wallet.save({ session });
+
+  // Phase 4 P4-3: legacy mirror — pending→available is a net increase
+  // to the available bucket which is what `User.walletBalance` tracks.
+  await maybeSyncUserWalletBalance({
+    ownerType,
+    ownerId,
+    signedDelta: normalizedAmount,
+    syncUserWalletBalance,
+    session,
+  });
 
   const ledgerEntry = await maybeWriteLedgerEntry({
     wallet,
@@ -505,4 +598,41 @@ export async function getAdminFinanceSummary() {
     reconciledOnlineInflows: roundCurrency(onlineCollection[0]?.amount || 0),
     reconciledCODInflows: roundCurrency(codReconciled[0]?.amount || 0),
   };
+}
+
+/**
+ * Phase 4 P4-2 — canonical reader for "what's the customer's wallet
+ * balance". Reads from the Wallet collection first (authoritative); if
+ * no Wallet row exists yet for this user (legacy customers from before
+ * the Wallet refactor), falls back to `User.walletBalance`.
+ *
+ * Returns 0 if neither source has a record. Never throws.
+ *
+ * Callers that previously read `user.walletBalance` directly can switch
+ * to this helper; once every caller has migrated, the User.walletBalance
+ * field can be removed (Phase 7).
+ */
+export async function getCustomerBalance(userId, { session } = {}) {
+  if (!userId) return 0;
+  try {
+    const wallet = await Wallet.findOne(
+      { ownerType: OWNER_TYPE.CUSTOMER, ownerId: userId },
+      { availableBalance: 1 },
+      session ? { session } : {},
+    ).lean();
+    if (wallet) return roundCurrency(wallet.availableBalance || 0);
+  } catch {
+    // fall through to legacy
+  }
+
+  try {
+    const user = await User.findById(
+      userId,
+      { walletBalance: 1 },
+      session ? { session } : {},
+    ).lean();
+    return roundCurrency(user?.walletBalance || 0);
+  } catch {
+    return 0;
+  }
 }

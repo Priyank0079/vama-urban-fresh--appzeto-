@@ -1,5 +1,23 @@
 import mongoose from "mongoose";
 
+/**
+ * @deprecated Phase 4 (P4-7). Use the canonical `LedgerEntry` collection
+ * instead. The `Transaction` collection remains as a legacy parallel
+ * ledger that is dual-written by some flows (return refund, COD
+ * settlement, withdrawals) for frontend backwards compatibility.
+ *
+ * Migration plan (post-Phase 4):
+ *   1. Phase 4 P4-5 backfills `LedgerEntry` from historical `Transaction`
+ *      rows (deterministic `transactionId: "LEGACY-TX-<txId>"`).
+ *   2. Phase 6 migrates the read sites (`walletAdminService.*`) to
+ *      `LedgerEntry`.
+ *   3. Phase 7 stops writing to `Transaction` entirely and removes the
+ *      collection (after a 30-day burn-in).
+ *
+ * NEW finance flows should use `ledgerService.createLedgerEntry` or
+ * pass `ledgerType` to `walletService.creditWallet` / `debitWallet`,
+ * NOT write to this collection directly.
+ */
 const transactionSchema = new mongoose.Schema(
     {
         user: {

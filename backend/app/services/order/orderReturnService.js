@@ -474,47 +474,44 @@ export class OrderReturnService {
           const walletRefundTotal = refundAmount;
 
           // 1. Credit customer wallet (full refund, even for COD).
+          //
+          // Phase 4 P4-3b: the `User.walletBalance` dual-write is now
+          // owned by walletService — passing `syncUserWalletBalance: true`
+          // (the default) means the legacy mirror is updated inside the
+          // same Mongo session. We no longer touch the User doc here.
           if (order.customer && walletRefundTotal > 0) {
-            const customer = await User.findById(order.customer).session(session);
-            if (customer) {
-              const refundRounded = Number(walletRefundTotal.toFixed(2));
-              // Dual-write: keep User.walletBalance in sync until the
-              // legacy denormalized field is removed (audit plan §3.1).
-              customer.walletBalance =
-                (customer.walletBalance || 0) + refundRounded;
-              await customer.save({ session });
+            const refundRounded = Number(walletRefundTotal.toFixed(2));
 
-              await walletService.creditWallet({
-                ownerType: OWNER_TYPE.CUSTOMER,
-                ownerId: customer._id,
-                amount: refundRounded,
-                bucket: "available",
-                session,
-                ledgerType: LEDGER_TRANSACTION_TYPE.WALLET_REFUND,
-                ledgerReference: `REF-WALLET-${order.orderId}`,
-                ledgerDescription: "Return refund credited to customer wallet",
-                orderId: order._id,
-                idempotencyKey: `RET-CUST-REFUND-${order._id}`,
-                correlationId,
-                metadata: { source: "return_qc_passed" },
-              });
+            await walletService.creditWallet({
+              ownerType: OWNER_TYPE.CUSTOMER,
+              ownerId: order.customer,
+              amount: refundRounded,
+              bucket: "available",
+              session,
+              ledgerType: LEDGER_TRANSACTION_TYPE.WALLET_REFUND,
+              ledgerReference: `REF-WALLET-${order.orderId}`,
+              ledgerDescription: "Return refund credited to customer wallet",
+              orderId: order._id,
+              idempotencyKey: `RET-CUST-REFUND-${order._id}`,
+              correlationId,
+              metadata: { source: "return_qc_passed" },
+            });
 
-              await Transaction.create(
-                [
-                  {
-                    user: customer._id,
-                    userModel: "User",
-                    order: order._id,
-                    type: "Refund",
-                    amount: refundRounded,
-                    status: "Settled",
-                    reference: `REF-WALLET-${order.orderId}`,
-                    meta: { orderId: order._id, type: "return_wallet" },
-                  },
-                ],
-                { session },
-              );
-            }
+            await Transaction.create(
+              [
+                {
+                  user: order.customer,
+                  userModel: "User",
+                  order: order._id,
+                  type: "Refund",
+                  amount: refundRounded,
+                  status: "Settled",
+                  reference: `REF-WALLET-${order.orderId}`,
+                  meta: { orderId: order._id, type: "return_wallet" },
+                },
+              ],
+              { session },
+            );
           }
 
           // 2. Seller adjustment.

@@ -104,6 +104,17 @@ const userSchema = new mongoose.Schema(
 
         addresses: [addressSchema],
 
+        /**
+         * @deprecated Phase 4 (P4-7). Use the canonical
+         * `Wallet({ownerType:"CUSTOMER", ownerId:<userId>}).availableBalance`
+         * via `walletService.getCustomerBalance(userId)` instead.
+         *
+         * This field remains as a denormalised read-cache for
+         * frontend backwards compatibility. Every Wallet credit / debit
+         * for a customer now $inc's this field in the same Mongo session
+         * (Phase 4 P4-3) so the two stay aligned. Will be removed in
+         * Phase 7 after every read site has migrated.
+         */
         walletBalance: {
             type: Number,
             default: 0,
@@ -129,5 +140,26 @@ userSchema.pre("validate", function(next) {
     }
     next();
 });
+
+// Phase 4 P4-8 — reverse virtual to the canonical Wallet document.
+//
+// Usage:
+//   const user = await User.findById(id).populate("wallet");
+//   user.wallet.availableBalance  // canonical
+//
+// This is opt-in via .populate() — existing queries that don't reference
+// `wallet` see zero behavioural change.
+userSchema.virtual("wallet", {
+    ref: "Wallet",
+    localField: "_id",
+    foreignField: "ownerId",
+    justOne: true,
+    match: { ownerType: "CUSTOMER" },
+});
+
+// Make sure virtuals surface in `.toJSON()` / `.toObject()` so the
+// frontend can read them once it migrates.
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
 
 export default mongoose.model("User", userSchema);
