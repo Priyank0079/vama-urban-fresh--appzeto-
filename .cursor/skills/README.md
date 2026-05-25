@@ -5,9 +5,11 @@ organized by **lifecycle status**, not by topic:
 
 ```
 .cursor/skills/
-├── reusable/   ← long-term engineering patterns referenced every PR
-├── archived/   ← one-time refactor migrations already completed
-└── <topic>/    ← new task-focused skills land here, then graduate
+├── reusable/                       ← long-term engineering patterns referenced every PR
+├── archived/                       ← one-time refactor migrations already completed
+├── db-audit-execution-playbook/    ← active multi-PR migration (graduates to archived/ after Phase 7 soak)
+├── progressive-target-scaffolding/ ← active scaffolding for domain extraction
+└── <topic>/                        ← new task-focused skills land here, then graduate
 ```
 
 ## When the agent reads which folder
