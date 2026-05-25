@@ -482,10 +482,44 @@ export async function placeOrderAtomic({
 
     await session.commitTransaction();
 
-    // Increment coupon usedCount after successful order placement (outside transaction — best effort)
+    // Phase 2 P2-7: atomic, usage-limit-aware coupon increment.
+    //
+    // The previous unconditional `$inc: { usedCount: 1 }` could push
+    // `usedCount` past `usageLimit` under concurrent checkouts (two carts
+    // both pass the read-time check at line ~95 of couponController.js
+    // before either increments). The aggregation-pipeline update below
+    // performs a conditional increment: if `usageLimit` is set and would
+    // be exceeded, the document is left untouched. The order itself was
+    // already placed (the check at validation time is best-effort), but
+    // accounting now stays honest.
     const couponId = normalizedPayload.couponId;
     if (couponId) {
-      Coupon.findByIdAndUpdate(couponId, { $inc: { usedCount: 1 } }).catch(() => {});
+      Coupon.updateOne(
+        { _id: couponId },
+        [
+          {
+            $set: {
+              usedCount: {
+                $cond: [
+                  {
+                    $or: [
+                      { $not: ["$usageLimit"] },
+                      {
+                        $lt: [
+                          { $ifNull: ["$usedCount", 0] },
+                          "$usageLimit",
+                        ],
+                      },
+                    ],
+                  },
+                  { $add: [{ $ifNull: ["$usedCount", 0] }, 1] },
+                  { $ifNull: ["$usedCount", 0] },
+                ],
+              },
+            },
+          },
+        ],
+      ).catch(() => {});
     }
 
     const resultPayload = buildResultPayload({

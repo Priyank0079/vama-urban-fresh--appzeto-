@@ -100,6 +100,24 @@ const ledgerEntrySchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    // ---- Audit-plan Phase 2 ticket P2-3 ----
+    // `idempotencyKey` lets callers (especially webhook handlers and queue
+    // workers) retry the same logical wallet movement without producing a
+    // duplicate ledger row. The partial unique index below enforces this
+    // at the DB level — re-inserts collide with E11000 and the caller
+    // catches it as "already applied".
+    //
+    // `correlationId` propagates the originating HTTP request id so a
+    // multi-step money flow can be reconstructed end-to-end in logs.
+    idempotencyKey: {
+      type: String,
+      default: undefined,
+    },
+    correlationId: {
+      type: String,
+      default: null,
+      index: true,
+    },
   },
   { timestamps: true },
 );
@@ -107,5 +125,17 @@ const ledgerEntrySchema = new mongoose.Schema(
 ledgerEntrySchema.index({ createdAt: -1 });
 ledgerEntrySchema.index({ actorType: 1, actorId: 1, createdAt: -1 });
 ledgerEntrySchema.index({ orderId: 1, type: 1 });
+
+// Partial unique index: only enforces uniqueness for documents that
+// actually carry an idempotencyKey. Pre-existing ledger rows without
+// one are untouched. Added in Phase 2 (P2-3).
+ledgerEntrySchema.index(
+  { idempotencyKey: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { idempotencyKey: { $type: "string" } },
+    name: "idx_ledger_idempotency_partial",
+  },
+);
 
 export default mongoose.model("LedgerEntry", ledgerEntrySchema);

@@ -12,17 +12,20 @@
  *     so existing HTTP contracts remain identical.
  *
  * Extracted handlers:
- *   - createReturnRequest    ← requestReturn()
- *   - getReturnDetails       ← getReturnDetails()
- *   - approveReturn          ← approveReturnRequest()
- *   - rejectReturn           ← rejectReturnRequest()
+ *   - createReturnRequest      ← requestReturn()
+ *   - getReturnDetails         ← getReturnDetails()
+ *   - approveReturn            ← approveReturnRequest()
+ *   - rejectReturn             ← rejectReturnRequest()
+ *   - completeReturnAndRefund  ← completeReturnAndRefund()   (Phase 2 P2-4)
  */
 
+import mongoose from "mongoose";
 import Order from "../../models/order.js";
 import Setting from "../../models/setting.js";
 import User from "../../models/customer.js";
 import Seller from "../../models/seller.js";
 import OrderOtp from "../../models/orderOtp.js";
+import Transaction from "../../models/transaction.js";
 import { orderMatchQueryFromRouteParam } from "../../utils/orderLookup.js";
 import { computeReturnWindowForOrder } from "../../utils/returnWindow.js";
 import { emitNotificationEvent } from "../../modules/notifications/notification.emitter.js";
@@ -31,6 +34,10 @@ import {
   emitReturnBroadcastForCustomer,
   emitToSeller,
 } from "../orderSocketEmitter.js";
+import * as walletService from "../finance/walletService.js";
+import { cancelPendingPayoutForOrder } from "../finance/payoutService.js";
+import { LEDGER_TRANSACTION_TYPE, OWNER_TYPE } from "../../constants/finance.js";
+import logger from "../logger.js";
 
 function err(message, statusCode) {
   const error = new Error(message);
@@ -408,6 +415,287 @@ export class OrderReturnService {
     });
 
     return order;
+  }
+
+  /**
+   * Phase 2 P2-4 — atomic refund flow.
+   *
+   * Wraps the entire return-refund money flow (customer wallet credit,
+   * seller adjustment, return-pickup rider credit, order state transition)
+   * inside a single Mongo transaction so we cannot end up with a customer
+   * who has been credited but a seller who hasn't been debited.
+   *
+   * Every wallet movement passes `session` AND `ledgerType` AND an
+   * `idempotencyKey` so that a queue retry produces no duplicates.
+   *
+   * Side-effect emission (push notifications) happens AFTER the
+   * transaction commits — that way a rollback never produces a phantom
+   * "Refund received" notification.
+   *
+   * Contract preservation: same input (Order document), same return value
+   * (the order, mutated to `returnStatus = "refund_completed"`).
+   */
+  static async completeReturnAndRefund(orderInput, { correlationId = null } = {}) {
+    if (!orderInput) return null;
+
+    // Re-fetch by id inside the transaction so the read concern is
+    // consistent with the writes we are about to do. The caller might
+    // hand us a stale document.
+    const orderId = orderInput._id || orderInput.id;
+    if (!orderId) return orderInput;
+
+    let savedOrder = null;
+    const notificationBag = { skip: true };
+    const session = await mongoose.startSession();
+    try {
+      await session.withTransaction(
+        async () => {
+          const order = await Order.findById(orderId).session(session);
+          if (!order) return;
+
+          if (order.returnStatus === "refund_completed") {
+            savedOrder = order;
+            return;
+          }
+          if (order.returnStatus !== "qc_passed") {
+            savedOrder = order;
+            return;
+          }
+
+          const refundAmount =
+            order.returnRefundAmount ||
+            (Array.isArray(order.returnItems)
+              ? order.returnItems.reduce(
+                  (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
+                  0,
+                )
+              : 0);
+          const commission = order.returnDeliveryCommission || 0;
+          const walletRefundTotal = refundAmount;
+
+          // 1. Credit customer wallet (full refund, even for COD).
+          if (order.customer && walletRefundTotal > 0) {
+            const customer = await User.findById(order.customer).session(session);
+            if (customer) {
+              const refundRounded = Number(walletRefundTotal.toFixed(2));
+              // Dual-write: keep User.walletBalance in sync until the
+              // legacy denormalized field is removed (audit plan §3.1).
+              customer.walletBalance =
+                (customer.walletBalance || 0) + refundRounded;
+              await customer.save({ session });
+
+              await walletService.creditWallet({
+                ownerType: OWNER_TYPE.CUSTOMER,
+                ownerId: customer._id,
+                amount: refundRounded,
+                bucket: "available",
+                session,
+                ledgerType: LEDGER_TRANSACTION_TYPE.WALLET_REFUND,
+                ledgerReference: `REF-WALLET-${order.orderId}`,
+                ledgerDescription: "Return refund credited to customer wallet",
+                orderId: order._id,
+                idempotencyKey: `RET-CUST-REFUND-${order._id}`,
+                correlationId,
+                metadata: { source: "return_qc_passed" },
+              });
+
+              await Transaction.create(
+                [
+                  {
+                    user: customer._id,
+                    userModel: "User",
+                    order: order._id,
+                    type: "Refund",
+                    amount: refundRounded,
+                    status: "Settled",
+                    reference: `REF-WALLET-${order.orderId}`,
+                    meta: { orderId: order._id, type: "return_wallet" },
+                  },
+                ],
+                { session },
+              );
+            }
+          }
+
+          // 2. Seller adjustment.
+          if (order.seller && (refundAmount > 0 || commission > 0)) {
+            const isHeld =
+              order.settlementStatus?.sellerPayout === "HOLD" ||
+              order.financeFlags?.sellerPayoutHeld;
+
+            if (isHeld) {
+              try {
+                const cancelled = await cancelPendingPayoutForOrder(
+                  order._id,
+                  "SELLER",
+                  {
+                    remarks: "Payout cancelled due to return QC passed.",
+                    session,
+                  },
+                );
+
+                if (cancelled) {
+                  await Order.updateOne(
+                    { _id: order._id },
+                    {
+                      $set: {
+                        "settlementStatus.sellerPayout": "CANCELLED",
+                        "financeFlags.sellerPayoutHeld": false,
+                      },
+                    },
+                    { session },
+                  );
+                }
+              } catch (error) {
+                // Inside withTransaction(): bubble up so the txn aborts.
+                logger.error("Payout cancellation failed for seller", {
+                  scope: "ReturnFinance",
+                  sellerId: order.seller,
+                  error: error.message,
+                });
+                throw error;
+              }
+            } else {
+              const adjustment = Math.max(0, refundAmount + commission);
+              if (adjustment > 0) {
+                try {
+                  await walletService.debitWallet({
+                    ownerType: OWNER_TYPE.SELLER,
+                    ownerId: order.seller,
+                    amount: adjustment,
+                    bucket: "available",
+                    session,
+                    ledgerType: LEDGER_TRANSACTION_TYPE.REFUND,
+                    ledgerReference: `REF-SELL-${order.orderId}`,
+                    ledgerDescription:
+                      "Seller wallet debited to recover refund + return commission",
+                    orderId: order._id,
+                    idempotencyKey: `RET-SELL-DEBIT-${order._id}`,
+                    correlationId,
+                    metadata: { refundAmount, commission },
+                  });
+                } catch (error) {
+                  // Insufficient balance is a legitimate business
+                  // failure — must abort the whole refund flow so the
+                  // customer is not silently over-credited.
+                  logger.error("Wallet debit failed for seller", {
+                    scope: "ReturnFinance",
+                    sellerId: order.seller,
+                    error: error.message,
+                  });
+                  throw error;
+                }
+              }
+            }
+
+            const adjustment = Math.max(0, refundAmount + commission);
+            await Transaction.create(
+              [
+                {
+                  user: order.seller,
+                  userModel: "Seller",
+                  order: order._id,
+                  type: "Refund",
+                  amount: -adjustment,
+                  status: "Settled",
+                  reference: `REF-SELL-${order.orderId}`,
+                },
+              ],
+              { session },
+            );
+          }
+
+          // 3. Delivery partner earning for return pickup (idempotent
+          //    guard: only credit if not already paid at OTP time).
+          const commissionAlreadyPaid =
+            order.financeFlags?.returnPickupCommissionPaid;
+          if (
+            order.returnDeliveryBoy &&
+            commission > 0 &&
+            !commissionAlreadyPaid
+          ) {
+            try {
+              await walletService.creditWallet({
+                ownerType: OWNER_TYPE.DELIVERY_PARTNER,
+                ownerId: order.returnDeliveryBoy,
+                amount: commission,
+                bucket: "available",
+                session,
+                ledgerType: LEDGER_TRANSACTION_TYPE.RIDER_PAYOUT_PROCESSED,
+                ledgerReference: `RET-DEL-${order.orderId}`,
+                ledgerDescription:
+                  "Return-pickup commission credited to delivery partner",
+                orderId: order._id,
+                idempotencyKey: `RET-DEL-CREDIT-${order._id}`,
+                correlationId,
+                metadata: { source: "return_qc_passed" },
+              });
+            } catch (error) {
+              logger.error("Failed to credit delivery boy", {
+                scope: "ReturnFinance",
+                deliveryBoyId: order.returnDeliveryBoy,
+                error: error.message,
+              });
+              throw error;
+            }
+
+            await Transaction.create(
+              [
+                {
+                  user: order.returnDeliveryBoy,
+                  userModel: "Delivery",
+                  order: order._id,
+                  type: "Delivery Earning",
+                  amount: commission,
+                  status: "Settled",
+                  reference: `RET-DEL-${order.orderId}`,
+                },
+              ],
+              { session },
+            );
+          }
+
+          order.returnStatus = "refund_completed";
+          if (order.payment) {
+            order.payment.status = "refunded";
+          }
+          await order.save({ session });
+
+          savedOrder = order;
+          notificationBag.skip = false;
+          notificationBag.payload = {
+            orderId: order.orderId,
+            customerId: order.customer,
+            userId: order.customer,
+            sellerId: order.seller,
+            deliveryId: order.returnDeliveryBoy,
+            data: {
+              refundAmount,
+              returnDeliveryCommission: commission,
+              isCOD: order.paymentMode === "COD",
+            },
+          };
+        },
+        {
+          // Strict consistency for a money flow.
+          readConcern: { level: "snapshot" },
+          writeConcern: { w: "majority" },
+        },
+      );
+    } finally {
+      session.endSession();
+    }
+
+    // Emit notifications only AFTER the transaction has committed so a
+    // rollback cannot leak a "Refund received" push notification.
+    if (!notificationBag.skip && notificationBag.payload) {
+      emitNotificationEvent(
+        NOTIFICATION_EVENTS.REFUND_COMPLETED,
+        notificationBag.payload,
+      );
+    }
+
+    return savedOrder || orderInput;
   }
 }
 

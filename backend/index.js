@@ -35,6 +35,11 @@ import {
   getPayoutBatchJobInterval,
   isPayoutBatchJobEnabled
 } from "./app/jobs/payoutBatchJob.js";
+import {
+  getWalletLedgerVerifierHandler,
+  getWalletLedgerVerifierInterval,
+  isWalletLedgerVerifierEnabled,
+} from "./app/jobs/walletLedgerVerifierJob.js";
 import logger from "./app/services/logger.js";
 import { stopScheduledJobs } from "./app/services/distributedScheduler.js";
 
@@ -301,15 +306,26 @@ async function startScheduler() {
       getPayoutBatchJobHandler()
     );
   }
-  
+
+  // Phase 2 P2-9: wallet ↔ ledger drift verifier. Read-only sampling job
+  // — disabled by default and enabled per env (FINANCE_VERIFIER_ENABLED).
+  if (isWalletLedgerVerifierEnabled()) {
+    registerScheduledJob(
+      'walletLedgerVerifierJob',
+      getWalletLedgerVerifierInterval(),
+      getWalletLedgerVerifierHandler()
+    );
+  }
+
   // Start all registered jobs
   await startScheduledJobs();
   registerSchedulerStopper(stopScheduledJobs);
-  
+
+  const scheduledJobs = ['orderAutoCancelJob', 'returnWindowReleaseJob'];
+  if (isPayoutBatchJobEnabled()) scheduledJobs.push('payoutBatchJob');
+  if (isWalletLedgerVerifierEnabled()) scheduledJobs.push('walletLedgerVerifierJob');
   logger.info('Scheduler started', {
-    jobs: isPayoutBatchJobEnabled() 
-      ? ['orderAutoCancelJob', 'payoutBatchJob']
-      : ['orderAutoCancelJob'],
+    jobs: scheduledJobs,
     role: getProcessRole()
   });
 }

@@ -32,6 +32,10 @@ export async function createLedgerEntry(
     reference = "",
     balanceBefore = null,
     balanceAfter = null,
+    // Phase 2 P2-3 additions. Both are optional and ignored by older
+    // call sites that don't pass them.
+    idempotencyKey = null,
+    correlationId = null,
   },
   { session } = {},
 ) {
@@ -69,11 +73,30 @@ export async function createLedgerEntry(
     reference,
     balanceBefore: balanceBefore == null ? null : roundCurrency(balanceBefore),
     balanceAfter: balanceAfter == null ? null : roundCurrency(balanceAfter),
+    // Only assign when truthy; the partial unique index requires a string
+    // type for `idempotencyKey` and skips `undefined`.
+    ...(idempotencyKey ? { idempotencyKey: String(idempotencyKey) } : {}),
+    correlationId: correlationId || null,
   };
 
   const entry = new LedgerEntry(payload);
-  await entry.save(session ? { session } : {});
-  return entry;
+  try {
+    await entry.save(session ? { session } : {});
+    return entry;
+  } catch (error) {
+    // Idempotency replay: another worker already inserted the same logical
+    // movement. Return the existing row so the caller treats it as a
+    // success. Without this, queue-driven retries would surface as 500s.
+    if (error?.code === 11000 && idempotencyKey) {
+      const existing = await LedgerEntry.findOne(
+        { idempotencyKey: String(idempotencyKey) },
+        null,
+        session ? { session } : {},
+      );
+      if (existing) return existing;
+    }
+    throw error;
+  }
 }
 
 export async function getLedgerEntries({

@@ -944,7 +944,26 @@ export const rejectReturnPickup = async (req, res) => {
   }
 };
 
+// Phase 2 P2-4: refund flow is now extracted to OrderReturnService and
+// wrapped in a Mongo transaction. The legacy non-transactional body
+// below is preserved verbatim as `completeReturnAndRefundLegacy` and is
+// reachable by flipping TRANSACTIONAL_REFUND_ENABLED=false in env, giving
+// us an instant rollback path without a redeploy.
+function isTransactionalRefundEnabled() {
+  const raw = process.env.TRANSACTIONAL_REFUND_ENABLED;
+  if (raw == null) return true;
+  return String(raw).toLowerCase() !== "false";
+}
+
 export const completeReturnAndRefund = async (order) => {
+  if (!order) return null;
+  if (isTransactionalRefundEnabled()) {
+    return OrderReturnService.completeReturnAndRefund(order);
+  }
+  return completeReturnAndRefundLegacy(order);
+};
+
+const completeReturnAndRefundLegacy = async (order) => {
   if (!order) return null;
   if (order.returnStatus === "refund_completed") {
     return order;

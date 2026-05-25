@@ -2,6 +2,7 @@ import Wallet from "../../models/wallet.js";
 import Payout from "../../models/payout.js";
 import Order from "../../models/order.js";
 import {
+  LEDGER_DIRECTION,
   ORDER_PAYMENT_STATUS,
   OWNER_TYPE,
   PAYOUT_STATUS,
@@ -9,6 +10,7 @@ import {
   WALLET_STATUS,
 } from "../../constants/finance.js";
 import { addMoney, clampMoney, roundCurrency } from "../../utils/money.js";
+import { createLedgerEntry } from "./ledgerService.js";
 
 function normalizeOwnerId(ownerType, ownerId) {
   if (ownerType === OWNER_TYPE.ADMIN) return null;
@@ -21,6 +23,59 @@ function assertPositiveAmount(amount) {
     throw new Error("Amount must be greater than 0");
   }
   return normalized;
+}
+
+/**
+ * Phase 2 P2-1: helper that creates a paired LedgerEntry for a wallet
+ * movement. Callers can opt-in by passing `ledgerType`. When `ledgerType`
+ * is omitted the helper is a no-op so legacy callers (e.g. orderFinanceService
+ * which writes its own ledger row right after the wallet save) keep working.
+ *
+ * Every field after `ledgerType` is optional and only forwarded if present.
+ */
+async function maybeWriteLedgerEntry({
+  wallet,
+  ownerType,
+  ownerId,
+  before,
+  after,
+  amount,
+  direction,
+  ledgerType,
+  ledgerStatus,
+  ledgerReference,
+  ledgerDescription,
+  orderId,
+  payoutId,
+  paymentMode,
+  metadata,
+  idempotencyKey,
+  correlationId,
+  session,
+}) {
+  if (!ledgerType) return null;
+  return createLedgerEntry(
+    {
+      orderId: orderId || null,
+      payoutId: payoutId || null,
+      walletId: wallet?._id || null,
+      actorType: ownerType,
+      actorId: ownerId || null,
+      type: ledgerType,
+      direction,
+      amount,
+      ...(ledgerStatus ? { status: ledgerStatus } : {}),
+      paymentMode: paymentMode || null,
+      metadata: metadata || {},
+      description: ledgerDescription || "",
+      reference: ledgerReference || "",
+      balanceBefore: before,
+      balanceAfter: after,
+      idempotencyKey: idempotencyKey || null,
+      correlationId: correlationId || null,
+    },
+    { session },
+  );
 }
 
 export async function getOrCreateWallet(ownerType, ownerId, { session } = {}) {
@@ -60,6 +115,19 @@ export async function creditWallet({
   amount,
   bucket = "available",
   session,
+  // Phase 2 P2-1: opt-in ledger metadata. When `ledgerType` is provided
+  // we emit a LedgerEntry inside the same session so the wallet save
+  // and the ledger row commit (or roll back) together.
+  ledgerType = null,
+  ledgerStatus = null,
+  ledgerReference = "",
+  ledgerDescription = "",
+  orderId = null,
+  payoutId = null,
+  paymentMode = null,
+  metadata = null,
+  idempotencyKey = null,
+  correlationId = null,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -73,12 +141,38 @@ export async function creditWallet({
   wallet.totalCredited = addMoney(wallet.totalCredited, normalizedAmount);
 
   await wallet.save({ session });
+
+  const beforeRounded = roundCurrency(before);
+  const afterRounded = roundCurrency(wallet[`${bucket}Balance`]);
+
+  const ledgerEntry = await maybeWriteLedgerEntry({
+    wallet,
+    ownerType,
+    ownerId,
+    before: beforeRounded,
+    after: afterRounded,
+    amount: normalizedAmount,
+    direction: LEDGER_DIRECTION.CREDIT,
+    ledgerType,
+    ledgerStatus,
+    ledgerReference,
+    ledgerDescription,
+    orderId,
+    payoutId,
+    paymentMode,
+    metadata,
+    idempotencyKey,
+    correlationId,
+    session,
+  });
+
   return {
     wallet,
     amount: normalizedAmount,
-    before: roundCurrency(before),
-    after: roundCurrency(wallet[`${bucket}Balance`]),
+    before: beforeRounded,
+    after: afterRounded,
     bucket,
+    ledgerEntry,
   };
 }
 
@@ -88,6 +182,16 @@ export async function debitWallet({
   amount,
   bucket = "available",
   session,
+  ledgerType = null,
+  ledgerStatus = null,
+  ledgerReference = "",
+  ledgerDescription = "",
+  orderId = null,
+  payoutId = null,
+  paymentMode = null,
+  metadata = null,
+  idempotencyKey = null,
+  correlationId = null,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -106,12 +210,36 @@ export async function debitWallet({
   wallet.totalDebited = addMoney(wallet.totalDebited, normalizedAmount);
   await wallet.save({ session });
 
+  const afterRounded = roundCurrency(wallet[field]);
+
+  const ledgerEntry = await maybeWriteLedgerEntry({
+    wallet,
+    ownerType,
+    ownerId,
+    before,
+    after: afterRounded,
+    amount: normalizedAmount,
+    direction: LEDGER_DIRECTION.DEBIT,
+    ledgerType,
+    ledgerStatus,
+    ledgerReference,
+    ledgerDescription,
+    orderId,
+    payoutId,
+    paymentMode,
+    metadata,
+    idempotencyKey,
+    correlationId,
+    session,
+  });
+
   return {
     wallet,
     amount: normalizedAmount,
     before,
-    after: roundCurrency(wallet[field]),
+    after: afterRounded,
     bucket,
+    ledgerEntry,
   };
 }
 
@@ -120,6 +248,16 @@ export async function movePendingToAvailable({
   ownerId,
   amount,
   session,
+  ledgerType = null,
+  ledgerStatus = null,
+  ledgerReference = "",
+  ledgerDescription = "",
+  orderId = null,
+  payoutId = null,
+  paymentMode = null,
+  metadata = null,
+  idempotencyKey = null,
+  correlationId = null,
 }) {
   const normalizedAmount = assertPositiveAmount(amount);
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
@@ -135,6 +273,34 @@ export async function movePendingToAvailable({
   wallet.availableBalance = roundCurrency(wallet.availableBalance + normalizedAmount);
   await wallet.save({ session });
 
+  const ledgerEntry = await maybeWriteLedgerEntry({
+    wallet,
+    ownerType,
+    ownerId,
+    // For a pending-to-available move we report the available-bucket
+    // before/after — that's the bucket the customer/admin actually sees.
+    before: availableBefore,
+    after: roundCurrency(wallet.availableBalance),
+    amount: normalizedAmount,
+    direction: LEDGER_DIRECTION.CREDIT,
+    ledgerType,
+    ledgerStatus,
+    ledgerReference,
+    ledgerDescription,
+    orderId,
+    payoutId,
+    paymentMode,
+    metadata: {
+      ...(metadata || {}),
+      bucket: "pending->available",
+      pendingBefore,
+      pendingAfter: roundCurrency(wallet.pendingBalance),
+    },
+    idempotencyKey,
+    correlationId,
+    session,
+  });
+
   return {
     wallet,
     amount: normalizedAmount,
@@ -142,6 +308,7 @@ export async function movePendingToAvailable({
     pendingAfter: roundCurrency(wallet.pendingBalance),
     availableBefore,
     availableAfter: roundCurrency(wallet.availableBalance),
+    ledgerEntry,
   };
 }
 
@@ -150,6 +317,16 @@ export async function updateCashInHand({
   ownerId,
   deltaAmount,
   session,
+  ledgerType = null,
+  ledgerStatus = null,
+  ledgerReference = "",
+  ledgerDescription = "",
+  orderId = null,
+  payoutId = null,
+  paymentMode = null,
+  metadata = null,
+  idempotencyKey = null,
+  correlationId = null,
 }) {
   const wallet = await getOrCreateWallet(ownerType, ownerId, { session });
   const delta = roundCurrency(deltaAmount || 0);
@@ -159,6 +336,7 @@ export async function updateCashInHand({
       before: roundCurrency(wallet.cashInHand || 0),
       after: roundCurrency(wallet.cashInHand || 0),
       delta: 0,
+      ledgerEntry: null,
     };
   }
 
@@ -166,11 +344,35 @@ export async function updateCashInHand({
   wallet.cashInHand = clampMoney(before + delta, 0);
   await wallet.save({ session });
 
+  const afterRounded = roundCurrency(wallet.cashInHand);
+
+  const ledgerEntry = await maybeWriteLedgerEntry({
+    wallet,
+    ownerType,
+    ownerId,
+    before,
+    after: afterRounded,
+    amount: Math.abs(delta),
+    direction: delta >= 0 ? LEDGER_DIRECTION.CREDIT : LEDGER_DIRECTION.DEBIT,
+    ledgerType,
+    ledgerStatus,
+    ledgerReference,
+    ledgerDescription,
+    orderId,
+    payoutId,
+    paymentMode,
+    metadata: { ...(metadata || {}), bucket: "cashInHand", delta },
+    idempotencyKey,
+    correlationId,
+    session,
+  });
+
   return {
     wallet,
     before,
-    after: roundCurrency(wallet.cashInHand),
+    after: afterRounded,
     delta,
+    ledgerEntry,
   };
 }
 
