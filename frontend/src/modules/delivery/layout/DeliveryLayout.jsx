@@ -40,8 +40,6 @@ const DeliveryLayout = () => {
   const [availableOrdersCount, setAvailableOrdersCount] = useState(0);
   const [isAcceptingOrder, setIsAcceptingOrder] = useState(false);
   const acceptInFlightRef = useRef(false);
-  const didInitialAvailableFetchRef = useRef(false);
-  const didInitialNotificationsPollRef = useRef(false);
   const didInitialLocationSendRef = useRef(false);
   const availableOrdersRequestRef = useRef({ inFlight: false, controller: null });
   const notificationsRequestRef = useRef({ inFlight: false, controller: null });
@@ -328,49 +326,113 @@ const DeliveryLayout = () => {
     }
   }, []);
 
-  // Polling for available orders
+  // Available-orders polling — safety net for missed socket broadcasts.
+  //
+  // Socket (`onDeliveryBroadcast`) remains the primary delivery channel.
+  // This effect adds a low-frequency fallback so a rider who came online
+  // *after* the broadcast left the wire, or whose socket dropped without
+  // reconnecting, will still see new jobs within ~15s.
+  //
+  // Guards: only ticks while the rider is online, the foreground tab is
+  // visible, no active-order modal is up, and the route isn't already in
+  // an active delivery flow (confirm-delivery / navigation). On error we
+  // back off exponentially up to 60s so a flaky network doesn't hammer
+  // the API.
   useEffect(() => {
-    const fetchOrders = async () => {
-      // Only poll if online and NOT currently in an active order alert
-      if (!user?.isOnline || activeOrder || suppressIncomingModal) return;
-
-      try {
-        const res = await fetchAvailableOrders();
-        if (!res) return;
-        if (res.data.success) {
-          const availableOrders = res.data.results || res.data.result || [];
-          applyAvailableOrdersList(availableOrders);
-        }
-      } catch (error) {
-        // Silently handle aborted requests to reduce log noise
-        if (error.name !== 'CanceledError' && error.name !== 'AbortError') {
-          console.error("Delivery Polling Error:", error);
-        }
-      } finally {
-        if (isFirstLoad) setIsFirstLoad(false);
-      }
-    };
-
     if (!user?.isOnline) {
-      didInitialAvailableFetchRef.current = false;
       if (availableOrdersRequestRef.current.controller) {
         availableOrdersRequestRef.current.controller.abort();
       }
       return undefined;
     }
 
-    if (didInitialAvailableFetchRef.current) return undefined;
-    didInitialAvailableFetchRef.current = true;
+    let cancelled = false;
+    let timer = null;
+    let consecutiveErrors = 0;
 
-    fetchOrders(); // single fetch when going online
+    const BASE_DELAY_MS = 15000;
+    const MAX_DELAY_MS = 60000;
+
+    const tick = async () => {
+      if (cancelled) return;
+      if (activeOrderRef.current || suppressIncomingModal) return;
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState === "hidden"
+      ) {
+        return;
+      }
+
+      try {
+        const res = await fetchAvailableOrders();
+        if (cancelled || !res) return;
+        if (res.data?.success) {
+          const availableOrders = res.data.results || res.data.result || [];
+          applyAvailableOrdersList(availableOrders);
+        }
+        consecutiveErrors = 0;
+      } catch (error) {
+        if (
+          error?.code === "ERR_CANCELED" ||
+          error?.name === "CanceledError" ||
+          error?.name === "AbortError"
+        ) {
+          return;
+        }
+        consecutiveErrors += 1;
+        console.error("Delivery Polling Error:", error);
+      } finally {
+        if (isFirstLoad) setIsFirstLoad(false);
+      }
+    };
+
+    const computeDelay = () => {
+      if (!consecutiveErrors) return BASE_DELAY_MS;
+      return Math.min(MAX_DELAY_MS, BASE_DELAY_MS * 2 ** (consecutiveErrors - 1));
+    };
+
+    const schedule = () => {
+      if (cancelled) return;
+      timer = setTimeout(async () => {
+        await tick();
+        schedule();
+      }, computeDelay());
+    };
+
+    // Kick off immediately, then schedule the recurring tick.
+    tick();
+    schedule();
+
+    // Wake-up: if the rider tabs back / focuses the window, fetch right
+    // away instead of waiting for the next interval tick.
+    const wakeUp = () => {
+      if (cancelled) return;
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState !== "visible"
+      ) {
+        return;
+      }
+      tick();
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("focus", wakeUp);
+      document.addEventListener("visibilitychange", wakeUp);
+    }
+
     return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("focus", wakeUp);
+        document.removeEventListener("visibilitychange", wakeUp);
+      }
       if (availableOrdersRequestRef.current.controller) {
         availableOrdersRequestRef.current.controller.abort();
       }
     };
   }, [
     user?.isOnline,
-    activeOrder,
     applyAvailableOrdersList,
     suppressIncomingModal,
     fetchAvailableOrders,
@@ -448,23 +510,40 @@ const DeliveryLayout = () => {
     });
   }, [user?.isOnline]);
 
-  // When a new DB notification arrives (same row as bell list), open the same popup if socket was missed
+  // Notifications safety-net polling.
+  //
+  // Same idea as the available-orders poll above but slower (~25s) since
+  // this is the third line of defense: socket → available-orders poll →
+  // notifications inbox. If both real-time channels miss a broadcast, the
+  // unread notification row eventually surfaces the offer here.
   useEffect(() => {
     if (!user?.isOnline) {
-      didInitialNotificationsPollRef.current = false;
       if (notificationsRequestRef.current.controller) {
         notificationsRequestRef.current.controller.abort();
       }
       return undefined;
     }
 
-    if (didInitialNotificationsPollRef.current) return undefined;
-    didInitialNotificationsPollRef.current = true;
+    let cancelled = false;
+    let timer = null;
+    let consecutiveErrors = 0;
 
-    const poll = async () => {
+    const BASE_DELAY_MS = 25000;
+    const MAX_DELAY_MS = 90000;
+
+    const tick = async () => {
+      if (cancelled) return;
+      if (activeOrderRef.current || suppressIncomingModal) return;
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState === "hidden"
+      ) {
+        return;
+      }
+
       try {
         const res = await fetchNotifications();
-        if (!res?.data?.success) return;
+        if (cancelled || !res?.data?.success) return;
         const result = res.data.result || res.data.data;
         const notifications = result?.notifications || [];
         if (activeOrderRef.current) return;
@@ -482,17 +561,63 @@ const DeliveryLayout = () => {
           });
           if (fromStored) return;
           const r2 = await fetchAvailableOrders();
-          if (!r2?.data?.success) return;
+          if (cancelled || !r2?.data?.success) return;
           const list = r2.data.results || r2.data.result || [];
           applyAvailableOrdersList(list);
           return;
         }
-      } catch {
-        /* ignore */
+        consecutiveErrors = 0;
+      } catch (error) {
+        if (
+          error?.code === "ERR_CANCELED" ||
+          error?.name === "CanceledError" ||
+          error?.name === "AbortError"
+        ) {
+          return;
+        }
+        consecutiveErrors += 1;
+        /* swallow noisy errors; backoff already throttles retries */
       }
     };
-    poll();
+
+    const computeDelay = () => {
+      if (!consecutiveErrors) return BASE_DELAY_MS;
+      return Math.min(MAX_DELAY_MS, BASE_DELAY_MS * 2 ** (consecutiveErrors - 1));
+    };
+
+    const schedule = () => {
+      if (cancelled) return;
+      timer = setTimeout(async () => {
+        await tick();
+        schedule();
+      }, computeDelay());
+    };
+
+    tick();
+    schedule();
+
+    const wakeUp = () => {
+      if (cancelled) return;
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState !== "visible"
+      ) {
+        return;
+      }
+      tick();
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("focus", wakeUp);
+      document.addEventListener("visibilitychange", wakeUp);
+    }
+
     return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("focus", wakeUp);
+        document.removeEventListener("visibilitychange", wakeUp);
+      }
       if (notificationsRequestRef.current.controller) {
         notificationsRequestRef.current.controller.abort();
       }
