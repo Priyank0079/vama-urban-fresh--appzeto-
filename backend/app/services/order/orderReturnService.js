@@ -37,6 +37,7 @@ import {
 import * as walletService from "../finance/walletService.js";
 import { cancelPendingPayoutForOrder } from "../finance/payoutService.js";
 import { LEDGER_TRANSACTION_TYPE, OWNER_TYPE } from "../../constants/finance.js";
+import { clearOrderTracking } from "../firebaseService.js";
 import logger from "../logger.js";
 
 function err(message, statusCode) {
@@ -690,6 +691,14 @@ export class OrderReturnService {
         NOTIFICATION_EVENTS.REFUND_COMPLETED,
         notificationBag.payload,
       );
+    }
+
+    // Return finished — drop realtime tracking nodes for this order so the
+    // customer's old "live tracking" view doesn't keep a stale rider pinned.
+    // Fire-and-forget; never blocks the refund response.
+    const canonicalOrderId = savedOrder?.orderId || orderInput?.orderId;
+    if (canonicalOrderId) {
+      clearOrderTracking(canonicalOrderId).catch(() => {});
     }
 
     return savedOrder || orderInput;

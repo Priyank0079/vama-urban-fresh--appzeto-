@@ -4,6 +4,7 @@ import handleResponse from "../utils/helper.js";
 import { sendSmsIndiaHubOtp } from "../services/smsIndiaHubService.js";
 import { generateOTP, useRealSMS } from "../utils/otp.js";
 import { uploadToCloudinary } from "../services/mediaService.js";
+import { clearRiderPresence } from "../services/firebaseService.js";
 
 const generateToken = (delivery) =>
     jwt.sign(
@@ -217,9 +218,21 @@ export const updateDeliveryProfile = async (req, res) => {
         if (vehicleNumber) delivery.vehicleNumber = vehicleNumber;
         if (drivingLicenseNumber) delivery.drivingLicenseNumber = drivingLicenseNumber;
         if (currentArea) delivery.currentArea = currentArea;
+
+        // Capture going-offline transition before the save so we know whether
+        // to drop the rider's realtime presence nodes after the write.
+        const wasOnline = delivery.isOnline === true;
+        const willGoOffline =
+            typeof isOnline !== 'undefined' && isOnline === false && wasOnline;
         if (typeof isOnline !== 'undefined') delivery.isOnline = isOnline;
 
         await delivery.save();
+
+        // Fire-and-forget — never blocks the HTTP response. A failed cleanup
+        // is also safe: the scheduled sweep job will pick it up on TTL.
+        if (willGoOffline) {
+            clearRiderPresence(String(delivery._id)).catch(() => {});
+        }
 
         return handleResponse(res, 200, "Profile updated successfully", delivery);
     } catch (error) {

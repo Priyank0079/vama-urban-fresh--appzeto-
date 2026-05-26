@@ -7,7 +7,12 @@ import Wallet from "../models/wallet.js";
 import handleResponse from "../utils/helper.js";
 import mongoose from "mongoose";
 import { WORKFLOW_STATUS } from "../constants/orderWorkflow.js";
-import { writeDeliveryLocation, appendTrailPoint } from "../services/firebaseService.js";
+import {
+  writeDeliveryLocation,
+  appendTrailPoint,
+  clearOrderTracking,
+  clearRiderPresence,
+} from "../services/firebaseService.js";
 import { applyDeliveredSettlement } from "../services/orderSettlement.js";
 import { roundCurrency } from "../utils/money.js";
 import logger from "../services/logger.js";
@@ -793,6 +798,11 @@ export const validateDeliveryOtp = async (req, res) => {
                     scope: "validateDeliveryOtp",
                     error: settlementError,
                 });
+                // Order has already been marked delivered; cleanup the
+                // realtime tracking nodes regardless — the customer no
+                // longer needs live updates for a delivered order.
+                clearOrderTracking(order.orderId).catch(() => {});
+                clearRiderPresence(deliveryBoyId).catch(() => {});
                 // Order has already been marked delivered; don't fail OTP validation due to finance sync issues.
                 return handleResponse(res, 200, "Order delivered successfully (finance pending)", {
                     success: true,
@@ -807,6 +817,11 @@ export const validateDeliveryOtp = async (req, res) => {
                     }
                 });
             }
+
+            // Happy path: order delivered + settled. Drop the realtime
+            // tracking nodes so they don't appear as "live" forever.
+            clearOrderTracking(order.orderId).catch(() => {});
+            clearRiderPresence(deliveryBoyId).catch(() => {});
         }
 
         // Emit Socket.IO event to customer

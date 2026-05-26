@@ -40,6 +40,11 @@ import {
   getWalletLedgerVerifierInterval,
   isWalletLedgerVerifierEnabled,
 } from "./app/jobs/walletLedgerVerifierJob.js";
+import {
+  getFirebaseTrackingCleanupJobHandler,
+  getFirebaseTrackingCleanupJobInterval,
+  isFirebaseTrackingCleanupJobEnabled,
+} from "./app/jobs/firebaseTrackingCleanupJob.js";
 import logger from "./app/services/logger.js";
 import { stopScheduledJobs } from "./app/services/distributedScheduler.js";
 
@@ -331,6 +336,18 @@ async function startScheduler() {
     );
   }
 
+  // Firebase RTDB tracking cleanup — safety net for rider-presence nodes
+  // that escape the synchronous lifecycle hooks (force-quit, network drop).
+  // Per-order tracking is cleaned by hooks; this job only sweeps stale
+  // /fleet/active and /deliveries/*/current entries. Toggle via env.
+  if (isFirebaseTrackingCleanupJobEnabled()) {
+    registerScheduledJob(
+      'firebaseTrackingCleanupJob',
+      getFirebaseTrackingCleanupJobInterval(),
+      getFirebaseTrackingCleanupJobHandler()
+    );
+  }
+
   // Start all registered jobs
   await startScheduledJobs();
   registerSchedulerStopper(stopScheduledJobs);
@@ -338,6 +355,7 @@ async function startScheduler() {
   const scheduledJobs = ['orderAutoCancelJob', 'returnWindowReleaseJob'];
   if (isPayoutBatchJobEnabled()) scheduledJobs.push('payoutBatchJob');
   if (isWalletLedgerVerifierEnabled()) scheduledJobs.push('walletLedgerVerifierJob');
+  if (isFirebaseTrackingCleanupJobEnabled()) scheduledJobs.push('firebaseTrackingCleanupJob');
   logger.info('Scheduler started', {
     jobs: scheduledJobs,
     role: getProcessRole()
