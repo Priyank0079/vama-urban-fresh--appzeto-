@@ -63,6 +63,13 @@ export const LEDGER_TRANSACTION_TYPE = {
   WITHDRAWAL: "WITHDRAWAL",
   CANCELLATION_REVERSAL: "CANCELLATION_REVERSAL",
   WALLET_REFUND: "WALLET_REFUND",
+  // Audit Phase 1 (H-1): emitted by `cancelPendingPayoutForOrder` when a
+  // pending seller/rider payout is reversed due to a return or order
+  // cancellation. The ledger row debits the beneficiary's pending bucket
+  // so the audit log reflects the reversal. Without this enum value the
+  // ledger write inside `cancelPendingPayoutForOrder` threw a Mongoose
+  // ValidationError and silently aborted the refund flow.
+  PAYOUT_CANCELLED: "PAYOUT_CANCELLED",
 };
 
 export const PAYOUT_TYPE = {
@@ -75,6 +82,16 @@ export const PAYOUT_STATUS = {
   PROCESSING: "PROCESSING",
   COMPLETED: "COMPLETED",
   FAILED: "FAILED",
+  // Audit Phase 1 (H-1): `cancelPendingPayoutForOrder` writes this status
+  // when reversing a HOLD/PENDING payout after a return or cancellation.
+  // Previously `PAYOUT_STATUS.CANCELLED` was `undefined`, so
+  //   - `{ $ne: PAYOUT_STATUS.CANCELLED }` matched every document (idempotency
+  //     guard never short-circuited correctly), and
+  //   - `payout.status = PAYOUT_STATUS.CANCELLED; await payout.save()` failed
+  //     the schema enum (ALL_PAYOUT_STATUSES) and threw a ValidationError,
+  //     aborting the return-refund flow.
+  // Adding the value is additive: `ALL_PAYOUT_STATUSES` is derived below.
+  CANCELLED: "CANCELLED",
 };
 
 export const COMMISSION_TYPE = {
