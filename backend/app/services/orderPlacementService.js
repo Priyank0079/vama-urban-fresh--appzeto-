@@ -6,8 +6,21 @@ import User from "../models/customer.js";
 import Transaction from "../models/transaction.js";
 import Coupon from "../models/coupon.js";
 import { WORKFLOW_STATUS, DEFAULT_SELLER_TIMEOUT_MS } from "../constants/orderWorkflow.js";
-import { ORDER_PAYMENT_STATUS } from "../constants/finance.js";
+import {
+  LEDGER_TRANSACTION_TYPE,
+  ORDER_PAYMENT_STATUS,
+  OWNER_TYPE,
+  isWalletRedemptionReducesPayableEnabled,
+} from "../constants/finance.js";
 import { freezeFinancialSnapshot } from "./finance/orderFinanceService.js";
+import {
+  creditWallet,
+  debitWallet,
+  getCustomerBalance,
+  getOrCreateWallet,
+} from "./finance/walletService.js";
+import { roundCurrency } from "../utils/money.js";
+import LedgerEntry from "../models/ledgerEntry.js";
 import {
   generateUniqueCheckoutGroupId,
   generateUniquePublicOrderId,
@@ -206,6 +219,68 @@ function buildCheckoutGroupStatus(paymentMode) {
   return paymentMode === "ONLINE" ? "PAYMENT_PENDING" : "CREATED";
 }
 
+/**
+ * Audit Phase 4 (H-5) — lazy-seed of canonical customer Wallet from the
+ * legacy `User.walletBalance` so the H-5 debit path works for customers
+ * whose Wallet doc never received a credit (legacy customers from before
+ * Phase 4 P4-3 dual-write).
+ *
+ * The seed:
+ *   - Reads `Wallet.availableBalance` and `User.walletBalance` inside the
+ *     same session that the checkout uses.
+ *   - If `User.walletBalance > Wallet.availableBalance`, credits the gap
+ *     into the canonical Wallet (no User-side mirror because the User row
+ *     already has the higher value).
+ *   - Writes a `LedgerEntry({type: ADJUSTMENT})` with a stable
+ *     `idempotencyKey = WLT-SEED-<userId>` so re-runs across checkouts
+ *     are safe — the partial unique index on `LedgerEntry.idempotencyKey`
+ *     guarantees the seed happens at most once per customer.
+ *
+ * Safe to call when:
+ *   - `Wallet.availableBalance >= User.walletBalance` (returns 0; no-op).
+ *   - `User.walletBalance === 0` (returns 0; no-op).
+ *   - `walletAmount` is 0 at the call site (caller should still skip; this
+ *     function does not check).
+ */
+async function seedCanonicalCustomerWalletFromUser({ customerId, user, session }) {
+  if (!customerId) return 0;
+  const seedIdempotencyKey = `WLT-SEED-${String(customerId)}`;
+
+  // Idempotency pre-check: if the seed has already fired for this customer
+  // we MUST NOT call `creditWallet` again, because creditWallet saves the
+  // wallet BEFORE attempting the ledger insert and would double-credit if
+  // the ledger then collides on the partial unique index. The pre-check
+  // makes the helper safe to call on every checkout.
+  const existingSeed = await LedgerEntry.findOne(
+    { idempotencyKey: seedIdempotencyKey },
+    { _id: 1 },
+    { session },
+  );
+  if (existingSeed) return 0;
+
+  const wallet = await getOrCreateWallet(OWNER_TYPE.CUSTOMER, customerId, { session });
+  const userBalance = roundCurrency(user?.walletBalance || 0);
+  const walletBalance = roundCurrency(wallet.availableBalance || 0);
+  const gap = roundCurrency(userBalance - walletBalance);
+  if (gap <= 0) return 0;
+
+  await creditWallet({
+    ownerType: OWNER_TYPE.CUSTOMER,
+    ownerId: customerId,
+    amount: gap,
+    bucket: "available",
+    session,
+    ledgerType: LEDGER_TRANSACTION_TYPE.ADJUSTMENT,
+    ledgerReference: seedIdempotencyKey,
+    ledgerDescription: "Lazy seed of canonical Wallet from legacy User.walletBalance",
+    idempotencyKey: seedIdempotencyKey,
+    metadata: { reason: "legacy_user_walletbalance_seed" },
+    // The User row is already correct — do not double-credit it.
+    syncUserWalletBalance: false,
+  });
+  return gap;
+}
+
 function buildCheckoutGroupPaymentStatus(paymentMode) {
   return paymentMode === "ONLINE"
     ? ORDER_PAYMENT_STATUS.CREATED
@@ -291,10 +366,17 @@ export async function placeOrderAtomic({
     const tipAmount = Math.max(0, Number(normalizedPayload.tipAmount || 0));
 
     // 1. Fetch user and validate wallet
+    // Audit Phase 4 (M-4): read the canonical wallet balance (Wallet first,
+    // User.walletBalance fallback) so customers whose canonical wallet was
+    // credited via `walletService.creditWallet` but whose User mirror is
+    // stale can still redeem. `getCustomerBalance` is a no-throw helper —
+    // we still need `user` further down for the legacy direct-debit path,
+    // so we fetch both.
     const user = await User.findById(customerId).session(session);
     if (walletAmount > 0) {
       if (!user) throw new Error("User not found");
-      if (user.walletBalance < walletAmount) {
+      const canonicalBalance = await getCustomerBalance(customerId, { session });
+      if (canonicalBalance < walletAmount) {
         throw new Error("Insufficient wallet balance");
       }
     }
@@ -309,11 +391,18 @@ export async function placeOrderAtomic({
       session,
     });
 
+    // Audit Phase 4 (C-1): when WALLET_REDEMPTION_REDUCES_PAYABLE is on,
+    // pass walletAmount through to the snapshot so the per-seller
+    // grandTotal is reduced proportionately. When the flag is off the
+    // snapshot ignores it (`grandTotal` stays at the pre-wallet value)
+    // and the legacy direct-debit path below preserves bit-for-bit
+    // current behaviour.
     const pricingSnapshot = await buildCheckoutPricingSnapshot({
       orderItems: orderItemsInput,
       address: normalizedAddress,
       tipAmount,
       discountTotal: Math.max(0, Number(normalizedPayload.discountTotal || 0)),
+      walletAmount,
       session,
     });
 
@@ -369,9 +458,17 @@ export async function placeOrderAtomic({
         pendingLowStockAlerts.push(...sellerLowStockAlerts);
       }
 
+      // Audit Phase 4 (C-1): per-seller wallet allocation is now produced
+      // by `buildCheckoutPricingSnapshot` (post-tip, post-handling) so we
+      // can read it directly. Falling back to the old proportionate
+      // formula keeps backwards compat in case the snapshot omits the
+      // field for an exotic call path.
+      const breakdownWalletAmount = Number(entry.breakdown?.walletAmount || 0);
       const orderGrandTotal = Number(entry.breakdown?.grandTotal || 0);
       const groupGrandTotal = Number(pricingSnapshot.aggregateBreakdown?.grandTotal || 1);
-      const proportionateWallet = (orderGrandTotal / groupGrandTotal) * walletAmount;
+      const proportionateWallet = breakdownWalletAmount > 0
+        ? breakdownWalletAmount
+        : (orderGrandTotal / groupGrandTotal) * walletAmount;
 
       const order = new Order({
         orderId,
@@ -440,11 +537,49 @@ export async function placeOrderAtomic({
     }));
     await checkoutGroup.save({ session });
 
-    // Deduct wallet balance if used
+    // Deduct wallet balance if used.
+    //
+    // Audit Phase 4 (C-1 + H-5):
+    //   - When the flag is on, the wallet debit routes through
+    //     `walletService.debitWallet`. That helper writes a `LedgerEntry`
+    //     (type: WALLET_PAYMENT) inside the same session, debits the
+    //     canonical `Wallet({ownerType:"CUSTOMER"})` row, and mirrors the
+    //     delta into `User.walletBalance` via `$inc`. The legacy
+    //     `Transaction({type:"Wallet Payment"})` row is still written for
+    //     backward-compat with admin dashboards that still consume the
+    //     legacy collection (the collection deprecation is a later phase).
+    //   - For legacy customers whose `Wallet.availableBalance` is below
+    //     `User.walletBalance` (their wallet was credited only on the User
+    //     side before Phase 4 P4-3 dual-write landed), we lazy-seed the
+    //     canonical Wallet up to the User value inside the same session
+    //     using an idempotent ledger key (`WLT-SEED-<userId>`). The seed
+    //     does NOT touch User.walletBalance (the User row is already
+    //     correct) and is a no-op for fresh customers.
+    //   - When the flag is OFF the legacy code path is preserved bit-for-bit
+    //     so rollback is an env flip.
     if (walletAmount > 0) {
-      user.walletBalance -= walletAmount;
-      await user.save({ session });
+      if (isWalletRedemptionReducesPayableEnabled()) {
+        await seedCanonicalCustomerWalletFromUser({ customerId, user, session });
+        await debitWallet({
+          ownerType: OWNER_TYPE.CUSTOMER,
+          ownerId: customerId,
+          amount: walletAmount,
+          bucket: "available",
+          session,
+          ledgerType: LEDGER_TRANSACTION_TYPE.WALLET_PAYMENT,
+          ledgerReference: `WLT-CHOUT-${checkoutGroupId}`,
+          ledgerDescription: "Wallet redeemed at checkout",
+          idempotencyKey: `WLT-CHOUT-${checkoutGroupId}`,
+          metadata: { checkoutGroupId },
+        });
+      } else {
+        user.walletBalance -= walletAmount;
+        await user.save({ session });
+      }
 
+      // Legacy `Transaction` row: kept under both code paths so existing
+      // admin dashboards and the `walletLedgerVerifierJob` baseline view
+      // are unaffected. The collection deprecation is a later phase.
       await Transaction.create({
         user: customerId,
         userModel: "User",

@@ -27,6 +27,10 @@ export const previewCheckoutFinance = async (req, res) => {
       address: payload.address,
       tipAmount: payload.tipAmount,
       discountTotal: payload.discountTotal || 0,
+      // Audit Phase 4 (C-1): forward walletAmount so the preview's
+      // aggregate breakdown exposes a `payableAmount` (post-wallet) the
+      // frontend can render directly. No-op when client sends 0 or omits.
+      walletAmount: payload.walletAmount || 0,
     });
 
     const sellerBreakdowns = pricingSnapshot.sellerBreakdownEntries.map((entry) => ({

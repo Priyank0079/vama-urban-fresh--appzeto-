@@ -1,7 +1,10 @@
 import Seller from "../models/seller.js";
 import Category from "../models/category.js";
 import { distanceMeters } from "../utils/geoUtils.js";
-import { HANDLING_FEE_STRATEGY } from "../constants/finance.js";
+import {
+  HANDLING_FEE_STRATEGY,
+  isWalletRedemptionReducesPayableEnabled,
+} from "../constants/finance.js";
 import {
   calculateHandlingFee,
   generateOrderPaymentBreakdown,
@@ -88,6 +91,14 @@ function buildAggregateBreakdown(sellerBreakdowns = []) {
     discountTotal: sumField(sellerBreakdowns, "discountTotal"),
     taxTotal: sumField(sellerBreakdowns, "taxTotal"),
     grandTotal: sumField(sellerBreakdowns, "grandTotal"),
+    // Audit Phase 4 (C-1): expose pre-wallet `grossTotal`, the per-checkout
+    // `walletAmount` redeemed, and the post-wallet `payableAmount` so the
+    // frontend can render the customer-payable line without doing client
+    // math. `grandTotal` and `payableAmount` are identical when the flag
+    // is on; when the flag is off `payableAmount === grossTotal === grandTotal`.
+    grossTotal: sumField(sellerBreakdowns, "grossTotal"),
+    walletAmount: sumField(sellerBreakdowns, "walletAmount"),
+    payableAmount: sumField(sellerBreakdowns, "payableAmount"),
     sellerPayoutTotal: sumField(sellerBreakdowns, "sellerPayoutTotal"),
     adminProductCommissionTotal: sumField(sellerBreakdowns, "adminProductCommissionTotal"),
     riderPayoutBase: sumField(sellerBreakdowns, "riderPayoutBase"),
@@ -233,9 +244,19 @@ function applyGlobalHandlingFeeToSellerBreakdowns(
     const riderPayoutTotal = Number(breakdown.riderPayoutTotal || 0);
     const adminProductCommissionTotal = Number(breakdown.adminProductCommissionTotal || 0);
 
-    breakdown.grandTotal = round2(
+    // Audit Phase 4 (C-1): handling-fee re-compute resets grandTotal to the
+    // pre-tip, pre-wallet value. Wallet allocation is applied later (after
+    // `allocateCheckoutTipToSellerBreakdowns`) by
+    // `applyWalletAllocationToSellerBreakdowns` so it can clamp against the
+    // full payable (gross + tip), matching the frontend's clamp.
+    const grossTotal = round2(
       productSubtotal + deliveryFeeCharged + handlingFeeCharged - discountTotal + taxTotal,
     );
+
+    breakdown.grossTotal = grossTotal;
+    breakdown.grandTotal = grossTotal;
+    breakdown.payableAmount = grossTotal;
+    breakdown.walletAmount = 0;
     breakdown.platformLogisticsMargin = round2(
       deliveryFeeCharged + handlingFeeCharged - riderPayoutTotal,
     );
@@ -245,11 +266,67 @@ function applyGlobalHandlingFeeToSellerBreakdowns(
   }
 }
 
+// Audit Phase 4 (C-1): allocate the checkout-group-level walletAmount
+// across sellers proportionately by their post-tip grandTotal, then
+// subtract it from each seller's grandTotal. Runs AFTER tip allocation
+// so the clamp ceiling matches the frontend's clamp.
+//
+// When the flag is off, this is a no-op — `breakdown.walletAmount` stays
+// at 0 and `grandTotal` is the legacy pre-wallet amount.
+function applyWalletAllocationToSellerBreakdowns(
+  sellerBreakdownEntries = [],
+  totalWalletAmount = 0,
+) {
+  if (!isWalletRedemptionReducesPayableEnabled()) return;
+
+  const normalizedWallet = round2(totalWalletAmount);
+  if (!Number.isFinite(normalizedWallet) || normalizedWallet <= 0 || sellerBreakdownEntries.length === 0) {
+    return;
+  }
+
+  const totalBase = sellerBreakdownEntries.reduce(
+    (sum, entry) => sum + Number(entry?.breakdown?.grandTotal || 0),
+    0,
+  );
+  const cappedWallet = Math.min(normalizedWallet, round2(totalBase));
+  if (cappedWallet <= 0) return;
+
+  let allocatedSoFar = 0;
+  sellerBreakdownEntries.forEach((entry, index) => {
+    const breakdown = entry?.breakdown;
+    if (!breakdown) return;
+
+    const grandTotal = Number(breakdown.grandTotal || 0);
+    let allocation;
+    if (index === sellerBreakdownEntries.length - 1) {
+      allocation = round2(cappedWallet - allocatedSoFar);
+    } else if (totalBase > 0) {
+      allocation = round2((grandTotal / totalBase) * cappedWallet);
+      allocatedSoFar = round2(allocatedSoFar + allocation);
+    } else {
+      allocation = 0;
+    }
+    allocation = Math.max(0, Math.min(allocation, grandTotal));
+
+    breakdown.walletAmount = round2(Number(breakdown.walletAmount || 0) + allocation);
+    breakdown.grandTotal = round2(grandTotal - allocation);
+    breakdown.payableAmount = breakdown.grandTotal;
+  });
+}
+
 export async function buildCheckoutPricingSnapshot({
   orderItems = [],
   address = {},
   tipAmount = 0,
   discountTotal = 0,
+  // Audit Phase 4 (C-1): checkout-group-level wallet redemption. Split
+  // proportionately to each seller using the subtotal ratio (same rule
+  // already used for discount distribution above). Passed through to
+  // `generateOrderPaymentBreakdown` which subtracts it from grandTotal
+  // when `WALLET_REDEMPTION_REDUCES_PAYABLE` is on. Defaults to 0 so the
+  // preview path (which doesn't know walletAmount yet) and existing
+  // callers are unaffected.
+  walletAmount = 0,
   session = null,
 }) {
   const hydratedItems = await hydrateOrderItems(orderItems, {
@@ -268,7 +345,7 @@ export async function buildCheckoutPricingSnapshot({
 
   const globalHandling = await computeGlobalHandlingFeeForCheckout(hydratedItems, { session });
 
-  // Pre-compute each seller's subtotal for proportional discount distribution
+  // Pre-compute each seller's subtotal for proportional discount/wallet distribution
   const sellerSubtotals = new Map();
   let totalSubtotal = 0;
   for (const sellerId of sellerIds) {
@@ -288,6 +365,10 @@ export async function buildCheckoutPricingSnapshot({
     // Distribute discount proportionally by seller subtotal
     const sellerRatio = totalSubtotal > 0 ? (sellerSubtotals.get(sellerId) || 0) / totalSubtotal : 1 / sellerIds.length;
     const sellerDiscount = round2(discountTotal * sellerRatio);
+    // Per-seller wallet allocation is applied LAST (after tip) by
+    // `applyWalletAllocationToSellerBreakdowns` so it can clamp against
+    // the post-tip grandTotal — matching the customer-facing clamp on the
+    // frontend. We deliberately do NOT pass walletAmount through here.
     const breakdown = await generateOrderPaymentBreakdown({
       preHydratedItems: sellerItems,
       distanceKm,
@@ -308,6 +389,21 @@ export async function buildCheckoutPricingSnapshot({
 
   applyGlobalHandlingFeeToSellerBreakdowns(sellerBreakdownEntries, globalHandling);
   allocateCheckoutTipToSellerBreakdowns(sellerBreakdownEntries, tipAmount);
+  // Audit Phase 4 (C-1): subtract wallet redemption from each seller's
+  // grandTotal proportionate to their share. No-op when the flag is off.
+  applyWalletAllocationToSellerBreakdowns(sellerBreakdownEntries, walletAmount);
+
+  // Final consistency pass: every breakdown should expose a `payableAmount`
+  // that equals its `grandTotal`. The tip-allocation step does not touch
+  // `payableAmount`, and the wallet-allocation step is a no-op when the
+  // flag is off or walletAmount is 0 — so we normalise here so the field
+  // is always reliable for consumers (frontend uses it for the
+  // "Slide to Pay" line; admin dashboards use it for reconciliation).
+  for (const entry of sellerBreakdownEntries) {
+    const breakdown = entry?.breakdown;
+    if (!breakdown) continue;
+    breakdown.payableAmount = round2(Number(breakdown.grandTotal || 0));
+  }
 
   const aggregateBreakdown = buildAggregateBreakdown(
     sellerBreakdownEntries.map((entry) => entry.breakdown),

@@ -70,6 +70,13 @@ export const LEDGER_TRANSACTION_TYPE = {
   // ledger write inside `cancelPendingPayoutForOrder` threw a Mongoose
   // ValidationError and silently aborted the refund flow.
   PAYOUT_CANCELLED: "PAYOUT_CANCELLED",
+  // Audit Phase 4 (H-5): emitted by `placeOrderAtomic` when a customer
+  // redeems wallet balance at checkout. Previously the wallet debit only
+  // wrote a legacy `Transaction({type:"Wallet Payment"})` row and mutated
+  // `User.walletBalance` directly — the canonical `Wallet` document and
+  // the `LedgerEntry` collection were both bypassed, leaving every
+  // wallet-using customer in permanent drift between the two ledgers.
+  WALLET_PAYMENT: "WALLET_PAYMENT",
 };
 
 export const PAYOUT_TYPE = {
@@ -133,6 +140,20 @@ export const FINANCE_AUDIT_ACTION = {
   DELIVERY_SETTINGS_UPDATED: "DELIVERY_SETTINGS_UPDATED",
   FINANCE_ADJUSTMENT_APPLIED: "FINANCE_ADJUSTMENT_APPLIED",
 };
+
+// Audit Phase 4 (C-1 + H-5): when this flag is on, `grandTotal` is
+// computed as (subtotal + delivery + handling + tip + tax - discount -
+// walletAmount) and the wallet redemption is routed through
+// `walletService.debitWallet` so a `LedgerEntry` row is written inside
+// the same transaction as the order documents.
+//
+// When the flag is off, the legacy buggy behaviour is preserved bit-for-bit
+// to make rollback trivial (env flip back). Default is OFF for production
+// safety — flip to "true" only after backfilling historical over-charges
+// (see audit PHASE 5 rollout plan).
+export function isWalletRedemptionReducesPayableEnabled() {
+  return String(process.env.WALLET_REDEMPTION_REDUCES_PAYABLE || "").toLowerCase() === "true";
+}
 
 export const ALL_PAYMENT_MODES = Object.values(PAYMENT_MODE);
 export const ALL_ORDER_PAYMENT_STATUSES = Object.values(ORDER_PAYMENT_STATUS);

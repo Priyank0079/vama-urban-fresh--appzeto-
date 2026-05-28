@@ -34,6 +34,11 @@ export const checkoutPreviewSchema = Joi.object({
   discountTotal: Joi.number().min(0).default(0),
   taxTotal: Joi.number().min(0).default(0),
   tipAmount: Joi.number().min(0).default(0),
+  // Audit Phase 4 (C-1): accept optional walletAmount on the preview so
+  // the frontend can request a post-wallet `payableAmount` without doing
+  // client-side math. Backward-compatible — clients that don't send it
+  // get the pre-wallet `grandTotal` exactly as before.
+  walletAmount: Joi.number().min(0).default(0),
   paymentMode: Joi.string().valid("ONLINE", "COD").default("COD"),
   timeSlot: Joi.string().allow("", null),
   couponId: Joi.string().allow("", null).optional(),

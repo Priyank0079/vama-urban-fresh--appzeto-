@@ -10,6 +10,7 @@ import {
   DELIVERY_PRICING_MODE,
   HANDLING_FEE_STRATEGY,
   HANDLING_FEE_TYPE,
+  isWalletRedemptionReducesPayableEnabled,
 } from "../../constants/finance.js";
 import {
   addMoney,
@@ -386,6 +387,15 @@ export async function generateOrderPaymentBreakdown({
   discountTotal = 0,
   taxTotal = 0,
   tipTotal = 0,
+  // Audit Phase 4 (C-1): per-seller proportionate wallet redemption. The
+  // checkout-group-level walletAmount is split by subtotal-ratio in
+  // `buildCheckoutPricingSnapshot` before reaching this function. When the
+  // `WALLET_REDEMPTION_REDUCES_PAYABLE` env flag is on, this amount is
+  // subtracted from `grandTotal` so that the customer is asked to pay
+  // (online or COD) only the post-wallet amount. When the flag is off the
+  // value is still persisted (for visibility) but `grandTotal` keeps the
+  // legacy pre-wallet value so existing flows are bit-for-bit unchanged.
+  walletAmount = 0,
   deliverySettings,
   handlingFeeStrategy,
   session = null,
@@ -460,8 +470,9 @@ export async function generateOrderPaymentBreakdown({
   const normalizedDiscount = roundCurrency(discountTotal || 0);
   const normalizedTax = roundCurrency(taxTotal || 0);
   const normalizedTip = roundCurrency(tipTotal || 0);
+  const normalizedWallet = roundCurrency(walletAmount || 0);
 
-  const grandTotal = roundCurrency(
+  const grossTotal = roundCurrency(
     productSubtotal +
       delivery.deliveryFeeCharged +
       handling.handlingFeeCharged -
@@ -469,6 +480,16 @@ export async function generateOrderPaymentBreakdown({
       normalizedTax +
       normalizedTip,
   );
+
+  // Audit Phase 4 (C-1): subtract wallet redemption only when the flag is on.
+  // The wallet amount is clamped to [0, grossTotal] so a malformed input
+  // cannot drive grandTotal negative. We keep `grossTotal` for the new
+  // `payableAmount` field below — clients that want the pre-wallet number
+  // can still read `grossTotal` while migrating UIs.
+  const walletAllocation = isWalletRedemptionReducesPayableEnabled()
+    ? Math.min(normalizedWallet, grossTotal)
+    : 0;
+  const grandTotal = roundCurrency(grossTotal - walletAllocation);
 
   const riderTipAmount = normalizedTip;
   const riderPayoutTotal = roundCurrency(
@@ -517,7 +538,20 @@ export async function generateOrderPaymentBreakdown({
     tipTotal: normalizedTip,
     discountTotal: normalizedDiscount,
     taxTotal: normalizedTax,
+    // Audit Phase 4 (C-1):
+    //   - `grossTotal`: pre-wallet customer-payable amount. New field —
+    //     legacy callers ignore it.
+    //   - `grandTotal`: post-wallet amount when the flag is on (the actual
+    //     amount PhonePe charges / rider collects); equals `grossTotal`
+    //     when the flag is off (legacy behaviour preserved).
+    //   - `walletAmount`: per-seller proportionate wallet redemption.
+    //   - `payableAmount`: alias of `grandTotal` for the post-C-1 world,
+    //     surfaced separately so the frontend can stop subtracting
+    //     `walletAmount` from `grandTotal` once the flag is on.
+    grossTotal,
     grandTotal,
+    walletAmount: walletAllocation,
+    payableAmount: grandTotal,
     sellerPayoutTotal,
     adminProductCommissionTotal,
     riderPayoutBase: rider.riderPayoutBase,
