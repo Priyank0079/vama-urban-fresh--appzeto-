@@ -284,7 +284,7 @@ const WithdrawalRequests = () => {
                                                     <div className="flex items-center gap-2 mt-1">
                                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{req.user?.phone}</span>
                                                         <span className="h-1 w-1 rounded-full bg-slate-300" />
-                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{new Date(req.createdAt).toLocaleDateString()}</span>
+                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{new Date(req.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
                                                     </div>
                                                 </div>
                                             </div>

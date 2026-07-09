@@ -201,7 +201,7 @@ const OrderDetail = () => {
                         </div>
                         <p className="text-[11px] font-bold text-slate-400 mt-1 uppercase tracking-widest flex items-center gap-2">
                             <Calendar className="h-3.5 w-3.5" />
-                            {new Date(order.createdAt).toLocaleDateString()} • <Clock className="h-3.5 w-3.5 ml-1" /> {new Date(order.createdAt).toLocaleTimeString()}
+                            {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })} • <Clock className="h-3.5 w-3.5 ml-1" /> {new Date(order.createdAt).toLocaleTimeString()}
                         </p>
                     </div>
                 </div>
@@ -514,7 +514,7 @@ const OrderDetail = () => {
                                 </td>
                                 <td width="50%" align="right" style={{ verticalAlign: "bottom" }}>
                                     <div style={{ fontSize: "12px", fontWeight: "700", marginBottom: "4px" }}>Reference: <span style={{ color: "#2563eb" }}>#{order.orderId}</span></div>
-                                    <div style={{ fontSize: "10px", color: "#64748b", fontWeight: "700" }}>Issued: {new Date(order.createdAt).toLocaleDateString()}</div>
+                                    <div style={{ fontSize: "10px", color: "#64748b", fontWeight: "700" }}>Issued: {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</div>
                                 </td>
                             </tr>
                         </table>

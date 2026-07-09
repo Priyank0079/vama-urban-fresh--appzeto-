@@ -72,7 +72,7 @@ const ActiveDeliveryBoys = () => {
                 todayEarnings: 0, // Mock earnings
                 location: r.currentArea || 'Unknown',
                 lastSync: 'Now',
-                joinDate: new Date(r.createdAt).toLocaleDateString()
+                joinDate: new Date(r.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
             }));
 
             setRiders(mappedRiders);
@@ -128,7 +128,7 @@ const handleOnboardSubmit = (e) => {
         totalOrders: 0,
         todayEarnings: 0,
         lastSync: 'Just now',
-        joinDate: new Date().toLocaleDateString()
+        joinDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
     };
     setRiders([newRider, ...riders]);
     setIsOnboardModalOpen(false);

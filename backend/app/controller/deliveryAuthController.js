@@ -142,7 +142,8 @@ export const loginDelivery = async (req, res) => {
 
         return handleResponse(res, 200, "OTP sent successfully");
     } catch (error) {
-        return handleResponse(res, 500, error.message);
+        console.error("loginDelivery Error:", error);
+        return handleResponse(res, 500, error.message, { stack: error.stack });
     }
 };
 

@@ -68,7 +68,7 @@ const AdminWallet = () => {
                     status: entry.status || "COMPLETED",
                     sender: entry.direction === "DEBIT" ? (entry.actorType || "SYSTEM") : "SYSTEM",
                     recipient: entry.direction === "CREDIT" ? (entry.actorType || "SYSTEM") : "PLATFORM_WALLET",
-                    date: entry.createdAt ? new Date(entry.createdAt).toLocaleDateString() : "-",
+                    date: entry.createdAt ? new Date(entry.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : "-",
                     time: entry.createdAt ? new Date(entry.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "-",
                     notes: entry.description || entry.type,
                     method: entry.paymentMode || "N/A",

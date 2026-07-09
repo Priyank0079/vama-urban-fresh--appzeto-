@@ -73,18 +73,10 @@ const normalizeSeller = (seller) => {
     fulfillmentRate: safeNumber(seller.fulfillmentRate),
     serviceRadius: safeNumber(seller.serviceRadius) || 5,
     joinedDate: joinedAt
-      ? new Date(joinedAt).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
+      ? new Date(joinedAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
       : "N/A",
     lastOrderLabel: seller.lastOrderAt
-      ? new Date(seller.lastOrderAt).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
+      ? new Date(seller.lastOrderAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
       : "No orders yet",
     location: seller.location || "Location not set",
     avatar:

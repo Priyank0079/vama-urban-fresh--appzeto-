@@ -134,6 +134,7 @@ export const updateQuantity = async (req, res) => {
       return handleResponse(res, 404, "Product not in cart");
     }
 
+    cart.markModified("items");
     await cart.save();
     const updatedCart = await fetchPopulatedCart(cart._id);
 
@@ -168,6 +169,7 @@ export const removeFromCart = async (req, res) => {
       return false;
     });
 
+    cart.markModified("items");
     await cart.save();
     const updatedCart = await fetchPopulatedCart(cart._id);
 

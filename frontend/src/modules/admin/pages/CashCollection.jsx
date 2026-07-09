@@ -120,8 +120,8 @@ const CashCollection = () => {
         totalInHand: (ridersCashData || []).reduce((acc, r) => acc + (r.currentCash || 0), 0),
         overLimitCount: (ridersCashData || []).filter(r => (r.currentCash || 0) >= (r.limit || 5000)).length,
         todaySettled: (historyData || []).filter(h => {
-            const today = new Date().toLocaleDateString();
-            return new Date(h.date).toLocaleDateString() === today;
+            const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            return new Date(h.date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) === today;
         }).reduce((acc, h) => acc + (h.amount || 0), 0),
         avgBalance: (ridersCashData || []).length ? (ridersCashData || []).reduce((acc, r) => acc + (r.currentCash || 0), 0) / ridersCashData.length : 0
     };
@@ -316,7 +316,7 @@ const CashCollection = () => {
                                                 <Clock className="h-3.5 w-3.5 text-slate-400" />
                                                 <span className="text-xs">
                                                     {rider.lastSettlement !== 'Never'
-                                                        ? new Date(rider.lastSettlement).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+                                                        ? new Date(rider.lastSettlement).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
                                                         : 'No History'}
                                                 </span>
                                             </div>
@@ -367,7 +367,7 @@ const CashCollection = () => {
                                             </Badge>
                                         </td>
                                         <td className="px-6 py-5 text-right pr-8 text-xs font-bold text-slate-500">
-                                            {new Date(log.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                            {new Date(log.date).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                                         </td>
                                     </tr>
                                 ))}

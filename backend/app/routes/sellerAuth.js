@@ -4,6 +4,10 @@ import {
     loginSeller,
     sendSellerSignupOtp,
     verifySellerSignupOtp,
+    sendSellerResetOtp,
+    verifySellerResetOtp,
+    resetSellerPassword,
+    checkSellerExists,
 } from "../controller/sellerAuthController.js";
 import { getSellerProfile, updateSellerProfile, requestWithdrawal, getNearbySellers } from "../controller/sellerController.js";
 import { getSellerStats, getSellerEarnings } from "../controller/sellerStatsController.js";
@@ -43,6 +47,7 @@ router.post(
     upload.any(),
     signupSeller
 );
+router.post("/check-exists", checkSellerExists);
 router.post("/login", loginSeller);
 router.get("/nearby", getNearbySellers);
 

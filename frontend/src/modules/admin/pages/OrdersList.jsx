@@ -110,7 +110,7 @@ const OrdersList = () => {
                     workflowStatus: o.workflowStatus,
                     workflowVersion: o.workflowVersion,
                     returnStatus: o.returnStatus,
-                    date: new Date(o.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                    date: new Date(o.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
                     payment: o.payment?.method === 'cod' ? 'COD' : 'Digital',
                 }));
                 setOrders(formatted);

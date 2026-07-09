@@ -239,7 +239,7 @@ const OrderHistory = () => {
                         </div>
                         <div className="flex items-center text-gray-400 text-xs">
                           <Calendar size={12} className="mr-1" />
-                          {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}, {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}, {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </div>
                       <div className="text-left sm:text-right shrink-0">

@@ -432,10 +432,18 @@ const AddProduct = () => {
                       </label>
                       <input
                         type="number"
+                        min="0"
+                        onKeyDown={(e) => {
+                          if (['-', '+', 'e', 'E'].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                         value={variant.price}
                         onChange={(e) => {
+                          const val = e.target.value;
+                          if (val !== '' && Number(val) < 0) return;
                           const newVariants = [...formData.variants];
-                          newVariants[index].price = e.target.value;
+                          newVariants[index].price = val;
                           setFormData({ ...formData, variants: newVariants });
                         }}
                         placeholder="500"
@@ -448,10 +456,18 @@ const AddProduct = () => {
                       </label>
                       <input
                         type="number"
+                        min="0"
+                        onKeyDown={(e) => {
+                          if (['-', '+', 'e', 'E'].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                         value={variant.salePrice}
                         onChange={(e) => {
+                          const val = e.target.value;
+                          if (val !== '' && Number(val) < 0) return;
                           const newVariants = [...formData.variants];
-                          newVariants[index].salePrice = e.target.value;
+                          newVariants[index].salePrice = val;
                           setFormData({ ...formData, variants: newVariants });
                         }}
                         placeholder="450"
@@ -464,10 +480,18 @@ const AddProduct = () => {
                       </label>
                       <input
                         type="number"
+                        min="0"
+                        onKeyDown={(e) => {
+                          if (['-', '+', 'e', 'E'].includes(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
                         value={variant.stock}
                         onChange={(e) => {
+                          const val = e.target.value;
+                          if (val !== '' && Number(val) < 0) return;
                           const newVariants = [...formData.variants];
-                          newVariants[index].stock = e.target.value;
+                          newVariants[index].stock = val;
                           setFormData({ ...formData, variants: newVariants });
                         }}
                         placeholder="10"

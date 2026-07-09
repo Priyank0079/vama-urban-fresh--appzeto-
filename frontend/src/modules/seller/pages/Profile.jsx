@@ -248,8 +248,13 @@ const SellerProfile = () => {
                     <input
                       type="text"
                       name="name"
+                      maxLength={50}
+                      pattern="[a-zA-Z\s]*"
                       value={formData.name}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                          e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                          handleChange(e);
+                      }}
                       disabled={!isEditing}
                       className="w-full pl-14 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-100 transition-all disabled:opacity-70"
                     />

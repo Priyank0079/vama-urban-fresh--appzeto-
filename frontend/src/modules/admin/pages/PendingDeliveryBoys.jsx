@@ -47,7 +47,7 @@ const PendingDeliveryBoys = () => {
                 name: r.name,
                 phone: r.phone,
                 email: r.email,
-                appliedDate: new Date(r.createdAt).toLocaleDateString(),
+                appliedDate: new Date(r.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
                 location: r.currentArea || 'Unknown',
                 vehicle: r.vehicleType,
                 documents: Object.keys(r.documents || {}).filter(key => r.documents[key]),

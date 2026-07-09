@@ -68,8 +68,8 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                                         <tbody className="divide-y divide-slate-50">
                                             {order.items.map((item, idx) => (
                                                 <tr key={idx}>
-                                                    <td className="px-4 py-3 text-slate-700 font-medium">{item.name}</td>
-                                                    <td className="px-4 py-3 text-slate-500 text-right">{item.qty}</td>
+                                                    <td className="px-4 py-3 text-slate-700 font-medium">{item.name || item.product?.name}</td>
+                                                    <td className="px-4 py-3 text-slate-500 text-right">{item.quantity || item.qty}</td>
                                                     <td className="px-4 py-3 text-slate-800 font-bold text-right">₹{item.price}</td>
                                                 </tr>
                                             ))}
@@ -80,26 +80,23 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                                 <div className="space-y-2 pt-2 border-t border-slate-100">
                                     <div className="flex justify-between text-sm text-slate-500">
                                         <span>Subtotal</span>
-                                        <span>₹{order.bill.itemTotal}</span>
+                                        <span>₹{order.pricing?.subtotal || 0}</span>
                                     </div>
                                     <div className="flex justify-between text-sm text-slate-500">
                                         <span>Tax</span>
-                                        <span>₹{order.bill.tax}</span>
+                                        <span>₹{order.pricing?.gst || 0}</span>
                                     </div>
                                     <div className="flex justify-between text-base font-black text-slate-800 pt-2 border-t border-slate-100">
                                         <span>Total Paid</span>
-                                        <span>₹{order.bill.grandTotal}</span>
+                                        <span>₹{order.pricing?.total || 0}</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Footer Actions */}
-                            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+                            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex gap-3 print:hidden">
                                 <button onClick={handlePrint} className="flex-1 py-3 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors shadow-lg" style={{ backgroundColor: primaryColor }}>
                                     <Printer size={18} /> Print
-                                </button>
-                                <button className="flex-1 py-3 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
-                                    <Download size={18} /> Save PDF
                                 </button>
                             </div>
 
@@ -108,7 +105,25 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                                     @media print {
                                         body * { visibility: hidden; }
                                         #printable-invoice, #printable-invoice * { visibility: visible; }
-                                        #printable-invoice { position: absolute; left: 0; top: 0; width: 100%; }
+                                        #printable-invoice { 
+                                            position: absolute !important; 
+                                            left: 0 !important; 
+                                            top: 0 !important; 
+                                            width: 100% !important; 
+                                            -webkit-print-color-adjust: exact;
+                                            print-color-adjust: exact;
+                                        }
+                                        /* Prevent clipping and transform context issues */
+                                        .fixed, .relative, .absolute {
+                                            position: static !important;
+                                            transform: none !important;
+                                        }
+                                        .overflow-hidden {
+                                            overflow: visible !important;
+                                        }
+                                        .max-w-lg {
+                                            max-width: 100% !important;
+                                        }
                                     }
                                 `}
                             </style>

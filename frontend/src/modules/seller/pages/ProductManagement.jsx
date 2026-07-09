@@ -1244,25 +1244,31 @@ const ProductManagement = () => {
                             </div>
                             <div className="space-y-1">
                               <label className="text-[8px] font-bold text-slate-600 uppercase tracking-widest ml-1">Price</label>
-                              <input type="number" value={v.price} onChange={e => {
+                              <input type="number" min="0" value={v.price} onChange={e => {
+                                const val = e.target.value;
+                                if (val !== '' && Number(val) < 0) return;
                                 const news = [...formData.variants];
-                                news[i].price = e.target.value;
+                                news[i].price = val;
                                 setFormData({ ...formData, variants: news });
                               }} placeholder="Price" className="w-full bg-white px-3 py-2 rounded-xl text-xs ring-1 ring-slate-100 outline-none" />
                             </div>
                             <div className="space-y-1">
                               <label className="text-[8px] font-bold text-brand-400 uppercase tracking-widest ml-1">Sale Price</label>
-                              <input type="number" value={v.salePrice} onChange={e => {
+                              <input type="number" min="0" value={v.salePrice} onChange={e => {
+                                const val = e.target.value;
+                                if (val !== '' && Number(val) < 0) return;
                                 const news = [...formData.variants];
-                                news[i].salePrice = e.target.value;
+                                news[i].salePrice = val;
                                 setFormData({ ...formData, variants: news });
                               }} placeholder="Sale" className="w-full bg-brand-50/50 px-3 py-2 rounded-xl text-xs ring-1 ring-brand-100 text-brand-700 outline-none" />
                             </div>
                             <div className="space-y-1">
                               <label className="text-[8px] font-bold text-slate-600 uppercase tracking-widest ml-1">Stock</label>
-                              <input type="number" value={v.stock} onChange={e => {
+                              <input type="number" min="0" value={v.stock} onChange={e => {
+                                const val = e.target.value;
+                                if (val !== '' && Number(val) < 0) return;
                                 const news = [...formData.variants];
-                                news[i].stock = e.target.value;
+                                news[i].stock = val;
                                 setFormData({ ...formData, variants: news });
                               }} placeholder="Stock" className="w-full bg-white px-3 py-2 rounded-xl text-xs ring-1 ring-slate-100 outline-none" />
                             </div>

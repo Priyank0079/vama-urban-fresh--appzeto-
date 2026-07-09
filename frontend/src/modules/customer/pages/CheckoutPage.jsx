@@ -297,7 +297,7 @@ const CheckoutPage = () => {
 
   const handleMoveToWishlist = (item) => {
     addToWishlist(item);
-    removeFromCart(item.id, item.variantSku);
+    removeFromCart(item.id || item._id, item.variantSku);
     showToast(`${item.name} moved to wishlist`, "success");
   };
 

@@ -319,7 +319,7 @@ const CouponManagement = () => {
                                         <div className="flex items-center gap-2 text-slate-500">
                                             <HiOutlineCalendarDays className="h-4 w-4" />
                                             <span className="text-[10px] font-bold uppercase tracking-tighter">
-                                                {c.validFrom ? new Date(c.validFrom).toLocaleDateString() : '—'} - {c.validTill ? new Date(c.validTill).toLocaleDateString() : '—'}
+                                                {c.validFrom ? new Date(c.validFrom).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'} - {c.validTill ? new Date(c.validTill).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'}
                                             </span>
                                         </div>
                                     </td>

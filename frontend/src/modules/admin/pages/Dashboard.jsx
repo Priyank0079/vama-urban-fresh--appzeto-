@@ -70,7 +70,7 @@ const AdminDashboard = () => {
         const updatedDate = new Date(updated.getFullYear(), updated.getMonth(), updated.getDate());
         const dayDiff = Math.round((nowDate - updatedDate) / (1000 * 60 * 60 * 24));
 
-        let dayLabel = updated.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+        let dayLabel = updated.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
         if (dayDiff === 0) dayLabel = 'Today';
         if (dayDiff === 1) dayLabel = 'Yesterday';
 

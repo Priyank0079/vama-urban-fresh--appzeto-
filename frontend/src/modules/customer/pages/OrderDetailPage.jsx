@@ -820,6 +820,7 @@ const OrderDetailPage = () => {
               status={order.workflowStatus || order.status}
               eta={estimatedArrival.arrivingInText}
               riderName={order.deliveryBoy?.name || "Delivery Partner"}
+              riderPhone={order.deliveryBoy?.phone || ""}
               riderLocation={liveLocation}
               sellerLocation={sellerLocation}
               destinationLocation={
@@ -877,12 +878,12 @@ const OrderDetailPage = () => {
                 <p className="text-xs text-white/90 mt-0.5">On the way to you</p>
               </div>
               <div className="flex items-center gap-2">
-                <button className="h-11 w-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30">
+                <a href={`sms:${order.deliveryBoy?.phone || ''}`} className="h-11 w-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30">
                   <MessageSquare size={20} className="text-white" />
-                </button>
-                <button className="h-11 w-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30">
+                </a>
+                <a href={`tel:${order.deliveryBoy?.phone || ''}`} className="h-11 w-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-colors border border-white/30">
                   <Phone size={20} className="text-white" />
-                </button>
+                </a>
               </div>
             </div>
           </motion.div>

@@ -101,10 +101,7 @@ const OrdersPage = () => {
                                             Order #{order.orderId.slice(-6)}
                                         </h3>
                                         <p className="mt-0.5 text-[11px] text-slate-500 font-medium leading-tight">
-                                            {new Date(order.createdAt).toLocaleDateString('en-IN', {
-                                                day: 'numeric',
-                                                month: 'short',
-                                            })}{' '}
+                                            {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}{' '}
                                             <span className="mx-1 text-slate-400">•</span>
                                             {new Date(order.createdAt).toLocaleTimeString('en-IN', {
                                                 hour: '2-digit',

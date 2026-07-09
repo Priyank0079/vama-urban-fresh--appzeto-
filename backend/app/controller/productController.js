@@ -1,4 +1,6 @@
 import Product from "../models/product.js";
+import Order from "../models/order.js";
+import Review from "../models/review.js";
 import { handleResponse } from "../utils/helper.js";
 import { slugify } from "../utils/slugify.js";
 import getPagination from "../utils/pagination.js";
@@ -1014,11 +1016,32 @@ export const getProductById = async (req, res) => {
       }
     }
 
+    const payload = normalizeProductDocumentModeration(product);
+    
+    if (req.user) {
+        const userId = req.user.id;
+        const purchase = await Order.findOne({
+            customer: userId,
+            "items.product": id,
+            $or: [
+                { orderStatus: { $regex: /^delivered$/i } },
+                { status: { $regex: /^delivered$/i } }
+            ]
+        });
+        payload.hasPurchased = !!purchase;
+
+        const existingReview = await Review.findOne({
+            userId,
+            productId: id
+        });
+        payload.hasReviewed = !!existingReview;
+    }
+
     return handleResponse(
       res,
       200,
       "Product details fetched",
-      normalizeProductDocumentModeration(product),
+      payload,
     );
   } catch (error) {
     return handleResponse(res, 500, error.message);
