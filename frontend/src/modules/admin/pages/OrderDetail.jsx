@@ -267,19 +267,21 @@ const OrderDetail = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="p-4 bg-slate-50/50 flex flex-col items-end gap-3 text-right">
-                            <div className="flex items-center justify-between w-full max-w-[240px]">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Subtotal</span>
-                                <span className="text-sm font-black text-slate-700">₹{order.pricing?.subtotal || 0}</span>
-                            </div>
-                            <div className="flex items-center justify-between w-full max-w-[240px]">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Delivery Fee</span>
-                                <span className="text-sm font-bold text-brand-600">₹{order.pricing?.deliveryFee || 0}</span>
-                            </div>
-                            <div className="h-px w-full max-w-[240px] bg-slate-200 my-2" />
-                            <div className="flex items-center justify-between w-full max-w-[240px]">
-                                <span className="text-xs font-black text-slate-900 uppercase tracking-tight">Total Payable</span>
-                                <span className="text-2xl font-black text-fuchsia-600">₹{order.pricing?.total || 0}</span>
+                        <div className="p-6 bg-slate-50/50 flex flex-col items-end border-t border-slate-100">
+                            <div className="w-full sm:w-80 space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal</span>
+                                    <span className="text-sm font-black text-slate-700">₹{order.pricing?.subtotal || 0}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Delivery Fee</span>
+                                    <span className="text-sm font-bold text-brand-600">₹{order.pricing?.deliveryFee || 0}</span>
+                                </div>
+                                <div className="h-px w-full bg-slate-200" />
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm font-black text-slate-900 uppercase tracking-tight">Total Payable</span>
+                                    <span className="text-2xl font-black text-fuchsia-600">₹{order.pricing?.total || 0}</span>
+                                </div>
                             </div>
                         </div>
                     </Card>

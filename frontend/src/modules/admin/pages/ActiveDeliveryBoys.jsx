@@ -155,6 +155,7 @@ const handleOnboardSubmit = (e) => {
     setRiders([newRider, ...riders]);
     setIsOnboardModalOpen(false);
     setFormState({ name: '', phone: '', email: '', vehicle: '', vehicleNum: '', location: '' });
+    toast.success("New rider added successfully");
 };
 
 const handleEditSubmit = (e) => {
@@ -164,6 +165,7 @@ const handleEditSubmit = (e) => {
     setRiders(riders.map(r => r.id === selectedRider.id ? { ...r, ...formState } : r));
     setIsEditModalOpen(false);
     setSelectedRider(null);
+    toast.success("Rider details updated successfully");
 };
 
 const stats = [

@@ -450,7 +450,14 @@ const CouponManagement = () => {
                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Discount Kind</label>
                             <select
                                 value={formData.discountType}
-                                onChange={(e) => setFormData({ ...formData, discountType: e.target.value })}
+                                onChange={(e) => {
+                                    const newType = e.target.value;
+                                    let currentVal = formData.discountValue;
+                                    if (newType === 'percentage' && Number(currentVal) > 100) {
+                                        currentVal = '100';
+                                    }
+                                    setFormData({ ...formData, discountType: newType, discountValue: currentVal });
+                                }}
                                 className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
                             >
                                 <option value="percentage">Percentage (%)</option>
@@ -486,10 +493,17 @@ const CouponManagement = () => {
                                 required
                                 type="number"
                                 min={0}
+                                max={formData.discountType === 'percentage' ? 100 : undefined}
                                 onWheel={(e) => e.target.blur()}
                                 onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
                                 value={formData.discountValue}
-                                onChange={(e) => setFormData({ ...formData, discountValue: e.target.value })}
+                                onChange={(e) => {
+                                    let val = e.target.value;
+                                    if (formData.discountType === 'percentage' && Number(val) > 100) {
+                                        val = '100';
+                                    }
+                                    setFormData({ ...formData, discountValue: val });
+                                }}
                                 className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
                             />
                         </div>

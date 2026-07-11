@@ -62,7 +62,7 @@ const AdminWallet = () => {
                 const summary = summaryRes.data.result || {};
                 const ledger = ledgerRes.data.result || {};
                 const mappedTransactions = (ledger.items || []).map((entry) => ({
-                    id: entry.transactionId || entry.reference || entry._id,
+                    id: (entry.transactionId || entry.reference || entry._id || '').toString().substring(0, 10).toUpperCase(),
                     type: entry.type || "UNKNOWN",
                     amount: entry.direction === "DEBIT" ? -Math.abs(entry.amount || 0) : Math.abs(entry.amount || 0),
                     status: entry.status || "COMPLETED",
@@ -340,7 +340,7 @@ const AdminWallet = () => {
                                     </div>
                                     <div className="flex items-center gap-1.5">
                                         <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Live</span>
-                                        <div className="h-2 w-2 rounded-full bg-brand-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] animate-pulse" />
+                                        <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
                                     </div>
                                 </div>
 

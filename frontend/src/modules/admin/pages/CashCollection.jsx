@@ -142,6 +142,14 @@ const CashCollection = () => {
     };
 
     const confirmSettlement = async () => {
+        if (Number(settlementData.amount) <= 0) {
+            toast.error("Settlement amount must be greater than zero");
+            return;
+        }
+        if (Number(settlementData.amount) > settlementData.rider.currentCash) {
+            toast.error(`Cannot settle more than the pending balance (₹${settlementData.rider.currentCash})`);
+            return;
+        }
         try {
             setIsProcessing(true);
             const response = await adminApi.settleRiderCash({
@@ -419,7 +427,7 @@ const CashCollection = () => {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <Card className="p-6 border-none bg-slate-900 text-white rounded-xl relative overflow-hidden">
+                            <div className="p-6 border-none bg-slate-900 text-white rounded-xl relative overflow-hidden shadow-lg">
                                 <p className="text-[10px] opacity-60 font-black uppercase tracking-widest mb-2">Primary Wallet</p>
                                 <h4 className="text-3xl font-black italic">₹{selectedRider.currentCash.toLocaleString()}</h4>
                                 <div className="mt-4 flex items-center gap-2">
@@ -429,12 +437,12 @@ const CashCollection = () => {
                                     <span className="text-[10px] font-bold opacity-60">{Math.min(Math.round((selectedRider.currentCash / selectedRider.limit) * 100), 100)}%</span>
                                 </div>
                                 <CircleDollarSign className="absolute -bottom-4 -right-4 h-20 w-20 opacity-10" />
-                            </Card>
-                            <Card className="p-6 border-none bg-slate-50 ring-1 ring-slate-100 rounded-xl">
+                            </div>
+                            <div className="p-6 border-none bg-slate-50 ring-1 ring-slate-100 rounded-xl shadow-lg">
                                 <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2">Pending COD Orders</p>
                                 <h4 className="text-3xl font-black text-slate-900">{selectedRider.pendingOrders}</h4>
                                 <p className="text-[10px] font-bold text-slate-400 mt-4 uppercase">Requires immediate sync</p>
-                            </Card>
+                            </div>
                         </div>
 
                         <div className="space-y-4">
@@ -514,8 +522,15 @@ const CashCollection = () => {
                                 <span className="text-xl font-black italic text-slate-900">₹</span>
                                 <input
                                     type="number"
+                                    min="0"
+                                    max={settlementData.rider.currentCash}
                                     value={settlementData.amount}
-                                    onChange={(e) => setSettlementData({ ...settlementData, amount: e.target.value })}
+                                    onChange={(e) => {
+                                        let val = parseFloat(e.target.value) || 0;
+                                        if (val < 0) val = 0;
+                                        if (val > settlementData.rider.currentCash) val = settlementData.rider.currentCash;
+                                        setSettlementData({ ...settlementData, amount: val });
+                                    }}
                                     className="bg-transparent text-2xl font-black italic text-slate-900 w-40 outline-none text-center"
                                 />
                             </div>
