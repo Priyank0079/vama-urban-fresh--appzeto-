@@ -418,6 +418,11 @@ body {
     will-change: transform;
   }
 
+  .classic-marquee-track-reverse {
+    animation: hero-marquee-reverse 22s linear infinite;
+    will-change: transform;
+  }
+
   @keyframes hero-marquee {
     0% {
       transform: translateX(0);
@@ -425,6 +430,16 @@ body {
 
     100% {
       transform: translateX(-50%);
+    }
+  }
+
+  @keyframes hero-marquee-reverse {
+    0% {
+      transform: translateX(-50%);
+    }
+
+    100% {
+      transform: translateX(0);
     }
   }
 

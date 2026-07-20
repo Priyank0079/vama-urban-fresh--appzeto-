@@ -48,32 +48,63 @@ const AdminAuth = () => {
         phone: ''
     });
 
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+        password: ''
+    });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        if (isLogin) {
+            setFormData({ ...formData, [name]: value });
+            return;
+        }
+
+        let errorMsg = '';
+        if (name === 'name') {
+            const cleaned = value.replace(/[^a-zA-Z\s]/g, '');
+            errorMsg = cleaned.trim().length < 3 ? 'Name must be at least 3 characters long.' : '';
+            setFormData({ ...formData, [name]: cleaned });
+            setErrors(prev => ({ ...prev, name: errorMsg }));
+        } else if (name === 'email') {
+            errorMsg = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'Enter a valid email address.' : '';
+            setFormData({ ...formData, [name]: value });
+            setErrors(prev => ({ ...prev, email: errorMsg }));
+        } else if (name === 'password') {
+            errorMsg = value.length < 6 ? 'Password must be at least 6 characters long.' : '';
+            setFormData({ ...formData, [name]: value });
+            setErrors(prev => ({ ...prev, password: errorMsg }));
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
-        // Debug logging
-        console.log('=== FRONTEND LOGIN ATTEMPT ===');
-        console.log('Email:', formData.email);
-        console.log('Password:', formData.password);
-        console.log('Password Length:', formData.password?.length);
-        console.log('Is Login:', isLogin);
-        console.log('==============================');
-
-        // Only validate password complexity for signup, not login
+        // Basic client-side validation
         if (!isLogin) {
-            const pwd = (formData.password || '').trim();
-            if (pwd.length < 6) {
-                toast.error('Password must be at least 6 characters long.');
-                setIsLoading(false);
+            const newErrors = {
+                name: (formData.name || '').trim().length < 3 ? 'Name must be at least 3 characters long.' : '',
+                email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || '') ? 'Enter a valid email address.' : '',
+                password: (formData.password || '').length < 6 ? 'Password must be at least 6 characters long.' : ''
+            };
+
+            setErrors(newErrors);
+            if (Object.values(newErrors).some(Boolean)) {
+                toast.error('Please correct the errors in the form.');
+                return;
+            }
+        } else {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || '')) {
+                setErrors(prev => ({ ...prev, email: 'Enter a valid email address.' }));
+                toast.error('Please enter a valid email address.');
                 return;
             }
         }
+
+        setIsLoading(true);
 
         try {
             console.log('Sending request to API...');
@@ -172,48 +203,61 @@ const AdminAuth = () => {
                                                 placeholder="Full Name"
                                                 className="w-full pl-14 pr-5 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
                                             />
+                                            {errors.name && (
+                                                <span className="text-[10px] text-red-500 font-bold block px-2 mt-1">{errors.name}</span>
+                                            )}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
 
-                                <div className="group relative">
-                                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors">
-                                        <Mail size={20} />
+                                <div className="space-y-1">
+                                    <div className="group relative">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors">
+                                            <Mail size={20} />
+                                        </div>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="Username or email"
+                                            className="w-full pl-14 pr-5 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
+                                        />
                                     </div>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        required
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        placeholder="Username or email"
-                                        className="w-full pl-14 pr-5 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
-                                    />
+                                    {errors.email && (
+                                        <span className="text-[10px] text-red-500 font-bold block px-2">{errors.email}</span>
+                                    )}
                                 </div>
 
-                                <div className="group relative">
-                                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors">
-                                        <Lock size={20} />
+                                <div className="space-y-1">
+                                    <div className="group relative">
+                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-600 transition-colors">
+                                            <Lock size={20} />
+                                        </div>
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            name="password"
+                                            required
+                                            minLength={6}
+                                            maxLength={128}
+                                            autoComplete="current-password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            placeholder="Password (min 6 chars)"
+                                            className="w-full pl-14 pr-14 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-600 transition-colors focus:outline-none"
+                                        >
+                                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
                                     </div>
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        name="password"
-                                        required
-                                        minLength={6}
-                                        maxLength={128}
-                                        autoComplete="current-password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        placeholder="Password (min 6 chars)"
-                                        className="w-full pl-14 pr-14 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-600 transition-colors focus:outline-none"
-                                    >
-                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
+                                    {errors.password && (
+                                        <span className="text-[10px] text-red-500 font-bold block px-2">{errors.password}</span>
+                                    )}
                                 </div>
 
                                 <button

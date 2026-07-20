@@ -102,6 +102,17 @@ const Auth = () => {
     address: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    shopName: "",
+    email: "",
+    phone: "",
+    password: "",
+    city: "",
+    state: "",
+    pincode: "",
+  });
+
   const handleLocationSelect = (location) => {
     setFormData((prev) => ({
       ...prev,
@@ -114,6 +125,16 @@ const Auth = () => {
       city: location.city || prev.city,
       state: location.state || prev.state,
     }));
+    // Validate pin/city/state if updated from map picker
+    if (location.pincode) {
+      setErrors(prev => ({ ...prev, pincode: location.pincode.length !== 6 ? "Enter a valid 6-digit pincode." : "" }));
+    }
+    if (location.city) {
+      setErrors(prev => ({ ...prev, city: location.city.trim().length < 2 ? "Must be at least 2 characters." : "" }));
+    }
+    if (location.state) {
+      setErrors(prev => ({ ...prev, state: location.state.trim().length < 2 ? "Must be at least 2 characters." : "" }));
+    }
   };
 
   const [documents, setDocuments] = useState({
@@ -151,34 +172,56 @@ const Auth = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (isLogin) {
+      setFormData({ ...formData, [name]: value });
+      return;
+    }
+
+    let errorMsg = "";
     if (name === "name") {
       // Owner name: only alphabets and spaces
       const cleaned = value.replace(/[^a-zA-Z\s]/g, "");
+      errorMsg = cleaned.trim().length < 3 ? "Owner name must be at least 3 characters." : "";
       setFormData({ ...formData, [name]: cleaned });
+      setErrors((prev) => ({ ...prev, name: errorMsg }));
+    } else if (name === "shopName") {
+      errorMsg = value.trim().length < 3 ? "Business name must be at least 3 characters." : "";
+      setFormData({ ...formData, [name]: value });
+      setErrors((prev) => ({ ...prev, shopName: errorMsg }));
     } else if (name === "email") {
       // Business email: trim leading spaces, disallow spaces inside
       const cleaned = value.replace(/\s+/g, "").toLowerCase();
       if (cleaned !== formData.email) {
         resetVerificationState("email");
       }
+      errorMsg = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleaned) ? "Enter a valid email address." : "";
       setFormData({ ...formData, [name]: cleaned });
+      setErrors((prev) => ({ ...prev, email: errorMsg }));
     } else if (name === "phone") {
       // Contact number: only digits, max 10 characters
       const digitsOnly = value.replace(/[^0-9]/g, "").slice(0, 10);
       if (digitsOnly !== formData.phone) {
         resetVerificationState("phone");
       }
+      errorMsg = digitsOnly.length !== 10 ? "Enter a valid 10-digit phone number." : "";
       setFormData({ ...formData, [name]: digitsOnly });
+      setErrors((prev) => ({ ...prev, phone: errorMsg }));
     } else if (name === "city" || name === "state") {
       // City & State: only alphabets and spaces
       const cleaned = value.replace(/[^a-zA-Z\s]/g, "");
+      errorMsg = cleaned.trim().length < 2 ? "Must be at least 2 characters." : "";
       setFormData({ ...formData, [name]: cleaned });
+      setErrors((prev) => ({ ...prev, [name]: errorMsg }));
     } else if (name === "pincode") {
       const digitsOnly = value.replace(/[^0-9]/g, "").slice(0, 6);
+      errorMsg = digitsOnly.length !== 6 ? "Enter a valid 6-digit pincode." : "";
       setFormData({ ...formData, [name]: digitsOnly });
+      setErrors((prev) => ({ ...prev, pincode: errorMsg }));
     } else if (name === "password") {
       // Password: allow any characters, min length 6
+      errorMsg = value.length < 6 ? "Password must be at least 6 characters." : "";
       setFormData({ ...formData, [name]: value });
+      setErrors((prev) => ({ ...prev, password: errorMsg }));
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -373,17 +416,29 @@ const Auth = () => {
     try {
       // Basic client-side validation for signup
       if (!isLogin) {
-        const email = formData.email || "";
-        const phone = formData.phone || "";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          toast.error("Please enter a valid business email address.");
-          setIsLoading(false);
+        const newErrors = {
+          name: (formData.name || "").trim().length < 3 ? "Owner name must be at least 3 characters." : "",
+          shopName: (formData.shopName || "").trim().length < 3 ? "Business name must be at least 3 characters." : "",
+          email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "") ? "Enter a valid email address." : "",
+          phone: !/^[0-9]{10}$/.test(formData.phone || "") ? "Enter a valid 10-digit phone number." : "",
+          password: (formData.password || "").length < 6 ? "Password must be at least 6 characters." : "",
+          city: signupStep === 2 && (formData.city || "").trim().length < 2 ? "Must be at least 2 characters." : "",
+          state: signupStep === 2 && (formData.state || "").trim().length < 2 ? "Must be at least 2 characters." : "",
+          pincode: signupStep === 2 && (formData.pincode || "").length !== 6 ? "Enter a valid 6-digit pincode." : "",
+        };
+
+        setErrors(newErrors);
+
+        const activeErrors = Object.entries(newErrors).filter(([key, val]) => {
+          if (signupStep === 1 && ["city", "state", "pincode"].includes(key)) return false;
+          return !!val;
+        });
+
+        if (activeErrors.length > 0) {
+          toast.error("Please correct the errors in the form before continuing.");
           return;
         }
-        if (!/^[0-9]{10}$/.test(phone)) {
-          toast.error("Please enter a valid 10-digit contact number.");
-          return;
-        }
+
         if (verifications.email.status !== "verified" || !verifications.email.token) {
           toast.error("Please verify your business email before continuing.");
           return;
@@ -392,14 +447,6 @@ const Auth = () => {
           toast.error("Please verify your contact number before continuing.");
           return;
         }
-      }
-      // Password: min 6 characters
-      const pwd = (formData.password || "").trim();
-      if (pwd.length < 6) {
-        toast.error(
-          "Password must be at least 6 characters.",
-        );
-        return;
       }
 
       if (!isLogin && signupStep < 3) {
@@ -747,83 +794,100 @@ const Auth = () => {
                 {(isLogin || signupStep === 1) && (
                   <>
                     {!isLogin && (
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="relative group">
-                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                            <User size={18} />
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <div className="relative group">
+                              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                                <User size={18} />
+                              </div>
+                              <input
+                                type="text"
+                                name="name"
+                                required
+                                maxLength={50}
+                                pattern="[a-zA-Z\s]*"
+                                placeholder="Owner Name"
+                                className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                                value={formData.name}
+                                onChange={(e) => {
+                                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                    handleChange(e);
+                                }}
+                              />
+                            </div>
+                            {errors.name && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.name}</span>
+                            )}
                           </div>
-                          <input
-                            type="text"
-                            name="name"
-                            required
-                            maxLength={50}
-                            pattern="[a-zA-Z\s]*"
-                            placeholder="Owner Name"
-                            className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                            value={formData.name}
-                            onChange={(e) => {
-                                e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-                                handleChange(e);
-                            }}
-                          />
-                        </div>
-                        <div className="relative group">
-                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                            <Store size={18} />
+                          <div className="space-y-1">
+                            <div className="relative group">
+                              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                                <Store size={18} />
+                              </div>
+                              <input
+                                type="text"
+                                name="shopName"
+                                required
+                                placeholder="Shop / Business Name"
+                                className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                                value={formData.shopName}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            {errors.shopName && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.shopName}</span>
+                            )}
                           </div>
-                          <input
-                            type="text"
-                            name="shopName"
-                            required
-                            placeholder="Shop / Business Name"
-                            className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                            value={formData.shopName}
-                            onChange={handleChange}
-                          />
                         </div>
                       </div>
                     )}
 
-                    <div className="relative group">
-                      <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                        <Mail size={18} />
+                    <div className="space-y-1">
+                      <div className="relative group">
+                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                          <Mail size={18} />
+                        </div>
+                        <input
+                          type={isLogin ? "text" : "email"}
+                          name="email"
+                          required
+                          inputMode={isLogin ? "text" : "email"}
+                          autoComplete="email"
+                          placeholder={isLogin ? "Email or Phone Number" : "Business Email"}
+                          className="w-full pl-12 pr-28 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                          value={formData.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                        {!isLogin && (
+                          <button
+                            type="button"
+                            onClick={() => handleSendVerificationOtp("email")}
+                            disabled={
+                              verifications.email.isSending ||
+                              verifications.email.status === "verified" ||
+                              verifications.email.exists ||
+                              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "")
+                            }
+                            className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.email.status === "verified"
+                              ? "bg-brand-100 text-brand-700 cursor-default"
+                              : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                              }`}>
+                            {verifications.email.isSending ? (
+                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            ) : verifications.email.status === "verified" ? (
+                              "Verified"
+                            ) : verifications.email.isOtpVisible ? (
+                              "Resend"
+                            ) : (
+                              "Verify"
+                            )}
+                          </button>
+                        )}
                       </div>
-                      <input
-                        type={isLogin ? "text" : "email"}
-                        name="email"
-                        required
-                        inputMode={isLogin ? "text" : "email"}
-                        autoComplete="email"
-                        placeholder={isLogin ? "Email or Phone Number" : "Business Email"}
-                        className="w-full pl-12 pr-28 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      {!isLogin && (
-                        <button
-                          type="button"
-                          onClick={() => handleSendVerificationOtp("email")}
-                          disabled={
-                            verifications.email.isSending ||
-                            verifications.email.status === "verified" ||
-                            verifications.email.exists ||
-                            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "")
-                          }
-                          className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.email.status === "verified"
-                            ? "bg-brand-100 text-brand-700 cursor-default"
-                            : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
-                            }`}>
-                          {verifications.email.isSending ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          ) : verifications.email.status === "verified" ? (
-                            "Verified"
-                          ) : verifications.email.isOtpVisible ? (
-                            "Resend"
-                          ) : (
-                            "Verify"
-                          )}
-                        </button>
+                      {errors.email && !isLogin && (
+                        <span className="text-[10px] text-red-500 font-bold block px-1">{errors.email}</span>
                       )}
                     </div>
                     {!isLogin && verifications.email.isOtpVisible && verifications.email.status !== "verified" && (
@@ -857,46 +921,50 @@ const Auth = () => {
                         <span>Email verified successfully.</span>
                       </div>
                     )}
-
                     {!isLogin && (
                       <>
-                        <div className="relative group">
-                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                            <Phone size={18} />
+                        <div className="space-y-1">
+                          <div className="relative group">
+                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                              <Phone size={18} />
+                            </div>
+                            <input
+                              type="tel"
+                              name="phone"
+                              required
+                              placeholder="Contact Number"
+                              className="w-full pl-12 pr-28 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                              value={formData.phone}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleSendVerificationOtp("phone")}
+                              disabled={
+                                verifications.phone.isSending ||
+                                verifications.phone.status === "verified" ||
+                                verifications.phone.exists ||
+                                !/^\d{10}$/.test(formData.phone || "")
+                              }
+                              className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.phone.status === "verified"
+                                ? "bg-brand-100 text-brand-700 cursor-default"
+                                : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
+                                }`}>
+                              {verifications.phone.isSending ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : verifications.phone.status === "verified" ? (
+                                "Verified"
+                              ) : verifications.phone.isOtpVisible ? (
+                                "Resend"
+                              ) : (
+                                "Verify"
+                              )}
+                            </button>
                           </div>
-                          <input
-                            type="tel"
-                            name="phone"
-                            required
-                            placeholder="Contact Number"
-                            className="w-full pl-12 pr-28 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleSendVerificationOtp("phone")}
-                            disabled={
-                              verifications.phone.isSending ||
-                              verifications.phone.status === "verified" ||
-                              verifications.phone.exists ||
-                              !/^\d{10}$/.test(formData.phone || "")
-                            }
-                            className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.phone.status === "verified"
-                              ? "bg-brand-100 text-brand-700 cursor-default"
-                              : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
-                              }`}>
-                            {verifications.phone.isSending ? (
-                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                            ) : verifications.phone.status === "verified" ? (
-                              "Verified"
-                            ) : verifications.phone.isOtpVisible ? (
-                              "Resend"
-                            ) : (
-                              "Verify"
-                            )}
-                          </button>
+                          {errors.phone && (
+                            <span className="text-[10px] text-red-500 font-bold block px-1">{errors.phone}</span>
+                          )}
                         </div>
                         {verifications.phone.isOtpVisible && verifications.phone.status !== "verified" && (
                           <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
@@ -932,29 +1000,34 @@ const Auth = () => {
                       </>
                     )}
 
-                    <div className="relative group">
-                      <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                        <Lock size={18} />
-                      </div>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        required
-                        minLength={6}
-                        autoComplete="current-password"
-                        placeholder="Enter your password"
-                        className="w-full pl-12 pr-14 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                        value={formData.password}
-                        onChange={handleChange}
-                      />
+                    <div className="space-y-1">
+                      <div className="relative group">
+                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                          <Lock size={18} />
+                        </div>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          name="password"
+                          required
+                          minLength={6}
+                          autoComplete="current-password"
+                          placeholder="Enter your password"
+                          className="w-full pl-12 pr-14 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                          value={formData.password}
+                          onChange={handleChange}
+                        />
 
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors px-2"
-                        tabIndex="-1">
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-600 transition-colors px-2"
+                          tabIndex="-1">
+                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                      </div>
+                      {errors.password && !isLogin && (
+                        <span className="text-[10px] text-red-500 font-bold block px-1">{errors.password}</span>
+                      )}
                     </div>
                     {isLogin && (
                       <div className="flex justify-end mt-1">
@@ -1030,47 +1103,62 @@ const Auth = () => {
                           onChange={handleChange}
                         />
                       </div>
-                      <div className="relative group">
-                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                          <MapPin size={18} />
+                      <div className="space-y-1">
+                        <div className="relative group">
+                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                            <MapPin size={18} />
+                          </div>
+                          <input
+                            type="text"
+                            name="pincode"
+                            required
+                            placeholder="Pincode"
+                            className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                            value={formData.pincode}
+                            onChange={handleChange}
+                          />
                         </div>
-                        <input
-                          type="text"
-                          name="pincode"
-                          required
-                          placeholder="Pincode"
-                          className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                          value={formData.pincode}
-                          onChange={handleChange}
-                        />
+                        {errors.pincode && (
+                          <span className="text-[10px] text-red-500 font-bold block px-1">{errors.pincode}</span>
+                        )}
                       </div>
-                      <div className="relative group">
-                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                          <MapPin size={18} />
+                      <div className="space-y-1">
+                        <div className="relative group">
+                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                            <MapPin size={18} />
+                          </div>
+                          <input
+                            type="text"
+                            name="city"
+                            required
+                            placeholder="City"
+                            className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                            value={formData.city}
+                            onChange={handleChange}
+                          />
                         </div>
-                        <input
-                          type="text"
-                          name="city"
-                          required
-                          placeholder="City"
-                          className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                          value={formData.city}
-                          onChange={handleChange}
-                        />
+                        {errors.city && (
+                          <span className="text-[10px] text-red-500 font-bold block px-1">{errors.city}</span>
+                        )}
                       </div>
-                      <div className="relative group">
-                        <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
-                          <MapPin size={18} />
+                      <div className="space-y-1">
+                        <div className="relative group">
+                          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-violet-600 transition-colors">
+                            <MapPin size={18} />
+                          </div>
+                          <input
+                            type="text"
+                            name="state"
+                            required
+                            placeholder="State"
+                            className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
+                            value={formData.state}
+                            onChange={handleChange}
+                          />
                         </div>
-                        <input
-                          type="text"
-                          name="state"
-                          required
-                          placeholder="State"
-                          className="w-full pl-12 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-lg text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300"
-                          value={formData.state}
-                          onChange={handleChange}
-                        />
+                        {errors.state && (
+                          <span className="text-[10px] text-red-500 font-bold block px-1">{errors.state}</span>
+                        )}
                       </div>
                     </div>
 

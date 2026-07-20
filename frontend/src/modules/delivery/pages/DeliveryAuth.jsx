@@ -71,6 +71,20 @@ const DeliveryAuth = () => {
   const [signupDob, setSignupDob] = useState("");
   const [signupBloodGroup, setSignupBloodGroup] = useState("");
   const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
+  const [errors, setErrors] = useState({
+    loginPhone: "",
+    signupName: "",
+    signupPhone: "",
+    signupEmail: "",
+    signupAddress: "",
+    signupVehicleNumber: "",
+    signupDLNumber: "",
+    signupPanNumber: "",
+    signupAadharNumber: "",
+    signupAccountNumber: "",
+    signupIfsc: "",
+    signupAccountHolder: "",
+  });
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState("");
 
@@ -216,18 +230,40 @@ const DeliveryAuth = () => {
 
   const handleSendOtp = async () => {
     try {
-      setLoading(true);
       if (mode === "login") {
-        if (!loginPhone || loginPhone.length < 10) {
+        if (!loginPhone || loginPhone.length !== 10) {
+          setErrors(prev => ({ ...prev, loginPhone: "Enter a valid 10-digit mobile number." }));
           toast.error("Please enter a valid 10-digit phone number");
           return;
         }
+        setLoading(true);
         const res = await deliveryApi.sendLoginOtp({ phone: loginPhone });
         toast.success(res.data?.message || "OTP sent!");
       } else {
-        if (!signupName.trim()) { toast.error("Please enter your name"); return; }
-        if (!signupPhone || signupPhone.length < 10) { toast.error("Please enter a valid 10-digit phone number"); return; }
+        const newErrors = {
+          signupName: !signupName.trim() ? "Please enter your name" : signupName.trim().length < 3 ? "Name must be at least 3 characters." : "",
+          signupPhone: !signupPhone ? "Please enter your phone number" : signupPhone.length !== 10 ? "Phone number must be 10 digits." : "",
+          signupEmail: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupEmail || "") ? "Enter a valid email address." : "",
+          signupAddress: !signupAddress.trim() ? "Address is required" : signupAddress.trim().length < 10 ? "Address must be at least 10 characters." : "",
+          signupVehicleNumber: signupVehicle !== 'cycle' && !/^[A-Z]{2}\s?[0-9]{1,2}\s?[A-Z]{0,3}\s?[0-9]{1,4}$/.test(signupVehicleNumber.trim()) ? "Invalid plate format" : "",
+          signupDLNumber: signupVehicle !== 'cycle' && !/^[A-Z]{2}[0-9]{13}$/.test(signupDLNumber.replace(/[\s-]/g, '').trim()) ? "Invalid DL number" : "",
+          signupAadharNumber: !signupAadharNumber || signupAadharNumber.length !== 12 ? "Aadhar must be 12 digits" : "",
+          signupPanNumber: !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(signupPanNumber || "") ? "Invalid PAN format" : "",
+          signupAccountHolder: (signupAccountHolder || "").trim().length < 3 ? "Account holder name must be at least 3 characters." : "",
+          signupAccountNumber: !signupAccountNumber || signupAccountNumber.length < 9 || signupAccountNumber.length > 18 ? "Account number must be 9-18 digits." : "",
+          signupIfsc: !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(signupIfsc || "") ? "Invalid IFSC format" : "",
+        };
+
+        setErrors(prev => ({ ...prev, ...newErrors }));
+
+        const activeErrors = Object.values(newErrors).filter(Boolean);
+        if (activeErrors.length > 0) {
+          toast.error("Please correct the errors in the form before continuing.");
+          return;
+        }
+
         if (!profileImageFile) { toast.error("Please upload your profile photo"); return; }
+        setLoading(true);
 
         const formData = new FormData();
         formData.append("name", signupName.trim());
@@ -465,12 +501,19 @@ const DeliveryAuth = () => {
                                   const val = e.target.value;
                                   if (/^[a-zA-Z\s]*$/.test(val)) {
                                     setSignupName(val);
+                                    setErrors(prev => ({
+                                      ...prev,
+                                      signupName: val.trim().length < 3 ? 'Name must be at least 3 characters long.' : ''
+                                    }));
                                   }
                                 }}
                                 className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                                 placeholder="Enter your full name"
                               />
                             </div>
+                            {errors.signupName && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupName}</span>
+                            )}
                           </div>
 
                           <div className="space-y-1.5">
@@ -481,12 +524,22 @@ const DeliveryAuth = () => {
                               <input
                                 type="tel"
                                 value={signupPhone}
-                                onChange={(e) => setSignupPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                                onChange={(e) => {
+                                  const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                                  setSignupPhone(val);
+                                  setErrors(prev => ({
+                                    ...prev,
+                                    signupPhone: val.length !== 10 ? 'Enter a valid 10-digit mobile number.' : ''
+                                  }));
+                                }}
                                 maxLength={10}
                                 className="w-full pl-24 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                                 placeholder="00000 00000"
                               />
                             </div>
+                            {errors.signupPhone && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupPhone}</span>
+                            )}
                           </div>
 
                           <div className="space-y-1.5">
@@ -496,11 +549,21 @@ const DeliveryAuth = () => {
                               <input
                                 type="email"
                                 value={signupEmail}
-                                onChange={(e) => setSignupEmail(e.target.value)}
+                                onChange={(e) => {
+                                  const val = e.target.value;
+                                  setSignupEmail(val);
+                                  setErrors(prev => ({
+                                    ...prev,
+                                    signupEmail: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ? 'Enter a valid email address.' : ''
+                                  }));
+                                }}
                                 className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                                 placeholder="example@gmail.com"
                               />
                             </div>
+                            {errors.signupEmail && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupEmail}</span>
+                            )}
                           </div>
 
                           <div className="space-y-1.5">
@@ -513,12 +576,19 @@ const DeliveryAuth = () => {
                                   const val = e.target.value;
                                   if (/^[a-zA-Z0-9\s,.\-/#]*$/.test(val)) {
                                     setSignupAddress(val);
+                                    setErrors(prev => ({
+                                      ...prev,
+                                      signupAddress: val.trim().length < 10 ? 'Address must be at least 10 characters long.' : ''
+                                    }));
                                   }
                                 }}
                                 className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all resize-none h-24"
                                 placeholder="Complete building address..."
                               />
                             </div>
+                            {errors.signupAddress && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupAddress}</span>
+                            )}
                           </div>
 
                           <div className="flex items-center gap-3">
@@ -572,16 +642,25 @@ const DeliveryAuth = () => {
 
                           <button
                             onClick={() => {
-                              if (!signupName.trim() || !signupPhone || !signupEmail.trim() || !signupAddress.trim() || !signupDob || !signupBloodGroup || !profileImageFile) {
-                                toast.error("Please fill all personal information fields and upload photo");
+                              const newErrors = {
+                                signupName: !signupName.trim() ? "Please enter your name" : signupName.trim().length < 3 ? "Name must be at least 3 characters." : "",
+                                signupPhone: !signupPhone ? "Please enter your phone number" : signupPhone.length !== 10 ? "Phone number must be 10 digits." : "",
+                                signupEmail: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupEmail || "") ? "Enter a valid email address." : "",
+                                signupAddress: !signupAddress.trim() ? "Address is required" : signupAddress.trim().length < 10 ? "Address must be at least 10 characters." : "",
+                              };
+
+                              setErrors(prev => ({ ...prev, ...newErrors }));
+
+                              if (Object.values(newErrors).some(Boolean)) {
+                                toast.error("Please correct the errors in the form before continuing.");
                                 return;
                               }
-                              if (signupPhone.length !== 10) {
-                                toast.error("Please enter a valid 10-digit phone number");
+                              if (!profileImageFile) {
+                                toast.error("Please upload your profile photo");
                                 return;
                               }
-                              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupEmail.trim())) {
-                                toast.error("Please enter a valid email address");
+                              if (!signupDob || !signupBloodGroup) {
+                                toast.error("Please select date of birth and blood group");
                                 return;
                               }
                               setSignupStep(2);
@@ -639,34 +718,54 @@ const DeliveryAuth = () => {
                             <>
                               <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">Vehicle Plate Number</label>
-                            <div className="relative">
-                              <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
-                              <input
-                                type="text"
-                                maxLength={15}
-                                value={signupVehicleNumber}
-                                onChange={(e) => setSignupVehicleNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9\s-]/g, ''))}
-                                className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
-                                placeholder="KA 05 MN 8921"
-                              />
-                            </div>
-                          </div>
+                                <div className="relative">
+                                  <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
+                                  <input
+                                    type="text"
+                                    maxLength={15}
+                                    value={signupVehicleNumber}
+                                    onChange={(e) => {
+                                      const val = e.target.value.toUpperCase().replace(/[^A-Z0-9\s-]/g, '');
+                                      setSignupVehicleNumber(val);
+                                      setErrors(prev => ({
+                                        ...prev,
+                                        signupVehicleNumber: !/^[A-Z]{2}\s?[0-9]{1,2}\s?[A-Z]{0,3}\s?[0-9]{1,4}$/.test(val.trim()) ? "Invalid plate format (e.g. KA 05 MN 8921)" : ""
+                                      }));
+                                    }}
+                                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
+                                    placeholder="KA 05 MN 8921"
+                                  />
+                                </div>
+                                {errors.signupVehicleNumber && (
+                                  <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupVehicleNumber}</span>
+                                )}
+                              </div>
 
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">Driving License Number</label>
-                            <div className="relative">
-                              <FileText className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
-                              <input
-                                type="text"
-                                maxLength={16}
-                                value={signupDLNumber}
-                                onChange={(e) => setSignupDLNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9\s-]/g, ''))}
-                                className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
-                                placeholder="DL-1420110012345"
-                              />
-                            </div>
-                          </div>
-                          </>
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">Driving License Number</label>
+                                <div className="relative">
+                                  <FileText className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
+                                  <input
+                                    type="text"
+                                    maxLength={16}
+                                    value={signupDLNumber}
+                                    onChange={(e) => {
+                                      const val = e.target.value.toUpperCase().replace(/[^A-Z0-9\s-]/g, '');
+                                      setSignupDLNumber(val);
+                                      setErrors(prev => ({
+                                        ...prev,
+                                        signupDLNumber: !/^[A-Z]{2}[0-9]{13}$/.test(val.replace(/[\s-]/g, '').trim()) ? "Invalid driving license format (e.g. DL1420110012345)" : ""
+                                      }));
+                                    }}
+                                    className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
+                                    placeholder="DL-1420110012345"
+                                  />
+                                </div>
+                                {errors.signupDLNumber && (
+                                  <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupDLNumber}</span>
+                                )}
+                              </div>
+                            </>
                           )}
 
                           <div className="flex gap-4 pt-2">
@@ -679,20 +778,15 @@ const DeliveryAuth = () => {
                             <button
                               onClick={() => {
                                 if (signupVehicle !== 'cycle') {
-                                  if (!signupVehicleNumber) {
-                                    toast.error("Please enter your vehicle plate number");
-                                    return;
-                                  }
-                                  if (!/^[A-Z]{2}\s?[0-9]{1,2}\s?[A-Z]{0,3}\s?[0-9]{1,4}$/.test(signupVehicleNumber.trim())) {
-                                    toast.error("Please enter a valid vehicle plate number (e.g. KA 05 MN 8921)");
-                                    return;
-                                  }
-                                  if (!signupDLNumber) {
-                                    toast.error("Please enter your driving license number");
-                                    return;
-                                  }
-                                  if (!/^[A-Z]{2}[0-9]{13}$/.test(signupDLNumber.replace(/[\s-]/g, '').trim())) {
-                                    toast.error("Please enter a valid driving license number (e.g. DL1420110012345)");
+                                  const newErrors = {
+                                    signupVehicleNumber: !/^[A-Z]{2}\s?[0-9]{1,2}\s?[A-Z]{0,3}\s?[0-9]{1,4}$/.test(signupVehicleNumber.trim()) ? "Invalid plate format" : "",
+                                    signupDLNumber: !/^[A-Z]{2}[0-9]{13}$/.test(signupDLNumber.replace(/[\s-]/g, '').trim()) ? "Invalid DL number" : "",
+                                  };
+
+                                  setErrors(prev => ({ ...prev, ...newErrors }));
+
+                                  if (Object.values(newErrors).some(Boolean)) {
+                                    toast.error("Please correct the errors in the form before continuing.");
                                     return;
                                   }
                                 }
@@ -718,10 +812,20 @@ const DeliveryAuth = () => {
                             <input
                               type="text"
                               value={signupAadharNumber}
-                              onChange={(e) => setSignupAadharNumber(e.target.value.replace(/\D/g, "").slice(0, 12))}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, "").slice(0, 12);
+                                setSignupAadharNumber(val);
+                                setErrors(prev => ({
+                                  ...prev,
+                                  signupAadharNumber: val.length !== 12 ? "Aadhar must be exactly 12 digits." : ""
+                                }));
+                              }}
                               className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all font-mono"
                               placeholder="0000 0000 0000"
                             />
+                            {errors.signupAadharNumber && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupAadharNumber}</span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">PAN Card Number</label>
@@ -729,15 +833,20 @@ const DeliveryAuth = () => {
                               type="text"
                               maxLength={10}
                               value={signupPanNumber}
-                              onChange={(e) => setSignupPanNumber(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
-                              onBlur={(e) => {
-                                if (e.target.value && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(e.target.value)) {
-                                  toast.error("Invalid PAN format (e.g. ABCDE1234F)");
-                                }
+                              onChange={(e) => {
+                                const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                                setSignupPanNumber(val);
+                                setErrors(prev => ({
+                                  ...prev,
+                                  signupPanNumber: !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(val) ? "Invalid PAN format (e.g. ABCDE1234F)" : ""
+                                }));
                               }}
                               className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all font-mono"
                               placeholder="ABCDE1234F"
                             />
+                            {errors.signupPanNumber && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupPanNumber}</span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">Account Holder Name</label>
@@ -748,11 +857,18 @@ const DeliveryAuth = () => {
                                 const val = e.target.value.toUpperCase();
                                 if (/^[A-Z\s]*$/.test(val)) {
                                   setSignupAccountHolder(val);
+                                  setErrors(prev => ({
+                                    ...prev,
+                                    signupAccountHolder: val.trim().length < 3 ? "Account holder name must be at least 3 characters." : ""
+                                  }));
                                 }
                               }}
                               className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                               placeholder="AS PER BANK RECORDS"
                             />
+                            {errors.signupAccountHolder && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupAccountHolder}</span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">Account Number</label>
@@ -760,10 +876,20 @@ const DeliveryAuth = () => {
                               type="text"
                               maxLength={18}
                               value={signupAccountNumber}
-                              onChange={(e) => setSignupAccountNumber(e.target.value.replace(/\D/g, ""))}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, "");
+                                setSignupAccountNumber(val);
+                                setErrors(prev => ({
+                                  ...prev,
+                                  signupAccountNumber: val.length < 9 || val.length > 18 ? "Account number must be 9-18 digits." : ""
+                                }));
+                              }}
                               className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                               placeholder="000000000000"
                             />
+                            {errors.signupAccountNumber && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupAccountNumber}</span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest ml-1">IFSC Code</label>
@@ -771,15 +897,20 @@ const DeliveryAuth = () => {
                               type="text"
                               maxLength={11}
                               value={signupIfsc}
-                              onChange={(e) => setSignupIfsc(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
-                              onBlur={(e) => {
-                                if (e.target.value && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(e.target.value)) {
-                                  toast.error("Invalid IFSC format (e.g. HDFC0001234)");
-                                }
+                              onChange={(e) => {
+                                const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                                setSignupIfsc(val);
+                                setErrors(prev => ({
+                                  ...prev,
+                                  signupIfsc: !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(val) ? "Invalid IFSC format (e.g. HDFC0001234)" : ""
+                                }));
                               }}
                               className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all"
                               placeholder="HDFC0001234"
                             />
+                            {errors.signupIfsc && (
+                              <span className="text-[10px] text-red-500 font-bold block px-1">{errors.signupIfsc}</span>
+                            )}
                           </div>
 
                           <div className="flex gap-4 pt-2">
@@ -791,24 +922,18 @@ const DeliveryAuth = () => {
                             </button>
                             <button
                               onClick={() => {
-                                if (!signupAadharNumber || !signupPanNumber || !signupAccountHolder.trim() || !signupAccountNumber || !signupIfsc) {
-                                  toast.error("Please fill all bank and identification fields");
-                                  return;
-                                }
-                                if (signupAadharNumber.length !== 12) {
-                                  toast.error("Aadhar number must be 12 digits");
-                                  return;
-                                }
-                                if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(signupPanNumber)) {
-                                  toast.error("Invalid PAN format (e.g. ABCDE1234F)");
-                                  return;
-                                }
-                                if (signupAccountNumber.length < 9 || signupAccountNumber.length > 18) {
-                                  toast.error("Account Number must be between 9 and 18 digits");
-                                  return;
-                                }
-                                if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(signupIfsc)) {
-                                  toast.error("Invalid IFSC format (e.g. HDFC0001234)");
+                                const newErrors = {
+                                  signupAadharNumber: !signupAadharNumber || signupAadharNumber.length !== 12 ? "Aadhar must be exactly 12 digits." : "",
+                                  signupPanNumber: !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(signupPanNumber || "") ? "Invalid PAN format (e.g. ABCDE1234F)" : "",
+                                  signupAccountHolder: (signupAccountHolder || "").trim().length < 3 ? "Account holder name must be at least 3 characters." : "",
+                                  signupAccountNumber: !signupAccountNumber || signupAccountNumber.length < 9 || signupAccountNumber.length > 18 ? "Account number must be 9-18 digits." : "",
+                                  signupIfsc: !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(signupIfsc || "") ? "Invalid IFSC format (e.g. HDFC0001234)" : "",
+                                };
+
+                                setErrors(prev => ({ ...prev, ...newErrors }));
+
+                                if (Object.values(newErrors).some(Boolean)) {
+                                  toast.error("Please correct the errors in the form before continuing.");
                                   return;
                                 }
                                 setSignupStep(4);
@@ -1031,12 +1156,19 @@ const DeliveryAuth = () => {
                             onChange={(e) => {
                               const val = e.target.value.replace(/\D/g, "").slice(0, 10);
                               setLoginPhone(val);
+                              setErrors(prev => ({
+                                ...prev,
+                                loginPhone: val.length !== 10 ? "Enter a valid 10-digit mobile number." : ""
+                              }));
                             }}
                             maxLength={10}
                             className="w-full pl-24 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 transition-all placeholder:text-gray-300"
                             placeholder="00000 00000"
                           />
                         </div>
+                        {errors.loginPhone && (
+                          <span className="text-[10px] text-red-500 font-bold block px-1 mt-1">{errors.loginPhone}</span>
+                        )}
                       </div>
 
                       <button

@@ -84,53 +84,27 @@ const ExperienceBannerCarousel = ({ section, items, fullWidth = false, slideGap 
         {visibleItems.map((banner, idx) => (
           <div
             key={idx}
-            className={cn(
-              "relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border",
-              fullWidth ? "aspect-[2/1] sm:aspect-[21/9] rounded-none px-0" : "aspect-[2/1] sm:aspect-[21/9] px-4 md:px-8 py-2"
-            )}
+            className="relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border aspect-[2/1] rounded-none px-0 py-0"
             style={{ width: `${100 / totalItems}%` }}
           >
-            {fullWidth ? (
-              <img
-                src={getBannerOptimizedSrc(banner.imageUrl)}
-                srcSet={
-                  isCloudinaryUrl(banner.imageUrl)
-                    ? buildCloudinarySrcSet(
-                        banner.imageUrl,
-                        [{ w: 412 }, { w: 824 }, { w: 1248 }],
-                        "f_auto,q_auto,c_scale"
-                      )
-                    : undefined
-                }
-                sizes="100vw"
-                alt={banner.title || section?.title || "Banner"}
-                className="w-full h-full object-contain object-center pointer-events-none"
-                loading={idx === 0 ? "eager" : "lazy"}
-                fetchPriority={idx === 0 ? "high" : "low"}
-                decoding="async"
-              />
-            ) : (
-              <div className="h-full w-full max-w-[560px] overflow-hidden rounded-3xl bg-slate-100 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-                <img
-                  src={getBannerOptimizedSrc(banner.imageUrl)}
-                  srcSet={
-                    isCloudinaryUrl(banner.imageUrl)
-                      ? buildCloudinarySrcSet(
-                          banner.imageUrl,
-                          [{ w: 560 }, { w: 1120 }],
-                          "f_auto,q_auto,c_scale"
-                        )
-                      : undefined
-                  }
-                  sizes="(max-width: 768px) 100vw, 560px"
-                  alt={banner.title || section?.title || "Banner"}
-                  className="w-full h-full object-cover object-center pointer-events-none"
-                  loading={idx === 0 ? "eager" : "lazy"}
-                  fetchPriority={idx === 0 ? "high" : "low"}
-                  decoding="async"
-                />
-              </div>
-            )}
+            <img
+              src={getBannerOptimizedSrc(banner.imageUrl)}
+              srcSet={
+                isCloudinaryUrl(banner.imageUrl)
+                  ? buildCloudinarySrcSet(
+                      banner.imageUrl,
+                      [{ w: 412 }, { w: 824 }, { w: 1248 }],
+                      "f_auto,q_auto,c_scale"
+                    )
+                  : undefined
+              }
+              sizes="100vw"
+              alt={banner.title || section?.title || "Banner"}
+              className="w-full h-full object-cover object-center pointer-events-none rounded-none"
+              loading={idx === 0 ? "eager" : "lazy"}
+              fetchPriority={idx === 0 ? "high" : "low"}
+              decoding="async"
+            />
           </div>
         ))}
       </motion.div>

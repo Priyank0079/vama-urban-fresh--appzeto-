@@ -322,7 +322,7 @@ export default function HeroCategoriesPerPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
-                  Hero banners
+                  Hero banners (2:1 Ratio - e.g. 1200x600px)
                 </label>
                 <button
                   type="button"

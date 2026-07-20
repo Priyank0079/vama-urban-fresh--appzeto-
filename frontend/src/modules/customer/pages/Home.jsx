@@ -140,9 +140,9 @@ const ALL_CATEGORY = {
   name: "All",
   icon: HomeIcon,
   theme: DEFAULT_CATEGORY_THEME,
-  headerColor: "#0e7490",
-  headerFontColor: "#111111",
-  headerIconColor: "#111111",
+  headerColor: "#E30613",
+  headerFontColor: "#ffffff",
+  headerIconColor: "#ffffff",
   banner: {
     title: "HOUSEFULL",
     subtitle: "SALE",
@@ -310,7 +310,7 @@ const Home = () => {
           
           let headerColor = "";
           const upName = catName.toUpperCase();
-          if (upName === "ALL") headerColor = "#0e7490";
+          if (upName === "ALL") headerColor = "#E30613";
           else if (upName === "BEAUTY") headerColor = "#f472b6"; 
           else if (upName === "ELECTRONIC" || upName === "ELECTRONICS" || upName === "ELECTRONICSS") headerColor = "#3b82f6";
           else if (upName === "FASHION") headerColor = "#ec4899"; 
@@ -327,7 +327,7 @@ const Home = () => {
         });
         nextHomeData.formattedHeaders = formattedHeaders;
         const allHeaderFromAdmin = formattedHeaders.find((h) => (h.slug?.toLowerCase() === "all") || (h.name?.toLowerCase() === "all"));
-        const mergedAllCategory = allHeaderFromAdmin ? { ...ALL_CATEGORY, headerColor: allHeaderFromAdmin.headerColor || ALL_CATEGORY.headerColor, headerFontColor: allHeaderFromAdmin.headerFontColor || ALL_CATEGORY.headerFontColor, headerIconColor: allHeaderFromAdmin.headerIconColor || ALL_CATEGORY.headerIconColor, icon: allHeaderFromAdmin.icon || ALL_CATEGORY.icon } : ALL_CATEGORY;
+        const mergedAllCategory = allHeaderFromAdmin ? { ...ALL_CATEGORY, headerColor: "#E30613", headerFontColor: "#ffffff", headerIconColor: "#ffffff", icon: allHeaderFromAdmin.icon || ALL_CATEGORY.icon } : ALL_CATEGORY;
         nextHomeData.categories = [mergedAllCategory, ...formattedHeaders.filter((h) => !((h.slug?.toLowerCase() === "all") || (h.name?.toLowerCase() === "all")))];
         nextHomeData.activeCategory = mergedAllCategory;
         nextHomeData.quickCategories = dbCats.filter((cat) => cat.type === "category").map((cat) => ({ id: cat._id, name: cat.name, image: cat.image || "https://cdn-icons-png.flaticon.com/128/2321/2321831.png" }));
@@ -439,7 +439,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`min-h-screen pt-[190px] md:pt-[240px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
+    <div className={`min-h-screen pt-[240px] md:pt-[300px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
       <div className={cn("contents", isProductDetailOpen && "hidden md:contents")}>
         <MainLocationHeader categories={categories} activeCategory={activeCategory} onCategorySelect={setActiveCategory} />
       </div>
@@ -453,19 +453,17 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <motion.div ref={heroRef} className="block md:hidden will-change-transform" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
-            <div className="relative w-full overflow-hidden mb-4">
-              <div className="relative w-full aspect-[2/1] overflow-hidden shadow-sm mt-3 rounded-b-xl">
-                <img 
-                  src={mainBannerImage} 
-                  alt="Vamaa Urban Fresh Mega Sale" 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-            </div>
-          </motion.div>
+          <PromoMarquee reverse={true} className="w-full" />
 
-          <PromoMarquee />
+          {heroConfig?.banners?.items?.length > 0 && (
+            <motion.div ref={heroRef} className="w-full will-change-transform mt-0" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
+              <div className="pt-0">
+                <ExperienceBannerCarousel items={heroConfig.banners.items} fullWidth={false} />
+              </div>
+            </motion.div>
+          )}
+
+          <PromoMarquee className="w-full" />
           <QuickCategorySlider categories={effectiveQuickCategories} onCategoryClick={(id) => navigate(`/category/${id}`)} />
           <LowestPriceSection products={products} onSeeAll={() => navigate("/category/all")} />
           <OfferSections sections={offerSections} noServiceData={noServiceData} />

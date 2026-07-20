@@ -83,6 +83,11 @@ const CustomerAuth = () => {
         name: ''
     });
 
+    const [errors, setErrors] = useState({
+        phone: '',
+        name: ''
+    });
+
     const activeCategory = CATEGORIES[carouselIndex];
 
     useEffect(() => {
@@ -102,10 +107,25 @@ const CustomerAuth = () => {
 
     const handleSendOtp = async (e) => {
         e?.preventDefault();
-        if (formData.phone.length !== 10) {
-            toast.error('Enter valid 10-digit number');
+
+        let newErrors = { name: '', phone: '' };
+        let hasErrors = false;
+
+        if (!isLogin && (formData.name || '').trim().length < 3) {
+            newErrors.name = 'Name must be at least 3 characters long.';
+            hasErrors = true;
+        }
+        if ((formData.phone || '').length !== 10) {
+            newErrors.phone = 'Enter a valid 10-digit mobile number.';
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            setErrors(newErrors);
+            toast.error('Please correct the errors in the form.');
             return;
         }
+
         setIsLoading(true);
         try {
             if (isLogin) {
@@ -199,11 +219,11 @@ const CustomerAuth = () => {
                 {/* Scrollable Content Container */}
                 <div className="h-full overflow-y-auto no-scrollbar pb-20">
 
-                    {/* Header: Immersive Category Visuals */}
+                     {/* Header: Immersive Category Visuals */}
                     <motion.div
                         animate={{ backgroundColor: activeCategory.theme }}
                         transition={{ duration: 1 }}
-                        className="relative h-[35%] min-h-[240px] shrink-0 w-full overflow-hidden"
+                        className="relative h-[26%] min-h-[180px] shrink-0 w-full overflow-hidden"
                     >
                         <AnimatePresence mode="wait">
                             <motion.div
@@ -225,37 +245,37 @@ const CustomerAuth = () => {
                         </AnimatePresence>
 
                         {/* Top Branding Bar */}
-                        <div className="absolute top-8 left-0 w-full px-6 flex items-center justify-between z-10">
+                        <div className="absolute top-6 left-0 w-full px-6 flex items-center justify-between z-10">
                             <div className="flex items-center gap-3">
                                 <button 
                                     onClick={() => navigate(-1)} 
-                                    className="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 text-white transition-transform active:scale-95"
+                                    className="w-8 h-8 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 text-white transition-transform active:scale-95"
                                 >
-                                    <ChevronLeft size={24} />
+                                    <ChevronLeft size={20} />
                                 </button>
-                                <div className="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/30">
-                                    <ShoppingBag size={20} className="text-white" />
+                                <div className="w-8 h-8 bg-white/20 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/30">
+                                    <ShoppingBag size={16} className="text-white" />
                                 </div>
-                                <span className="text-white font-semibold tracking-tighter text-xl">{appName.toUpperCase()}</span>
+                                <span className="text-white font-semibold tracking-tighter text-lg">{appName.toUpperCase()}</span>
                             </div>
                         </div>
 
                         {/* Centered App Message */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 text-white pt-10">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8 text-white pt-6">
                             <motion.h2
                                 key={carouselIndex}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-2xl font-semibold tracking-tight leading-none mb-2"
+                                className="text-xl font-semibold tracking-tight leading-none mb-1"
                             >
                                 {activeCategory.title.toUpperCase()} INSIDE
                             </motion.h2>
-                            <p className="text-[10px] font-bold uppercase tracking-[4px] opacity-70">Everything delivered fast</p>
+                            <p className="text-[9px] font-bold uppercase tracking-[3px] opacity-70">Everything delivered fast</p>
                         </div>
 
                         {/* S-Curve Divider */}
                         <div className="absolute -bottom-1 left-0 w-full leading-[0]">
-                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" className="w-full h-24">
+                            <svg viewBox="0 0 1440 320" preserveAspectRatio="none" className="w-full h-16">
                                 <path
                                     fill="#ffffff"
                                     d="M0,224L40,213.3C80,203,160,181,240,186.7C320,192,400,224,480,240C560,256,640,256,720,234.7C800,213,880,171,960,165.3C1040,160,1120,192,1200,208C1280,224,1360,224,1400,224L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
@@ -265,8 +285,8 @@ const CustomerAuth = () => {
                     </motion.div>
 
                     {/* Circular Carousel Control */}
-                    <div className="relative -mt-14 flex justify-center z-20">
-                        <div className="w-28 h-28 rounded-full bg-white border-2 border-white shadow-[0_15px_40px_rgba(97,218,251,0.2)] flex items-center justify-center overflow-hidden transition-shadow duration-1000" style={{ boxShadow: `0 15px 40px ${activeCategory.shadow}` }}>
+                    <div className="relative -mt-9 flex justify-center z-20">
+                        <div className="w-20 h-20 rounded-full bg-white border-2 border-white shadow-[0_15px_40px_rgba(97,218,251,0.2)] flex items-center justify-center overflow-hidden transition-shadow duration-1000" style={{ boxShadow: `0 15px 40px ${activeCategory.shadow}` }}>
                             <AnimatePresence mode="wait">
                                     <motion.div
                                         key={carouselIndex}
@@ -295,7 +315,7 @@ const CustomerAuth = () => {
 
 
                     {/* Authentication Form Block */}
-                    <div className="px-6 pt-6 pb-10">
+                    <div className="px-6 pt-3 pb-6">
                         <AnimatePresence mode="wait">
                             {!showOtp ? (
                                 <motion.div
@@ -303,51 +323,99 @@ const CustomerAuth = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, x: -20 }}
-                                    className="space-y-5"
+                                    className="space-y-4"
                                 >
                                     {/* App Style Tab Switcher */}
-                                    <div className="flex bg-gray-50 rounded-2xl p-1.5 border border-gray-100">
+                                    <div className="flex bg-gray-50 rounded-2xl p-1 border border-gray-100">
                                         <button
                                             onClick={() => setIsLogin(true)}
-                                            className={`flex-1 py-3 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
+                                            className={`flex-1 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
                                             style={{ color: isLogin ? activeCategory.theme : undefined }}
                                         >
                                             Login
                                         </button>
                                         <button
                                             onClick={() => setIsLogin(false)}
-                                            className={`flex-1 py-3 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
+                                            className={`flex-1 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
                                             style={{ color: !isLogin ? activeCategory.theme : undefined }}
                                         >
                                             Sign Up
                                         </button>
                                     </div>
 
-                                    <div className="space-y-2 text-center">
-                                        <h3 className="text-xl font-semibold text-gray-900 tracking-tight">
+                                    <div className="space-y-1 text-center">
+                                        <h3 className="text-lg font-semibold text-gray-900 tracking-tight">
                                             {isLogin ? 'Welcome Back!' : 'Create Account'}
                                         </h3>
-                                        <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
                                             OTP will be sent for verification
                                         </p>
                                     </div>
 
-                                    <form onSubmit={handleSendOtp} className="space-y-4">
+                                    <form onSubmit={handleSendOtp} className="space-y-3">
                                         {!isLogin && (
+                                            <div className="space-y-1">
+                                                <div className="relative group">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 transition-colors" style={{ color: 'inherit' }}>
+                                                        <User size={18} className="group-focus-within:text-[var(--theme-color)]" style={{ color: 'inherit' }} />
+                                                    </div>
+                                                    <input
+                                                        required
+                                                        name="name"
+                                                        value={formData.name || ''}
+                                                        maxLength={50}
+                                                        pattern="[a-zA-Z\s]*"
+                                                        placeholder="Full Name"
+                                                        className="w-full bg-gray-50 border border-gray-100 rounded-2xl pl-12 pr-4 py-3 text-sm font-bold text-gray-800 outline-none focus:bg-white transition-all"
+                                                        style={{ '--theme-color': activeCategory.theme }}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                                            setFormData({ ...formData, name: val });
+                                                            setErrors(prev => ({
+                                                                ...prev,
+                                                                name: val.trim().length < 3 ? 'Name must be at least 3 characters long.' : ''
+                                                            }));
+                                                        }}
+                                                        onFocus={(e) => {
+                                                            e.target.style.borderColor = activeCategory.theme;
+                                                            const target = e.target;
+                                                            setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                                                        }}
+                                                        onBlur={(e) => e.target.style.borderColor = '#F3F4F6'}
+                                                    />
+                                                </div>
+                                                {errors.name && (
+                                                    <span className="text-[10px] text-red-500 font-semibold px-2 block">{errors.name}</span>
+                                                )}
+                                            </div>
+                                        )}
+                                        <div className="space-y-1">
                                             <div className="relative group">
-                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 transition-colors" style={{ color: 'inherit' }}>
-                                                    <User size={18} className="group-focus-within:text-[var(--theme-color)]" style={{ color: 'inherit' }} />
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 transition-colors">
+                                                    <Phone size={18} />
+                                                </div>
+                                                <div className="absolute left-11 top-1/2 -translate-y-1/2 font-semibold text-sm text-gray-400 border-r border-gray-200 pr-2">
+                                                    +91
                                                 </div>
                                                 <input
                                                     required
-                                                    name="name"
-                                                    value={formData.name || ''}
-                                                    maxLength={50}
-                                                    pattern="[a-zA-Z\s]*"
-                                                    placeholder="Full Name"
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl pl-12 pr-4 py-4 text-sm font-bold text-gray-800 outline-none focus:bg-white transition-all"
-                                                    style={{ '--theme-color': activeCategory.theme }}
-                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
+                                                    type="tel"
+                                                    inputMode="numeric"
+                                                    pattern="[0-9]*"
+                                                    autoComplete="tel"
+                                                    name="phone"
+                                                    value={formData.phone || ''}
+                                                    maxLength={10}
+                                                    placeholder="Mobile Number"
+                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl pl-20 pr-4 py-3 text-sm font-bold text-gray-800 outline-none focus:bg-white transition-all"
+                                                    onChange={(e) => {
+                                                        const val = e.target.value.replace(/\D/g, '');
+                                                        setFormData({ ...formData, phone: val });
+                                                        setErrors(prev => ({
+                                                            ...prev,
+                                                            phone: val.length !== 10 ? 'Enter a valid 10-digit mobile number.' : ''
+                                                        }));
+                                                    }}
                                                     onFocus={(e) => {
                                                         e.target.style.borderColor = activeCategory.theme;
                                                         const target = e.target;
@@ -356,39 +424,15 @@ const CustomerAuth = () => {
                                                     onBlur={(e) => e.target.style.borderColor = '#F3F4F6'}
                                                 />
                                             </div>
-                                        )}
-                                        <div className="relative group">
-                                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 transition-colors">
-                                                <Phone size={18} />
-                                            </div>
-                                            <div className="absolute left-11 top-1/2 -translate-y-1/2 font-semibold text-sm text-gray-400 border-r border-gray-200 pr-2">
-                                                +91
-                                            </div>
-                                            <input
-                                                required
-                                                type="tel"
-                                                inputMode="numeric"
-                                                pattern="[0-9]*"
-                                                autoComplete="tel"
-                                                name="phone"
-                                                value={formData.phone || ''}
-                                                maxLength={10}
-                                                placeholder="Mobile Number"
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl pl-20 pr-4 py-4 text-sm font-bold text-gray-800 outline-none focus:bg-white transition-all"
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })}
-                                                onFocus={(e) => {
-                                                    e.target.style.borderColor = activeCategory.theme;
-                                                    const target = e.target;
-                                                    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                                                }}
-                                                onBlur={(e) => e.target.style.borderColor = '#F3F4F6'}
-                                            />
+                                            {errors.phone && (
+                                                <span className="text-[10px] text-red-500 font-semibold px-2 block">{errors.phone}</span>
+                                            )}
                                         </div>
 
                                         <button
                                             type="submit"
                                             disabled={isLoading}
-                                            className="w-full text-white py-5 rounded-[24px] text-xs font-semibold tracking-[4px] flex items-center justify-center gap-3 active:scale-95 transition-all uppercase"
+                                            className="w-full text-white py-3.5 rounded-[24px] text-xs font-semibold tracking-[4px] flex items-center justify-center gap-3 active:scale-95 transition-all uppercase"
                                             style={{ backgroundColor: activeCategory.theme, boxShadow: `0 20px 40px ${activeCategory.shadow}` }}
                                         >
                                             {isLoading ? 'Verifying...' : 'Continue'}
@@ -397,7 +441,7 @@ const CustomerAuth = () => {
                                     </form>
 
                                     {/* Legal Agreement Footer */}
-                                    <div className="pt-2 flex flex-col items-center gap-1">
+                                    <div className="pt-1 flex flex-col items-center gap-1">
                                         <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest text-center">
                                             By continuing, you agree to our
                                         </p>

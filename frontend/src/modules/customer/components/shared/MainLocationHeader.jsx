@@ -21,6 +21,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
 import MicIcon from "@mui/icons-material/Mic";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ChevronDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -121,11 +122,15 @@ const MainLocationHeader = ({
   const { scrollY } = useScroll();
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [cartAnimData, setCartAnimData] = useState(null);
+  const [logoAnimData, setLogoAnimData] = useState(null);
 
-  // Dynamically load shopping-cart Lottie on mount
+  // Dynamically load shopping-cart and logo Lottie on mount
   useEffect(() => {
     import("../../../../assets/lottie/shopping-cart.json")
       .then((m) => setCartAnimData(m.default))
+      .catch(() => {});
+    import("../../../../assets/INSTANT_6.json")
+      .then((m) => setLogoAnimData(m.default))
       .catch(() => {});
   }, []);
   const { currentLocation, refreshLocation, isFetchingLocation } =
@@ -139,6 +144,16 @@ const MainLocationHeader = ({
   // Search Logic
   const handleSearchClick = () => {
     navigate("/search");
+  };
+
+  const handleMicClick = (e) => {
+    e.stopPropagation();
+    navigate("/search", { state: { startVoice: true } });
+  };
+
+  const handleImageSearchClick = (e) => {
+    e.stopPropagation();
+    navigate("/search", { state: { startImageSearch: true } });
   };
 
   const handleSearchKeyDown = (e) => {
@@ -282,30 +297,18 @@ const MainLocationHeader = ({
           {/* Subtle Glow Overlay */}
           <div className="absolute inset-0 bg-white/8 pointer-events-none" />
 
-          {/* Corner Lottie */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-            style={{
-              opacity: cartOpacity,
-              scale: cartScale,
-              display: displayCart,
-            }}
-            type="button"
-            aria-label="Open cart"
-            onClick={() => navigate("/checkout")}
-            className="absolute top-3 right-5 sm:top-4 sm:right-6 md:top-5 md:right-8 z-20 w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20 cursor-pointer">
-            {cartAnimData ? (
+          {/* Top-Right Logo Lottie (MOBILE ONLY) */}
+          <div className="absolute top-3 right-3 z-20 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:hidden pointer-events-none bg-transparent">
+            {logoAnimData ? (
               <Lottie
-                animationData={cartAnimData}
+                animationData={logoAnimData}
                 loop
-                className="w-full h-full pointer-events-none drop-shadow-[0_8px_18px_rgba(0,0,0,0.14)]"
+                className="w-full h-full"
               />
             ) : (
               <div className="w-full h-full" />
             )}
-          </motion.button>
+          </div>
 
           {/* Notification Icon (Mobile) */}
           <motion.button
@@ -325,13 +328,21 @@ const MainLocationHeader = ({
               <div
                 onClick={() => navigate("/")}
                 className="flex items-center gap-3 cursor-pointer group shrink-0">
-                <div className="group-hover:scale-110 transition-all duration-300 drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)]">
-                  <img
-                    src={logoUrl}
-                    alt={`${appName} Logo`}
-                    loading="lazy"
-                    className="h-10 w-auto object-contain"
-                  />
+                <div className="group-hover:scale-110 transition-all duration-300 w-16 h-16 flex items-center justify-center bg-transparent">
+                  {logoAnimData ? (
+                    <Lottie
+                      animationData={logoAnimData}
+                      loop
+                      className="w-full h-full"
+                    />
+                  ) : (
+                    <img
+                      src={logoUrl}
+                      alt={`${appName} Logo`}
+                      loading="lazy"
+                      className="h-10 w-auto object-contain"
+                    />
+                  )}
                 </div>
               </div>
 
@@ -385,8 +396,22 @@ const MainLocationHeader = ({
                   readOnly
                   className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-semibold placeholder:text-black text-[15px] cursor-pointer"
                 />
-                <div className="flex items-center gap-2 border-l border-slate-100 pl-3">
-                  <MicIcon sx={{ color: "#000000", fontSize: 20 }} />
+                <div className="flex items-center gap-2.5 border-l border-slate-100 pl-3">
+                  <button
+                    type="button"
+                    onClick={handleMicClick}
+                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-700 hover:text-black"
+                  >
+                    <MicIcon sx={{ fontSize: 20 }} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleImageSearchClick}
+                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-700 hover:text-black"
+                    title="Search by image/camera"
+                  >
+                    <CameraAltIcon sx={{ fontSize: 20 }} />
+                  </button>
                 </div>
               </motion.div>
             </div>
@@ -500,8 +525,22 @@ const MainLocationHeader = ({
                 readOnly
                 className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-medium placeholder:text-slate-500 text-[15px] cursor-pointer"
               />
-              <div className="flex items-center gap-2 border-l border-slate-300 pl-2.5">
-                <MicIcon sx={{ color: "#64748b", fontSize: 20 }} />
+              <div className="flex items-center gap-2.5 border-l border-slate-300 pl-2.5">
+                <button
+                  type="button"
+                  onClick={handleMicClick}
+                  className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-500 hover:text-slate-800"
+                >
+                  <MicIcon sx={{ fontSize: 20 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleImageSearchClick}
+                  className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-500 hover:text-slate-800"
+                  title="Search by image/camera"
+                >
+                  <CameraAltIcon sx={{ fontSize: 20 }} />
+                </button>
               </div>
             </motion.div>
           </div>
