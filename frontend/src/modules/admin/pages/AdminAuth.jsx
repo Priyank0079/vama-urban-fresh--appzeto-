@@ -68,23 +68,8 @@ const AdminAuth = () => {
         // Only validate password complexity for signup, not login
         if (!isLogin) {
             const pwd = (formData.password || '').trim();
-            if (pwd.length < 10) {
-                toast.error('Password must be at least 10 characters long.');
-                setIsLoading(false);
-                return;
-            }
-            if (!/[a-z]/.test(pwd)) {
-                toast.error('Password must contain at least one lowercase letter.');
-                setIsLoading(false);
-                return;
-            }
-            if (!/[A-Z]/.test(pwd)) {
-                toast.error('Password must contain at least one uppercase letter.');
-                setIsLoading(false);
-                return;
-            }
-            if (!/[0-9]/.test(pwd)) {
-                toast.error('Password must contain at least one number.');
+            if (pwd.length < 6) {
+                toast.error('Password must be at least 6 characters long.');
                 setIsLoading(false);
                 return;
             }
@@ -149,7 +134,7 @@ const AdminAuth = () => {
                         >
                             <div className="space-y-3">
                                 <motion.h1
-                                    className="text-5xl font-black text-brand-900 tracking-tight"
+                                    className="text-5xl font-semibold text-brand-900 tracking-tight"
                                     layoutId="auth-title"
                                 >
                                     {isLogin ? 'Login' : 'Sign Up'}
@@ -214,12 +199,12 @@ const AdminAuth = () => {
                                         type={showPassword ? "text" : "password"}
                                         name="password"
                                         required
-                                        minLength={10}
+                                        minLength={6}
                                         maxLength={128}
                                         autoComplete="current-password"
                                         value={formData.password}
                                         onChange={handleChange}
-                                        placeholder="Password (min 10 chars)"
+                                        placeholder="Password (min 6 chars)"
                                         className="w-full pl-14 pr-14 py-5 bg-[#f8f9ff] border-2 border-transparent rounded-[24px] text-sm font-bold text-gray-700 outline-none focus:bg-white focus:border-brand-100 focus:ring-8 focus:ring-brand-50/50 transition-all placeholder:text-gray-300"
                                     />
                                     <button
@@ -234,7 +219,7 @@ const AdminAuth = () => {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full bg-black  text-primary-foreground rounded-[24px] py-5 text-base font-black shadow-2xl shadow-brand-200 hover:bg-brand-700 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
+                                    className="w-full bg-black  text-primary-foreground rounded-[24px] py-5 text-base font-semibold shadow-2xl shadow-brand-200 hover:bg-brand-700 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                                 >
                                     {isLoading ? (
                                         <motion.div

@@ -142,7 +142,7 @@ const DeliveryConfirmation = () => {
                   {isPrepaid ? "Payment Status" : "Amount to Collect"}
                 </p>
                 <h2
-                  className={`text-4xl font-extrabold ${isPrepaid ? "text-brand-600" : "text-orange-600"}`}>
+                  className={`text-4xl font-semibold ${isPrepaid ? "text-brand-600" : "text-orange-600"}`}>
                   {isPrepaid ? "PAID" : `₹${orderAmount}`}
                 </h2>
               </div>

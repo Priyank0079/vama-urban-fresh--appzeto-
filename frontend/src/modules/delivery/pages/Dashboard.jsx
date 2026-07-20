@@ -162,7 +162,7 @@ const Dashboard = () => {
       <div className="px-6 py-6">
         <div className="bg-white rounded-3xl p-4 shadow-sm border border-gray-100 group">
           <div className="flex items-center justify-between mb-3 px-1">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Service Status</span>
+            <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.2em]">Service Status</span>
             <div className="flex items-center gap-1.5">
               <div className={cn(
                 "w-1.5 h-1.5 rounded-full animate-pulse",
@@ -185,13 +185,13 @@ const Dashboard = () => {
             <div className="absolute inset-0 flex w-full">
               <div className="w-1/2 flex items-center justify-center">
                 <span className={cn(
-                  "text-[10px] font-black tracking-widest transition-opacity duration-300",
+                  "text-[10px] font-semibold tracking-widest transition-opacity duration-300",
                   isOnline ? "opacity-0" : "opacity-40 text-gray-500"
                 )}>SLIDE TO GO ONLINE</span>
               </div>
               <div className="w-1/2 flex items-center justify-center">
                 <span className={cn(
-                  "text-[10px] font-black tracking-widest transition-opacity duration-300",
+                  "text-[10px] font-semibold tracking-widest transition-opacity duration-300",
                   !isOnline ? "opacity-0" : "opacity-40 text-gray-500"
                 )}>SLIDE TO GO OFFLINE</span>
               </div>
@@ -225,7 +225,7 @@ const Dashboard = () => {
               >
                 {isOnline ? <CheckCircle size={18} strokeWidth={3} /> : <XCircle size={18} strokeWidth={3} />}
               </motion.div>
-              <span className="text-xs font-black uppercase tracking-widest select-none">
+              <span className="text-xs font-semibold uppercase tracking-widest select-none">
                 {isOnline ? "ONLINE" : "OFFLINE"}
               </span>
             </motion.div>
@@ -239,7 +239,7 @@ const Dashboard = () => {
           <button
             onClick={() => setActiveTab("delivery")}
             className={cn(
-              "flex-1 py-3 px-4 rounded-xl text-center text-xs font-black transition-all duration-300 uppercase tracking-widest",
+              "flex-1 py-3 px-4 rounded-xl text-center text-xs font-semibold transition-all duration-300 uppercase tracking-widest",
               activeTab === "delivery"
                 ? "bg-white text-primary shadow-sm ring-1 ring-black/5"
                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
@@ -250,7 +250,7 @@ const Dashboard = () => {
           <button
             onClick={() => setActiveTab("return")}
             className={cn(
-              "flex-1 py-3 px-4 rounded-xl text-center text-xs font-black transition-all duration-300 uppercase tracking-widest",
+              "flex-1 py-3 px-4 rounded-xl text-center text-xs font-semibold transition-all duration-300 uppercase tracking-widest",
               activeTab === "return"
                 ? "bg-white text-primary shadow-sm ring-1 ring-black/5"
                 : "text-gray-500 hover:text-gray-700 hover:bg-gray-200/50"
@@ -283,7 +283,7 @@ const Dashboard = () => {
 
           <div className="flex items-baseline mb-6 relative z-10">
             <span className="text-2xl font-bold text-gray-400 mr-1">₹</span>
-            <span className="text-4xl font-extrabold text-gray-900 tracking-tight">
+            <span className="text-4xl font-semibold text-gray-900 tracking-tight">
               {earnings.today}
             </span>
             <span className="ml-3 text-brand-600 text-xs font-bold flex items-center bg-brand-50 border border-brand-100 px-2 py-1 rounded-full">
@@ -414,11 +414,11 @@ const Dashboard = () => {
                   <Card key={order._id} className="p-4 border-2 border-primary/5 hover:border-primary/20 transition-all shadow-sm">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest mb-1 block">Return Task</span>
+                        <span className="text-[10px] font-semibold text-primary/60 uppercase tracking-widest mb-1 block">Return Task</span>
                         <h4 className="font-bold text-gray-900">#{order.orderId}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="block font-black text-brand-600 text-lg">₹{order.returnDeliveryCommission || 0}</span>
+                        <span className="block font-semibold text-brand-600 text-lg">₹{order.returnDeliveryCommission || 0}</span>
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Commission</span>
                       </div>
                     </div>
@@ -438,7 +438,7 @@ const Dashboard = () => {
                        <Button 
                         variant="primary" 
                         size="sm" 
-                        className="flex-1 font-black text-[10px] tracking-widest uppercase h-10 shadow-lg shadow-primary/20"
+                        className="flex-1 font-semibold text-[10px] tracking-widest uppercase h-10 shadow-lg shadow-primary/20"
                         onClick={() => handleAcceptReturn(order.orderId)}
                       >
                         Accept Pickup
@@ -446,7 +446,7 @@ const Dashboard = () => {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="px-4 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-gray-600 hover:bg-gray-100 h-10"
+                        className="px-4 text-[10px] font-semibold uppercase tracking-widest text-gray-400 hover:text-gray-600 hover:bg-gray-100 h-10"
                         onClick={() => navigate(`/delivery/order-details/${order.orderId}`)}
                       >
                         View

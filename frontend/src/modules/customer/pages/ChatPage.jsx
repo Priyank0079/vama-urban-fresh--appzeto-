@@ -381,7 +381,7 @@ const ChatPage = () => {
           </button>
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white font-black text-sm shadow-sm ring-2 ring-white overflow-hidden">
+              <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm ring-2 ring-white overflow-hidden">
                 {brandLogoUrl && !logoFailed ? (
                   <img
                     src={brandLogoUrl}
@@ -396,7 +396,7 @@ const ChatPage = () => {
               <div className="absolute bottom-0 right-0 h-3 w-3 bg-brand-500 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div>
-              <h1 className="text-base font-black text-slate-800 leading-none">
+              <h1 className="text-base font-semibold text-slate-800 leading-none">
                 Support Chat
               </h1>
               <p className="text-[10px] text-brand-600 font-bold mt-1 uppercase tracking-wider flex items-center gap-1">
@@ -456,7 +456,7 @@ const ChatPage = () => {
                 className={`px-4 py-3 rounded-2xl shadow-sm border text-sm leading-relaxed ${
                   msg.sender === "user"
                     ? "bg-primary text-primary-foreground border-black/25 rounded-tr-none"
-                    : "bg-white text-slate-700 border-slate-800/40 rounded-tl-none"
+                    : "bg-white text-slate-700 border-slate-200/40 rounded-tl-none"
                 }`}
               >
                 {msg.mediaUrl ? (
@@ -588,7 +588,7 @@ const ChatPage = () => {
           )}
         </AnimatePresence>
 
-        <div className="flex items-end gap-2 bg-slate-50 p-2 rounded-[1.5rem] border-2 border-slate-800/70 focus-within:border-slate-900 focus-within:shadow-[0_0_0_4px_rgba(15,23,42,0.08)] transition-all">
+        <div className="flex items-end gap-2 bg-slate-50 p-2 rounded-[1.5rem] border-2 border-slate-200/70 focus-within:border-slate-900 focus-within:shadow-[0_0_0_4px_rgba(15,23,42,0.08)] transition-all">
           <button
             onClick={() => {
               setShowAttachmentMenu(false);

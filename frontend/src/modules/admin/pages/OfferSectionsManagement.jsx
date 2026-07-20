@@ -249,7 +249,7 @@ const OfferSectionsManagement = () => {
             Offer Sections
             <Badge
               variant="primary"
-              className="text-[10px] font-black uppercase tracking-widest"
+              className="text-[10px] font-semibold uppercase tracking-widest"
             >
               Category → Products
             </Badge>
@@ -260,7 +260,7 @@ const OfferSectionsManagement = () => {
         </div>
         <button
           onClick={openCreateModal}
-          className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+          className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
         >
           <HiOutlinePlus className="h-5 w-5" />
           New Section
@@ -269,7 +269,7 @@ const OfferSectionsManagement = () => {
 
       <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
         <div className="p-4 border-b border-slate-50 flex items-center justify-between">
-          <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+          <h2 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
             Sections ({sections.length})
           </h2>
           {isLoading && (
@@ -308,7 +308,7 @@ const OfferSectionsManagement = () => {
                     }}
                   />
                   <div>
-                    <p className="text-sm font-black text-slate-900">
+                    <p className="text-sm font-semibold text-slate-900">
                       #{idx + 1} {section.title}
                     </p>
                     <p className="text-[10px] font-bold text-slate-500">
@@ -371,7 +371,7 @@ const OfferSectionsManagement = () => {
           {sections.length === 0 && !isLoading && (
             <div className="p-16 text-center">
               <HiOutlinePhoto className="h-12 w-12 text-slate-200 mx-auto mb-3" />
-              <h3 className="text-lg font-black text-slate-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 No offer sections yet
               </h3>
               <p className="text-sm font-bold text-slate-400 mt-2">
@@ -389,7 +389,7 @@ const OfferSectionsManagement = () => {
       >
         <form onSubmit={handleSave} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
               Section title
             </label>
             <input
@@ -403,7 +403,7 @@ const OfferSectionsManagement = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
               Categories (choose one or more)
             </label>
             <div className="flex flex-wrap gap-1.5 border border-slate-100 rounded-xl p-3 bg-slate-50/50 max-h-32 overflow-y-auto">
@@ -437,7 +437,7 @@ const OfferSectionsManagement = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
               Sellers (choose one or more – products will be from these sellers)
             </label>
             <div className="flex flex-wrap gap-1.5 border border-slate-100 rounded-xl p-3 bg-slate-50/50 max-h-32 overflow-y-auto">
@@ -472,7 +472,7 @@ const OfferSectionsManagement = () => {
 
           {(formData.categoryIds.length > 0 || formData.sellerIds.length > 0) && (
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                 Products (from selected categories & sellers)
               </label>
               <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1 border border-slate-100 rounded-xl p-3 bg-slate-50/50">
@@ -512,7 +512,7 @@ const OfferSectionsManagement = () => {
           )}
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
               Banner colour
             </label>
             <div className="flex flex-wrap gap-2">
@@ -545,7 +545,7 @@ const OfferSectionsManagement = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
               Side image (choose one)
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -581,7 +581,7 @@ const OfferSectionsManagement = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                 Display order
               </label>
               <input
@@ -595,7 +595,7 @@ const OfferSectionsManagement = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                 Status
               </label>
               <select
@@ -615,13 +615,13 @@ const OfferSectionsManagement = () => {
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
-              className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+              className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-semibold uppercase tracking-widest"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20"
+              className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl shadow-primary/20"
             >
               {editingSection ? "Save changes" : "Create section"}
             </button>

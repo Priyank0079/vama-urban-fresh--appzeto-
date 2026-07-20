@@ -198,7 +198,7 @@ const DeliveryFunds = () => {
                                     key={status}
                                     onClick={() => setFilterStatus(status)}
                                     className={cn(
-                                        "px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all",
+                                        "px-4 py-2.5 rounded-xl text-[10px] font-semibold uppercase tracking-wider transition-all",
                                         filterStatus === status
                                             ? "bg-white text-slate-900 shadow-md"
                                             : "text-slate-400 hover:text-slate-600"
@@ -233,8 +233,8 @@ const DeliveryFunds = () => {
                                 <tr>
                                     <td colSpan="5" className="py-20 text-center">
                                         <div className="flex flex-col items-center gap-3">
-                                            <div className="h-10 w-10 border-4 border-slate-200 border-t-primary rounded-full animate-spin" />
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Auditing Ledger...</p>
+                                            <div className="h-10 w-10 border-2 border-slate-200 border-t-primary rounded-full animate-spin" />
+                                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Auditing Ledger...</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -256,20 +256,20 @@ const DeliveryFunds = () => {
                                                     <ArrowUpRight className="h-5 w-5" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-xs font-black text-slate-900 tracking-tight">{tx.id}</p>
+                                                    <p className="text-xs font-semibold text-slate-900 tracking-tight">{tx.id}</p>
                                                     <p className="text-[10px] font-bold text-slate-400 mt-0.5 uppercase tracking-widest">{tx.type}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-4 py-7">
                                             <div>
-                                                <p className="text-sm font-black text-slate-900 group-hover:text-primary transition-colors">{tx.riderName}</p>
+                                                <p className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">{tx.riderName}</p>
                                                 <span className="text-[10px] font-bold text-slate-400">{tx.riderId}</span>
                                             </div>
                                         </td>
                                         <td className="px-4 py-7 text-center">
                                             <div className="flex flex-col items-center">
-                                                <p className="text-sm font-black text-slate-900">₹{tx.amount.toLocaleString()}</p>
+                                                <p className="text-sm font-semibold text-slate-900">₹{tx.amount.toLocaleString()}</p>
                                                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{tx.paymentMethod}</span>
                                             </div>
                                         </td>
@@ -282,7 +282,7 @@ const DeliveryFunds = () => {
                                                 ) : (
                                                     <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
                                                 )}
-                                                <Badge variant={tx.status === 'settled' ? 'success' : tx.status === 'pending' ? 'warning' : 'destructive'} className="text-[8px] font-black uppercase tracking-wider px-2">
+                                                <Badge variant={tx.status === 'settled' ? 'success' : tx.status === 'pending' ? 'warning' : 'destructive'} className="text-[8px] font-semibold uppercase tracking-wider px-2">
                                                     {tx.status}
                                                 </Badge>
                                             </div>
@@ -374,9 +374,9 @@ const DeliveryFunds = () => {
                                     )}>
                                         <Banknote className="h-10 w-10" />
                                     </div>
-                                    <h4 className="text-3xl font-black text-slate-900 tracking-tight">₹{viewingTxn.amount.toLocaleString()}</h4>
+                                    <h4 className="text-3xl font-semibold text-slate-900 tracking-tight">₹{viewingTxn.amount.toLocaleString()}</h4>
                                     <div className="flex items-center justify-center gap-2 mt-2">
-                                        <Badge variant={viewingTxn.status === 'completed' ? 'success' : 'warning'} className="uppercase font-black text-[9px]">
+                                        <Badge variant={viewingTxn.status === 'completed' ? 'success' : 'warning'} className="uppercase font-semibold text-[9px]">
                                             {viewingTxn.status}
                                         </Badge>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{viewingTxn.id}</span>
@@ -386,40 +386,40 @@ const DeliveryFunds = () => {
                                 <div className="space-y-6 pt-6 border-t border-dashed border-slate-200">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-1">
-                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Fleet Partner</p>
+                                            <p className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Fleet Partner</p>
                                             <p className="text-sm font-bold text-slate-900">{viewingTxn.riderName}</p>
                                             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{viewingTxn.riderId}</p>
                                         </div>
                                         <div className="space-y-1 text-right">
-                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Entry Date</p>
+                                            <p className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Entry Date</p>
                                             <p className="text-sm font-bold text-slate-900">{viewingTxn.dateTime}</p>
                                         </div>
                                     </div>
 
                                     <div className="p-6 bg-slate-50 rounded-xl space-y-4">
                                         <div className="flex justify-between items-center">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Method</p>
+                                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Method</p>
                                             <div className="flex items-center gap-2">
                                                 <CreditCard className="h-4 w-4 text-slate-400" />
                                                 <span className="text-xs font-bold text-slate-900">{viewingTxn.paymentMethod}</span>
                                             </div>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Destination</p>
+                                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Destination</p>
                                             <div className="flex items-center gap-2">
                                                 <Landmark className="h-4 w-4 text-slate-400" />
                                                 <span className="text-xs font-bold text-slate-900">{viewingTxn.accountInfo}</span>
                                             </div>
                                         </div>
                                         <div className="flex justify-between items-center pt-2 border-t border-slate-200">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ref. ID</p>
-                                            <span className="text-xs font-black text-slate-900 font-mono tracking-tight">{viewingTxn.referenceId}</span>
+                                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Ref. ID</p>
+                                            <span className="text-xs font-semibold text-slate-900 font-mono tracking-tight">{viewingTxn.referenceId}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="mt-10 flex gap-4">
-                                    <button className="flex-1 py-4.5 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl active:scale-95 transition-all">
+                                    <button className="flex-1 py-4.5 bg-slate-900 text-white rounded-2xl font-semibold text-[10px] uppercase tracking-widest shadow-xl active:scale-95 transition-all">
                                         Download Receipt
                                     </button>
                                     <button className="p-4.5 bg-slate-100 text-slate-600 rounded-2xl hover:bg-slate-200 transition-all">

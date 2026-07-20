@@ -555,7 +555,7 @@ const Auth = () => {
             </div>
 
             <div className="mt-8 text-center space-y-4">
-              <h2 className="text-2xl font-black text-white tracking-tight leading-tight uppercase underline decoration-white/20 underline-offset-8">
+              <h2 className="text-2xl font-semibold text-white tracking-tight leading-tight uppercase underline decoration-white/20 underline-offset-8">
                 Seller <span className="text-slate-600">Expansion.</span>
               </h2>
             </div>
@@ -565,13 +565,13 @@ const Auth = () => {
           <div className="absolute bottom-12 left-0 right-0 px-12 flex justify-between items-center opacity-60">
             <div className="flex items-center gap-2 text-white/80">
               <Rocket size={16} />
-              <span className="text-[10px] font-black uppercase tracking-widest">
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
                 Growth First
               </span>
             </div>
             <div className="flex items-center gap-2 text-white/80">
               <Globe size={16} />
-              <span className="text-[10px] font-black uppercase tracking-widest">
+              <span className="text-[10px] font-semibold uppercase tracking-widest">
                 Pan India
               </span>
             </div>
@@ -605,12 +605,12 @@ const Auth = () => {
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
               className="space-y-8 py-4 md:py-6">
               <div className="space-y-4">
-                <span className="inline-block px-4 py-1 bg-slate-100 text-slate-800 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-200">
+                <span className="inline-block px-4 py-1 bg-slate-100 text-slate-800 rounded-full text-[10px] font-semibold uppercase tracking-widest border border-slate-200">
                   {isLogin
                     ? "Welcome Back"
                     : `New Partnership - Step ${signupStep} of 3`}
                 </span>
-                <h1 className="text-3xl font-black text-slate-900 tracking-tighter">
+                <h1 className="text-3xl font-semibold text-slate-900 tracking-tighter">
                   Seller{" "}
                   <span className="text-slate-900">
                     {isLogin ? "Login" : "Signup"}
@@ -651,7 +651,7 @@ const Auth = () => {
                       <button
                         type="submit"
                         disabled={resetData.isSending || !resetData.rawValue}
-                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {resetData.isSending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Send OTP"}
                         <ArrowRight size={18} />
@@ -659,7 +659,7 @@ const Auth = () => {
                       <button
                         type="button"
                         onClick={() => setForgotPasswordStep(0)}
-                        className="w-full flex items-center justify-center bg-slate-100 text-slate-700 p-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-slate-200 transition-colors"
+                        className="w-full flex items-center justify-center bg-slate-100 text-slate-700 p-4 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-slate-200 transition-colors"
                       >
                         Back to Login
                       </button>
@@ -673,7 +673,7 @@ const Auth = () => {
                           required
                           maxLength={4}
                           placeholder="Enter 4-digit OTP"
-                          className="w-full px-6 py-4 text-center tracking-[0.5em] bg-slate-50 border-2 border-transparent rounded-lg text-xl font-black text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300 placeholder:tracking-normal placeholder:font-bold placeholder:text-sm"
+                          className="w-full px-6 py-4 text-center tracking-[0.5em] bg-slate-50 border-2 border-transparent rounded-lg text-xl font-semibold text-slate-700 outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-300 placeholder:tracking-normal placeholder:font-bold placeholder:text-sm"
                           value={resetData.otp}
                           onChange={(e) => setResetData({ ...resetData, otp: e.target.value.replace(/\D/g, '').slice(0, 4) })}
                         />
@@ -681,7 +681,7 @@ const Auth = () => {
                       <button
                         type="submit"
                         disabled={resetData.isVerifying || resetData.otp.length !== 4}
-                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {resetData.isVerifying ? <Loader2 className="w-5 h-5 animate-spin" /> : "Verify OTP"}
                         <ArrowRight size={18} />
@@ -689,7 +689,7 @@ const Auth = () => {
                       <button
                         type="button"
                         onClick={() => setForgotPasswordStep(1)}
-                        className="w-full flex items-center justify-center bg-slate-100 text-slate-700 p-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-slate-200 transition-colors"
+                        className="w-full flex items-center justify-center bg-slate-100 text-slate-700 p-4 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-slate-200 transition-colors"
                       >
                         Change Contact Info
                       </button>
@@ -733,7 +733,7 @@ const Auth = () => {
                       <button
                         type="submit"
                         disabled={resetData.isResetting}
-                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white p-4 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {resetData.isResetting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Reset Password"}
                         <ArrowRight size={18} />
@@ -810,7 +810,7 @@ const Auth = () => {
                             verifications.email.exists ||
                             !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email || "")
                           }
-                          className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-black uppercase tracking-wider transition-all ${verifications.email.status === "verified"
+                          className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.email.status === "verified"
                             ? "bg-brand-100 text-brand-700 cursor-default"
                             : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
                             }`}>
@@ -845,7 +845,7 @@ const Auth = () => {
                           type="button"
                           onClick={() => handleVerifyOtp("email")}
                           disabled={verifications.email.isVerifying || verifications.email.otp.length !== 4}
-                          className="rounded-md bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-100 disabled:opacity-50"
+                          className="rounded-md bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-100 disabled:opacity-50"
                         >
                           {verifications.email.isVerifying ? "Checking..." : "Confirm OTP"}
                         </button>
@@ -883,7 +883,7 @@ const Auth = () => {
                               verifications.phone.exists ||
                               !/^\d{10}$/.test(formData.phone || "")
                             }
-                            className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-black uppercase tracking-wider transition-all ${verifications.phone.status === "verified"
+                            className={`absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all ${verifications.phone.status === "verified"
                               ? "bg-brand-100 text-brand-700 cursor-default"
                               : "bg-slate-900 text-white hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed"
                               }`}>
@@ -917,7 +917,7 @@ const Auth = () => {
                               type="button"
                               onClick={() => handleVerifyOtp("phone")}
                               disabled={verifications.phone.isVerifying || verifications.phone.otp.length !== 4}
-                              className="rounded-md bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-100 disabled:opacity-50"
+                              className="rounded-md bg-white px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-slate-100 disabled:opacity-50"
                             >
                               {verifications.phone.isVerifying ? "Checking..." : "Confirm OTP"}
                             </button>
@@ -974,7 +974,7 @@ const Auth = () => {
                 {!isLogin && signupStep === 2 && (
                   <div className="space-y-4">
                     <div className="pt-2">
-                      <p className="text-sm font-black text-slate-600 uppercase tracking-widest mb-3">
+                      <p className="text-sm font-semibold text-slate-600 uppercase tracking-widest mb-3">
                         Shop Location & Service Area
                       </p>
                       <button
@@ -1008,7 +1008,7 @@ const Auth = () => {
                           </div>
                         </div>
                         {formData.lat && (
-                          <span className="text-[10px] font-black text-brand-600 bg-brand-100 px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                          <span className="text-[10px] font-semibold text-brand-600 bg-brand-100 px-2 py-0.5 rounded-full uppercase tracking-tighter">
                             Verified
                           </span>
                         )}
@@ -1095,7 +1095,7 @@ const Auth = () => {
                 {!isLogin && signupStep === 3 && (
                   <div className="space-y-4">
                     <div className="pt-2">
-                      <p className="text-sm font-black text-slate-600 uppercase tracking-widest mb-3">
+                      <p className="text-sm font-semibold text-slate-600 uppercase tracking-widest mb-3">
                         Verification Documents
                       </p>
                       <div className="space-y-3">
@@ -1148,14 +1148,14 @@ const Auth = () => {
                     <button
                       type="button"
                       onClick={() => setSignupStep((prev) => Math.max(1, prev - 1))}
-                      className="w-1/3 bg-slate-100 text-slate-600 rounded-lg py-4 text-sm font-black tracking-[2px] transition-all hover:bg-slate-200">
+                      className="w-1/3 bg-slate-100 text-slate-600 rounded-lg py-4 text-sm font-semibold tracking-[2px] transition-all hover:bg-slate-200">
                       BACK
                     </button>
                   )}
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className={`${!isLogin && signupStep > 1 ? "w-2/3" : "w-full"} bg-slate-900 text-white rounded-lg py-4 text-sm font-black tracking-[2px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)] hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3 group`}>
+                    className={`${!isLogin && signupStep > 1 ? "w-2/3" : "w-full"} bg-slate-900 text-white rounded-lg py-4 text-sm font-semibold tracking-[2px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)] hover:bg-black transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3 group`}>
                     {isLoading
                       ? "WORKING..."
                       : isLogin
@@ -1195,7 +1195,7 @@ const Auth = () => {
       </motion.div>
 
       {/* Bottom Tagline */}
-      <div className="absolute bottom-6 flex items-center gap-4 text-slate-300 text-[10px] font-black uppercase tracking-[6px]">
+      <div className="absolute bottom-6 flex items-center gap-4 text-slate-300 text-[10px] font-semibold uppercase tracking-[6px]">
         Empowering Business Digitalization
       </div>
 

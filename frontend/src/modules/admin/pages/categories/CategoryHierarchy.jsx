@@ -124,7 +124,7 @@ const CategoryHierarchy = () => {
         animate={{ opacity: 1, x: 0 }}
         onClick={onClick}
         className={`
-                    group flex items-center justify-between p-3 mx-2 my-1 rounded-lg border cursor-pointer transition-all duration-200
+                    group flex items-center justify-between p-3 mx-2 my-1 rounded-xl border cursor-pointer transition-all duration-200
                     ${activeClass}
                 `}>
         <div className="flex items-center gap-3 overflow-hidden">
@@ -167,13 +167,13 @@ const CategoryHierarchy = () => {
   return (
     <div className="h-[calc(100vh-100px)] flex flex-col gap-4 animate-in fade-in duration-500">
       {/* Top Bar */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-100 shadow-sm shrink-0">
+      <div className="flex items-center justify-between enterprise-card !p-4 shrink-0 flex-wrap gap-4">
         <div>
-          <h1 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-            <Layers className="w-6 h-6 text-brand-600" />
+          <h1 className="admin-h2 flex items-center gap-2">
+            <Layers className="w-6 h-6 text-[#0EA5A4]" />
             Category Hierarchy Explorer
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="admin-description mt-1">
             Visual overview of your catalog structure ({stats.total} items)
           </p>
         </div>
@@ -207,23 +207,23 @@ const CategoryHierarchy = () => {
       {/* Miller Columns View */}
       <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-3 md:grid-rows-[minmax(0,1fr)] gap-4 overflow-hidden">
         {/* Column 1: Headers */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col overflow-hidden min-h-0 h-full">
+        <div className="enterprise-table-container flex flex-col min-h-0 h-full">
           <ColumnHeader
             title="Header Categories"
             icon={LayoutGrid}
             count={filteredHeaders.length}
-            color="border-l-4 border-l-brand-500"
+            color="border-l-4 border-l-[#0EA5A4]"
           />
 
-          <div className="p-2 border-b border-gray-100">
+          <div className="p-3 border-b border-[#E8EDF5]">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search category"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-brand-100 transition-all"
+                className="w-full pl-9 pr-4 py-2 bg-[#F7F9FC] border border-[#E8EDF5] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0EA5A4]/20 focus:border-[#0EA5A4]/30 transition-all text-[#0F172A] placeholder-slate-400"
               />
             </div>
           </div>
@@ -262,7 +262,7 @@ const CategoryHierarchy = () => {
         </div>
 
         {/* Column 2: Level 2 */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col overflow-hidden min-h-0 h-full transition-all duration-300">
+        <div className="enterprise-table-container flex flex-col min-h-0 h-full transition-all duration-300">
           <ColumnHeader
             title="Level 2 Categories"
             icon={Folder}
@@ -314,12 +314,12 @@ const CategoryHierarchy = () => {
         </div>
 
         {/* Column 3: Subcategories */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col overflow-hidden min-h-0 h-full">
+        <div className="enterprise-table-container flex flex-col min-h-0 h-full">
           <ColumnHeader
             title="Subcategories"
             icon={Tag}
             count={activeSubs.length}
-            color="border-l-4 border-l-brand-500"
+            color="border-l-4 border-l-[#0EA5A4]"
           />
 
           {!selectedLevel2 ? (

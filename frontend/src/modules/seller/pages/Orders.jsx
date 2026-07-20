@@ -279,7 +279,7 @@ const Orders = () => {
                 {/* Page Header */}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
                     <div className="min-w-0">
-                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex flex-wrap items-center gap-2">
+                        <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 flex flex-wrap items-center gap-2">
                             Order Management
                             <Badge variant="primary" className="text-[10px] px-1.5 py-0 font-bold tracking-wider uppercase bg-brand-100 text-brand-700">Real-time</Badge>
                         </h1>
@@ -326,7 +326,7 @@ const Orders = () => {
                                         </div>
                                         <div className="min-w-0">
                                             <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest truncate">{stat.label}</p>
-                                            <h4 className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight">{stat.value}</h4>
+                                            <h4 className="text-lg sm:text-2xl font-semibold text-slate-900 tracking-tight">{stat.value}</h4>
                                         </div>
                                     </div>
                                 </MagicCard>
@@ -470,21 +470,21 @@ const Orders = () => {
                                         >
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0 flex-1" onClick={() => handleViewDetails(order)}>
-                                                    <p className="text-xs font-black text-slate-900 truncate">#{order.id}</p>
+                                                    <p className="text-xs font-semibold text-slate-900 truncate">#{order.id}</p>
                                                     <p className="text-xs font-semibold text-slate-600 mt-0.5 flex items-center gap-1">
                                                         <HiOutlineCalendarDays className="h-3 w-3 shrink-0" />
                                                         {order.date} • {order.time}
                                                     </p>
                                                     <div className="flex items-center gap-2 mt-2">
-                                                        <div className="h-7 w-7 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-black text-white shrink-0">
+                                                        <div className="h-7 w-7 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-semibold text-white shrink-0">
                                                             {order.customer.avatar}
                                                         </div>
                                                         <p className="text-xs font-bold text-slate-800 truncate">{order.customer.name}</p>
                                                     </div>
-                                                    <p className="text-sm font-black text-slate-900 mt-2">₹{order.total.toLocaleString()}</p>
+                                                    <p className="text-sm font-semibold text-slate-900 mt-2">₹{order.total.toLocaleString()}</p>
                                                 </div>
                                                 <div className="flex flex-col items-end gap-2 shrink-0">
-                                                    <Badge variant={getStatusColor(order.status)} className="text-[10px] font-black uppercase px-2 py-0">
+                                                    <Badge variant={getStatusColor(order.status)} className="text-[10px] font-semibold uppercase px-2 py-0">
                                                         {order.status}
                                                     </Badge>
                                                     <select
@@ -492,7 +492,7 @@ const Orders = () => {
                                                         onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
                                                         onClick={(e) => e.stopPropagation()}
                                                         className={cn(
-                                                            "w-full min-w-[100px] text-[10px] pl-2 pr-6 py-1.5 rounded-lg font-black uppercase cursor-pointer appearance-none border outline-none",
+                                                            "w-full min-w-[100px] text-[10px] pl-2 pr-6 py-1.5 rounded-lg font-semibold uppercase cursor-pointer appearance-none border outline-none",
                                                             order.status === 'pending' ? "bg-amber-100 text-amber-700" :
                                                                 order.status === 'delivered' ? "bg-brand-100 text-brand-700" :
                                                                     order.status === 'cancelled' ? "bg-rose-100 text-rose-700" : "bg-slate-100 text-slate-700"
@@ -556,7 +556,7 @@ const Orders = () => {
                                                     </td>
                                                     <td className="px-4 lg:px-6 py-3 lg:py-4">
                                                         <div className="flex items-center gap-3">
-                                                            <div className="h-8 w-8 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-black text-white shadow-sm ring-2 ring-white">
+                                                            <div className="h-8 w-8 rounded-full bg-slate-900 flex items-center justify-center text-[10px] font-semibold text-white shadow-sm ring-2 ring-white">
                                                                 {order.customer.avatar}
                                                             </div>
                                                             <div>
@@ -577,7 +577,7 @@ const Orders = () => {
                                                                 value={order.status}
                                                                 onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
                                                                 className={cn(
-                                                                    "w-full text-[10px] pl-2.5 pr-8 py-1.5 rounded-full font-black uppercase tracking-widest cursor-pointer appearance-none focus:ring-2 focus:ring-offset-1 transition-all border-none outline-none shadow-sm",
+                                                                    "w-full text-[10px] pl-2.5 pr-8 py-1.5 rounded-full font-semibold uppercase tracking-widest cursor-pointer appearance-none focus:ring-2 focus:ring-offset-1 transition-all border-none outline-none shadow-sm",
                                                                     order.status === 'pending' ? "bg-amber-100 text-amber-700 focus:ring-amber-200" :
                                                                         order.status === 'confirmed' ? "bg-brand-100 text-brand-700 focus:ring-brand-200" :
                                                                             order.status === 'packed' ? "bg-brand-100 text-brand-700 focus:ring-brand-200" :
@@ -700,7 +700,7 @@ const Orders = () => {
                                                 <HiOutlineChartBar className="h-4 w-4 sm:h-5 sm:w-5" />
                                             </div>
                                             <div className="min-w-0">
-                                                <h3 className="text-sm sm:text-base font-black text-slate-900 truncate">Quick Snapshot</h3>
+                                                <h3 className="text-sm sm:text-base font-semibold text-slate-900 truncate">Quick Snapshot</h3>
                                                 <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest">Today's Performance</p>
                                             </div>
                                         </div>
@@ -714,11 +714,11 @@ const Orders = () => {
                                         <div className="grid grid-cols-2 gap-3 sm:gap-4">
                                             <div className="p-3 sm:p-4 rounded-2xl bg-brand-50 border border-brand-100">
                                                 <p className="text-[10px] sm:text-xs font-bold text-brand-400 uppercase tracking-widest mb-1">Total Revenue</p>
-                                                <p className="text-base sm:text-xl font-black text-brand-700 truncate">₹{summary.totalAmount.toLocaleString('en-IN')}</p>
+                                                <p className="text-base sm:text-xl font-semibold text-brand-700 truncate">₹{summary.totalAmount.toLocaleString('en-IN')}</p>
                                             </div>
                                             <div className="p-3 sm:p-4 rounded-2xl bg-brand-50 border border-brand-100">
                                                 <p className="text-[10px] sm:text-xs font-bold text-brand-400 uppercase tracking-widest mb-1">Avg. Order Value</p>
-                                                <p className="text-base sm:text-xl font-black text-brand-700">₹{summary.totalOrders ? (summary.totalAmount / summary.totalOrders).toFixed(0) : '0'}</p>
+                                                <p className="text-base sm:text-xl font-semibold text-brand-700">₹{summary.totalOrders ? (summary.totalAmount / summary.totalOrders).toFixed(0) : '0'}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -761,9 +761,9 @@ const Orders = () => {
                                                 <HiOutlineTruck className="h-5 w-5" />
                                             </div>
                                             <div>
-                                                <h3 className="text-base font-black text-slate-900">Order Details</h3>
+                                                <h3 className="text-base font-semibold text-slate-900">Order Details</h3>
                                                 <div className="flex items-center space-x-2 mt-0.5">
-                                                    <Badge variant={getStatusColor(selectedOrder.status)} className="text-[10px] font-black uppercase tracking-widest px-1.5 py-0">{selectedOrder.status}</Badge>
+                                                    <Badge variant={getStatusColor(selectedOrder.status)} className="text-[10px] font-semibold uppercase tracking-widest px-1.5 py-0">{selectedOrder.status}</Badge>
                                                     <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">#{selectedOrder.id}</span>
                                                 </div>
                                                 {(selectedOrder.date || selectedOrder.time) && (
@@ -791,7 +791,7 @@ const Orders = () => {
                                             <div className="space-y-3 sm:space-y-4">
                                                 <div>
                                                     <div className="flex items-center justify-between gap-2 mb-2">
-                                                        <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest flex items-center gap-2">
+                                                        <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest flex items-center gap-2">
                                                             <HiOutlineMapPin className="h-3 w-3 text-primary" /> Delivery Address
                                                         </h4>
                                                         {selectedOrder.location &&
@@ -817,7 +817,7 @@ const Orders = () => {
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                                    <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
                                                         <HiOutlinePhone className="h-3 w-3 text-brand-500" /> Contact Info
                                                     </h4>
                                                     <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100 shadow-sm">
@@ -828,25 +828,25 @@ const Orders = () => {
                                             </div>
                                             <div className="space-y-3 sm:space-y-4">
                                                 <div className="bg-primary/5 p-3 sm:p-4 rounded-3xl border border-primary/10">
-                                                    <h4 className="text-xs font-black text-primary uppercase tracking-widest mb-3">Order Summary</h4>
+                                                    <h4 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">Order Summary</h4>
                                                     <div className="space-y-2">
                                                         <div className="flex justify-between text-xs">
                                                             <span className="font-bold text-slate-600">Subtotal</span>
-                                                            <span className="font-black text-slate-900">₹{(selectedOrder.total - 10).toFixed(2)}</span>
+                                                            <span className="font-semibold text-slate-900">₹{(selectedOrder.total - 10).toFixed(2)}</span>
                                                         </div>
                                                         <div className="flex justify-between text-xs">
                                                             <span className="font-bold text-slate-600">Delivery Fee</span>
-                                                            <span className="font-black text-brand-600">₹10.00</span>
+                                                            <span className="font-semibold text-brand-600">₹10.00</span>
                                                         </div>
                                                         <div className="h-px bg-primary/10 my-2" />
                                                         <div className="flex justify-between text-sm">
-                                                            <span className="font-black text-slate-900">Total</span>
-                                                            <span className="font-black text-primary">₹{selectedOrder.total.toFixed(2)}</span>
+                                                            <span className="font-semibold text-slate-900">Total</span>
+                                                            <span className="font-semibold text-primary">₹{selectedOrder.total.toFixed(2)}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="bg-slate-900 p-3 sm:p-4 rounded-3xl text-white shadow-xl shadow-slate-900/10">
-                                                    <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2">Payment Status</h4>
+                                                    <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2">Payment Status</h4>
                                                     <div className="flex items-center gap-2">
                                                         <HiOutlineBanknotes className="h-5 w-5 text-brand-400" />
                                                         <span className="text-xs font-bold tracking-tight">{selectedOrder.payment}</span>
@@ -855,7 +855,7 @@ const Orders = () => {
                                             </div>
                                         </div>
 
-                                        <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-3 sm:mb-4">Items Ordered ({selectedOrder.items.length})</h4>
+                                        <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-3 sm:mb-4">Items Ordered ({selectedOrder.items.length})</h4>
                                         <div className="space-y-3 max-h-52 sm:max-h-64 overflow-y-auto pr-1">
                                             {selectedOrder.items.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between p-3 bg-white ring-1 ring-slate-100 rounded-2xl group hover:shadow-md transition-all">
@@ -869,7 +869,7 @@ const Orders = () => {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="text-xs font-black text-slate-900">₹{(item.price * item.qty).toFixed(2)}</p>
+                                                        <p className="text-xs font-semibold text-slate-900">₹{(item.price * item.qty).toFixed(2)}</p>
                                                     </div>
                                                 </div>
                                             ))}
@@ -885,7 +885,7 @@ const Orders = () => {
                                                     value={selectedOrder.status.toLowerCase()}
                                                     onChange={(e) => handleStatusUpdate(selectedOrder.id, e.target.value)}
                                                     className={cn(
-                                                        "w-full text-xs pl-3 pr-8 py-2 rounded-xl font-black uppercase tracking-wider border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
+                                                        "w-full text-xs pl-3 pr-8 py-2 rounded-xl font-semibold uppercase tracking-wider border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
                                                         getStatusColor(selectedOrder.status) === 'warning' ? "bg-amber-100 text-amber-700 focus:ring-amber-200" :
                                                             getStatusColor(selectedOrder.status) === 'info' ? "bg-brand-100 text-brand-700 focus:ring-brand-200" :
                                                                 getStatusColor(selectedOrder.status) === 'primary' ? "bg-brand-100 text-brand-700 focus:ring-brand-200" :

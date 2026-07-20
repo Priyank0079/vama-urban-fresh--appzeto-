@@ -25,10 +25,6 @@ const BottomNav = () => {
                         to={item.path}
                         className="flex-1 flex flex-col items-center justify-center h-full relative group transition-all"
                     >
-                        {isActive && (
-                            <div className="absolute -inset-y-2 -inset-x-4 bg-primary/5 rounded-[20px] -z-10 transition-opacity duration-300" />
-                        )}
-
                         <div className="flex flex-col items-center justify-center relative">
                             <div
                                 className={cn(
@@ -57,9 +53,9 @@ const BottomNav = () => {
                             </span>
                         </div>
 
-                        {/* Top Accent Line for Active State */}
+                        {/* Bottom Accent Line for Active State */}
                         {isActive && (
-                            <div className="absolute -top-[1px] w-8 h-[3px] bg-primary rounded-full transition-opacity duration-300" />
+                            <div className="absolute bottom-0 w-8 h-1 bg-primary rounded-t-lg transition-opacity duration-300" />
                         )}
                     </Link>
                 );

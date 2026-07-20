@@ -34,7 +34,7 @@ const CheckoutPaymentSelector = React.memo(function CheckoutPaymentSelector({
                 <Wallet size={16} className="text-primary" />
               </div>
               <div>
-                <h3 className="font-black text-slate-800 text-sm tracking-tight uppercase">
+                <h3 className="font-semibold text-slate-800 text-sm tracking-tight uppercase">
                   Use Wallet Balance
                 </h3>
                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
@@ -62,7 +62,7 @@ const CheckoutPaymentSelector = React.memo(function CheckoutPaymentSelector({
                 <span className="text-[11px] font-bold text-slate-600 uppercase">
                   Amount to be used
                 </span>
-                <span className="text-[13px] font-black text-primary">
+                <span className="text-[13px] font-semibold text-primary">
                   ₹{walletAmountToUse}
                 </span>
               </div>
@@ -73,7 +73,7 @@ const CheckoutPaymentSelector = React.memo(function CheckoutPaymentSelector({
 
       {/* Payment Method */}
       <motion.div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-        <h3 className="font-black text-slate-800 mb-4 uppercase text-sm tracking-widest">
+        <h3 className="font-semibold text-slate-800 mb-4 uppercase text-sm tracking-widest">
           Payment Method
         </h3>
         <div className="space-y-2">

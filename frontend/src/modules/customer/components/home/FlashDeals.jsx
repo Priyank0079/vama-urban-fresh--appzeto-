@@ -17,14 +17,14 @@ const FlashDeals = ({ products }) => {
                         </div>
                         <div>
                             <div className="flex items-center justify-center md:justify-start gap-2 mb-1">
-                                <span className="bg-orange-500 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest">
+                                <span className="bg-orange-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded uppercase tracking-widest">
                                     Limited Time
                                 </span>
                                 <div className="flex items-center gap-1 text-orange-600 font-bold text-xs uppercase">
                                     <Timer size={14} /> Ending in 02:45:10
                                 </div>
                             </div>
-                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Flash Deals</h2>
+                            <h2 className="text-3xl md:text-5xl font-semibold text-slate-900 tracking-tight">Flash Deals</h2>
                         </div>
                     </div>
 

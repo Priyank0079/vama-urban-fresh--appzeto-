@@ -169,13 +169,13 @@ const OrderProgressTracker = ({
                 <p className="text-xs font-bold text-amber-700 uppercase tracking-wider">
                   Estimated Time
                 </p>
-                <p className="text-lg font-black text-amber-900">{estimatedArrivalText}</p>
+                <p className="text-lg font-semibold text-amber-900">{estimatedArrivalText}</p>
               </div>
             </div>
             <div className="text-right flex flex-col items-end gap-1">
               <div>
                 <p className="text-xs text-amber-600 font-semibold">Arriving in</p>
-                <p className="text-2xl font-black text-amber-900">{arrivingInText}</p>
+                <p className="text-2xl font-semibold text-amber-900">{arrivingInText}</p>
               </div>
               <div className="inline-flex items-center rounded-full bg-white/80 px-3 py-1 text-[11px] font-bold text-amber-700 ring-1 ring-amber-200">
                 Total distance: {totalDistanceText}

@@ -90,8 +90,8 @@ const SlideToPay = ({
                 className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
                 style={{ opacity: textOpacity }}
             >
-                <span className="text-white font-black text-sm md:text-[13px] tracking-[0.25em] uppercase flex items-center gap-2">
-                    {text} <span className="text-white/40">|</span> <span className="text-brand-50 font-extrabold">₹{amount}</span>
+                <span className="text-white font-semibold text-sm md:text-[13px] tracking-[0.25em] uppercase flex items-center gap-2">
+                    {text} <span className="text-white/40">|</span> <span className="text-brand-50 font-semibold">₹{amount}</span>
                 </span>
 
                 <div className="absolute right-4 animate-pulse text-white/70">
@@ -104,7 +104,7 @@ const SlideToPay = ({
                 <motion.div
                     className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
                 >
-                    <span className="text-white font-black text-lg tracking-wide uppercase flex items-center gap-2">
+                    <span className="text-white font-semibold text-lg tracking-wide uppercase flex items-center gap-2">
                         Processing <span className="animate-pulse">...</span>
                     </span>
                 </motion.div>

@@ -230,7 +230,7 @@ const LiveTrackingMap = memo(({
         <div className="h-14 w-14 rounded-full bg-slate-200 flex items-center justify-center text-slate-600">
           <Clock size={28} />
         </div>
-        <h3 className="text-lg font-black text-slate-800 text-center">
+        <h3 className="text-lg font-semibold text-slate-800 text-center">
           Order cancelled
         </h3>
         <p className="text-sm text-slate-500 text-center max-w-sm font-medium">
@@ -250,7 +250,7 @@ const LiveTrackingMap = memo(({
           className="h-16 w-16 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-brand-200">
           <Clock size={30} className="text-white" />
         </motion.div>
-        <h3 className="text-lg font-black text-gray-800 text-center">
+        <h3 className="text-lg font-semibold text-gray-800 text-center">
           Waiting for seller to accept
         </h3>
         <p className="text-sm text-gray-500 text-center max-w-sm font-medium">
@@ -291,7 +291,7 @@ const LiveTrackingMap = memo(({
 
         {/* Text */}
         <div className="relative z-10 text-center px-6">
-          <h3 className="text-lg font-black text-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800">
             Searching for delivery partner{dots}
           </h3>
           <p className="text-sm text-gray-500 mt-1 font-medium">
@@ -424,7 +424,7 @@ const LiveTrackingMap = memo(({
             <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
               Arriving in
             </p>
-            <h2 className="text-xl font-black text-gray-900 leading-none">
+            <h2 className="text-xl font-semibold text-gray-900 leading-none">
               {eta}
             </h2>
           </div>

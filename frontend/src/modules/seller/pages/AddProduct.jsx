@@ -649,7 +649,7 @@ const AddProduct = () => {
                       We show this image on the search page and the main
                       store listing. Make sure it is clear and bright.
                     </p>
-                    <button className="text-[10px] font-black text-primary uppercase tracking-wider hover:underline">
+                    <button className="text-[10px] font-semibold text-primary uppercase tracking-wider hover:underline">
                       Pick from Library
                     </button>
                   </div>

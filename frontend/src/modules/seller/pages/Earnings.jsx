@@ -71,7 +71,7 @@ const Earnings = () => {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen font-black text-slate-600">LOADING EARNINGS...</div>;
+    return <div className="flex items-center justify-center h-screen font-semibold text-slate-600">LOADING EARNINGS...</div>;
   }
   return (
     <div className="space-y-8 pb-16">
@@ -145,10 +145,10 @@ const Earnings = () => {
           <Card className="h-full border-none shadow-md bg-white p-6 flex flex-col justify-between group hover:shadow-xl transition-all duration-300">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-xs font-black text-slate-600 uppercase tracking-widest mb-1">
+                <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-1">
                   Total Withdrawn
                 </p>
-                <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+                <h2 className="text-3xl font-semibold text-slate-900 tracking-tight">
                   ₹{Number(data?.balances?.totalWithdrawn ?? 0).toLocaleString()}
                 </h2>
               </div>
@@ -165,7 +165,7 @@ const Earnings = () => {
                   <p className="text-xs font-bold text-slate-600 uppercase">
                     Available to Withdraw
                   </p>
-                  <p className="text-xs font-black text-slate-900">
+                  <p className="text-xs font-semibold text-slate-900">
                     ₹{Number(data?.balances?.settledBalance ?? 0).toLocaleString()}
                   </p>
                 </div>
@@ -178,7 +178,7 @@ const Earnings = () => {
       <BlurFade delay={0.4}>
         <Card className="p-6 border-none shadow-md bg-white">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-brand-500" />
               Monthly Revenue Performance
             </h3>
@@ -250,7 +250,7 @@ const Earnings = () => {
                 <Banknote className="h-8 w-8 text-brand-600" />
               </div>
 
-              <h2 className="text-2xl font-black text-slate-900 mb-2">
+              <h2 className="text-2xl font-semibold text-slate-900 mb-2">
                 Withdraw Funds
               </h2>
               <p className="text-sm text-slate-600 font-medium mb-8">
@@ -288,7 +288,7 @@ const Earnings = () => {
                       <Building2 className="h-5 w-5" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-black text-slate-900">
+                      <p className="text-sm font-semibold text-slate-900">
                         HDFC Bank **** 4589
                       </p>
                       <p className="text-xs text-slate-600 font-bold">
@@ -303,7 +303,7 @@ const Earnings = () => {
               <div className="grid grid-cols-2 gap-3 mt-8">
                 <button
                   onClick={() => setIsWithdrawModalOpen(false)}
-                  className="py-3 rounded-lg font-black text-slate-600 hover:bg-slate-50 transition-colors">
+                  className="py-3 rounded-lg font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
                   CANCEL
                 </button>
                 <button
@@ -311,7 +311,7 @@ const Earnings = () => {
                     setIsWithdrawModalOpen(false);
                     alert("Withdrawal request submitted!");
                   }}
-                  className="py-3 rounded-lg bg-black  text-primary-foreground font-black shadow-lg shadow-brand-200 hover:bg-brand-700 hover:shadow-brand-300 transition-all">
+                  className="py-3 rounded-lg bg-black  text-primary-foreground font-semibold shadow-lg shadow-brand-200 hover:bg-brand-700 hover:shadow-brand-300 transition-all">
                   CONFIRM
                 </button>
               </div>

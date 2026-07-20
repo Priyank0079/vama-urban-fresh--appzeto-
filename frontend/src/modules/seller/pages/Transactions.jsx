@@ -138,7 +138,7 @@ const Transactions = () => {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen font-black text-slate-600">LOADING TRANSACTIONS...</div>;
+    return <div className="flex items-center justify-center h-screen font-semibold text-slate-600">LOADING TRANSACTIONS...</div>;
   }
 
   return (
@@ -147,7 +147,7 @@ const Transactions = () => {
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
+            <h1 className="text-2xl font-semibold text-slate-900 flex items-center gap-2">
               Transaction Ledger
               <Badge
                 variant="primary"
@@ -219,10 +219,10 @@ const Transactions = () => {
                   <stat.icon className="h-7 w-7" />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     {stat.label}
                   </p>
-                  <h4 className="text-3xl font-black text-slate-900 tracking-tight">
+                  <h4 className="text-3xl font-semibold text-slate-900 tracking-tight">
                     {stat.value}
                   </h4>
                 </div>
@@ -267,19 +267,19 @@ const Transactions = () => {
             <table className="w-full text-left min-w-[720px]">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-6 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     Transaction Details
                   </th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     Reference
                   </th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     Amount
                   </th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-xs font-black text-slate-600 uppercase tracking-widest text-right">
+                  <th className="px-6 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest text-right">
                     Actions
                   </th>
                 </tr>
@@ -307,7 +307,7 @@ const Transactions = () => {
                         <div className="flex items-center gap-4">
                           <div
                             className={cn(
-                              "h-10 w-10 rounded-lg flex items-center justify-center font-black transition-all group-hover:scale-110",
+                              "h-10 w-10 rounded-lg flex items-center justify-center font-semibold transition-all group-hover:scale-110",
                               txn.amount > 0
                                 ? "bg-brand-50 text-brand-600"
                                 : "bg-rose-50 text-rose-600",
@@ -319,7 +319,7 @@ const Transactions = () => {
                             )}
                           </div>
                           <div>
-                            <p className="text-sm font-black text-slate-900 group-hover:text-primary transition-colors">
+                            <p className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">
                               {txn.id ?? txn.ref ?? "—"}
                             </p>
                             <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
@@ -344,7 +344,7 @@ const Transactions = () => {
                       <td className="px-6 py-5">
                         <p
                           className={cn(
-                            "text-sm font-black tracking-tight",
+                            "text-sm font-semibold tracking-tight",
                             Number(txn.amount ?? 0) > 0
                               ? "text-brand-600"
                               : "text-rose-600",
@@ -365,7 +365,7 @@ const Transactions = () => {
                                 ? "warning"
                                 : "default"
                           }
-                          className="text-[10px] sm:text-xs font-black uppercase tracking-widest px-2-5 py-0.5 rounded-lg">
+                          className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest px-2-5 py-0.5 rounded-lg">
                           {txn.status === "Settled" ? (
                             <HiOutlineCheckCircle className="mr-1 h-3 w-3" />
                           ) : (
@@ -418,18 +418,18 @@ const Transactions = () => {
         {selectedTxn && (
           <div className="space-y-6">
             <div className="text-center p-6 bg-slate-50 rounded-lg border border-slate-100">
-              <p className="text-xs font-black text-slate-600 uppercase tracking-widest mb-1">
+              <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-1">
                 Total Amount
               </p>
               <h2
                 className={cn(
-                  "text-4xl font-black tracking-tight",
+                  "text-4xl font-semibold tracking-tight",
                   Number(selectedTxn.amount ?? 0) > 0 ? "text-brand-600" : "text-rose-600",
                 )}>
                 {Number(selectedTxn.amount ?? 0) > 0 ? "+" : ""}₹
                 {Math.abs(Number(selectedTxn.amount ?? 0)).toLocaleString()}
               </h2>
-              <Badge className="mt-4 uppercase font-black text-[10px] sm:text-xs px-3 py-1">
+              <Badge className="mt-4 uppercase font-semibold text-[10px] sm:text-xs px-3 py-1">
                 {selectedTxn.status ?? "—"}
               </Badge>
             </div>
@@ -437,13 +437,13 @@ const Transactions = () => {
             <div className="space-y-4">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-600 font-bold">Transaction ID</span>
-                <span className="text-slate-900 font-black">
+                <span className="text-slate-900 font-semibold">
                   {selectedTxn.id ?? selectedTxn.ref ?? "—"}
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-600 font-bold">Type</span>
-                <span className="text-slate-900 font-black">
+                <span className="text-slate-900 font-semibold">
                   {selectedTxn.type ?? "—"}
                 </span>
               </div>
@@ -451,19 +451,19 @@ const Transactions = () => {
                 <span className="text-slate-600 font-bold">
                   Customer/Recipient
                 </span>
-                <span className="text-slate-900 font-black">
+                <span className="text-slate-900 font-semibold">
                   {selectedTxn.customer ?? "—"}
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-600 font-bold">Reference</span>
-                <span className="text-slate-900 font-black">
+                <span className="text-slate-900 font-semibold">
                   {selectedTxn.ref ?? "—"}
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm">
                 <span className="text-slate-600 font-bold">Date & Time</span>
-                <span className="text-slate-900 font-black">
+                <span className="text-slate-900 font-semibold">
                   {selectedTxn.date && selectedTxn.time
                     ? `${selectedTxn.date} at ${selectedTxn.time}`
                     : selectedTxn.createdAt
@@ -486,12 +486,12 @@ const Transactions = () => {
               <Button
                 variant="outline"
                 onClick={() => window.print()}
-                className="rounded-lg py-4 font-black bg-white">
+                className="rounded-lg py-4 font-semibold bg-white">
                 PRINT RECEIPT
               </Button>
               <Button
                 onClick={() => setIsDetailModalOpen(false)}
-                className="rounded-lg py-4 font-black shadow-xl shadow-primary/20">
+                className="rounded-lg py-4 font-semibold shadow-xl shadow-primary/20">
                 CLOSE
               </Button>
             </div>

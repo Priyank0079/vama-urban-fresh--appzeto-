@@ -44,7 +44,7 @@ const Footer = () => {
 
                     {/* Quick Links */}
                     <div className="md:pt-4">
-                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-black md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
+                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-semibold md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
                             <span className="h-1 w-4 hidden md:block" style={{ backgroundColor: primaryColor }}></span> Quick Links
                         </h3>
                         <ul className="space-y-2 md:space-y-4">
@@ -58,7 +58,7 @@ const Footer = () => {
 
                     {/* Categories */}
                     <div className="md:pt-4">
-                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-black md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
+                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-semibold md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
                             <span className="h-1 w-4 hidden md:block" style={{ backgroundColor: primaryColor }}></span> Categories
                         </h3>
                         <ul className="space-y-2 md:space-y-4">
@@ -72,7 +72,7 @@ const Footer = () => {
 
                     {/* Contact Info */}
                     <div className="md:pt-4">
-                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-black md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
+                        <h3 className="text-white font-bold text-lg mb-4 md:text-xl md:font-semibold md:uppercase md:tracking-widest md:mb-8 flex items-center gap-2">
                             <span className="h-1 w-4 hidden md:block" style={{ backgroundColor: primaryColor }}></span> Contact Us
                         </h3>
                         <ul className="space-y-4 md:space-y-6">

@@ -31,12 +31,12 @@ const CustomerLayout = ({ children, showHeader: showHeaderProp, fullHeight = fal
                             <ShieldCheck size={28} />
                         </div>
                         <div className="flex-1">
-                            <h3 className="text-lg font-black text-slate-900 leading-tight mb-1">Return Pickup OTP</h3>
+                            <h3 className="text-lg font-semibold text-slate-900 leading-tight mb-1">Return Pickup OTP</h3>
                             <p className="text-sm text-slate-500 font-medium mb-3">
                                 Share this code with the delivery partner to confirm your return pickup.
                             </p>
                             <div className="flex items-center gap-2">
-                                <span className="text-3xl font-black tracking-[0.2em] text-brand-600 bg-brand-50 px-4 py-2 rounded-xl border border-brand-100">
+                                <span className="text-3xl font-semibold tracking-[0.2em] text-brand-600 bg-brand-50 px-4 py-2 rounded-xl border border-brand-100">
                                     {payload.otp}
                                 </span>
                             </div>
@@ -55,12 +55,12 @@ const CustomerLayout = ({ children, showHeader: showHeaderProp, fullHeight = fal
                             <Package size={28} />
                         </div>
                         <div className="flex-1">
-                            <h3 className="text-lg font-black text-slate-900 leading-tight mb-1">Return Received Alert</h3>
+                            <h3 className="text-lg font-semibold text-slate-900 leading-tight mb-1">Return Received Alert</h3>
                             <p className="text-sm text-slate-500 font-medium mb-3">
                                 Use this code to confirm that your return has reached the seller.
                             </p>
                             <div className="flex items-center gap-2">
-                                <span className="text-3xl font-black tracking-[0.2em] text-green-600 bg-green-50 px-4 py-2 rounded-xl border border-green-100">
+                                <span className="text-3xl font-semibold tracking-[0.2em] text-green-600 bg-green-50 px-4 py-2 rounded-xl border border-green-100">
                                     {payload.otp}
                                 </span>
                             </div>

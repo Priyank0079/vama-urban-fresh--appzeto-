@@ -117,7 +117,7 @@ const AdminProfile = () => {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={logout}
-                        className="flex items-center gap-2 px-5 py-3 bg-white ring-1 ring-slate-200 text-slate-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 hover:text-red-600 transition-all shadow-sm"
+                        className="flex items-center gap-2 px-5 py-3 bg-white ring-1 ring-slate-200 text-slate-700 rounded-2xl text-[10px] font-semibold uppercase tracking-widest hover:bg-slate-50 hover:text-red-600 transition-all shadow-sm"
                     >
                         <LogOut className="h-4 w-4" />
                         Sign Out
@@ -133,7 +133,7 @@ const AdminProfile = () => {
                             <div className="relative group cursor-pointer">
                                 <div className="h-32 w-32 rounded-full ring-4 ring-slate-50 bg-slate-100 flex items-center justify-center overflow-hidden">
                                     {/* Placeholder Avatar */}
-                                    <span className="text-4xl font-black text-slate-300">
+                                    <span className="text-4xl font-semibold text-slate-300">
                                         {profile.name?.charAt(0)}
                                     </span>
                                 </div>
@@ -141,10 +141,10 @@ const AdminProfile = () => {
                                     <Camera className="h-8 w-8 text-white" />
                                 </div>
                             </div>
-                            <h2 className="mt-6 ds-h2 font-black text-slate-900">{profile.name}</h2>
+                            <h2 className="mt-6 ds-h2 font-semibold text-slate-900">{profile.name}</h2>
                             <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 ring-1 ring-brand-200">
                                 <Shield className="h-3 w-3" />
-                                <span className="text-[10px] font-black uppercase tracking-widest">{profile.role}</span>
+                                <span className="text-[10px] font-semibold uppercase tracking-widest">{profile.role}</span>
                             </div>
                         </div>
                         <div className="p-2 bg-slate-50/50">
@@ -183,14 +183,14 @@ const AdminProfile = () => {
                     {activeTab === 'profile' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30 flex items-center justify-between">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     Edit Profile
                                 </h3>
                             </div>
                             <form onSubmit={handleProfileUpdate} className="p-8 space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Full Name</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Full Name</label>
                                         <input
                                             type="text"
                                             value={profile.name}
@@ -200,7 +200,7 @@ const AdminProfile = () => {
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Email Address</label>
                                         <div className="relative group">
                                             <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                             <input
@@ -219,7 +219,7 @@ const AdminProfile = () => {
                                         type="submit"
                                         disabled={isSaving}
                                         className={cn(
-                                            "flex items-center gap-2 px-4 py-4 bg-black  text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-brand-100 active:scale-95",
+                                            "flex items-center gap-2 px-4 py-4 bg-black  text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all shadow-xl shadow-brand-100 active:scale-95",
                                             isSaving ? "opacity-70 cursor-wait" : "hover:bg-brand-700"
                                         )}
                                     >
@@ -234,13 +234,13 @@ const AdminProfile = () => {
                     {activeTab === 'security' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden animate-in fade-in slide-in-from-right-4 duration-500">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     Change Password
                                 </h3>
                             </div>
                             <form onSubmit={handlePasswordUpdate} className="p-8 space-y-6">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Current Password</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Current Password</label>
                                     <div className="relative group">
                                         <Key className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                         <input
@@ -254,7 +254,7 @@ const AdminProfile = () => {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">New Password</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">New Password</label>
                                         <div className="relative group">
                                             <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500" />
                                             <input
@@ -267,7 +267,7 @@ const AdminProfile = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Confirm New Password</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Confirm New Password</label>
                                         <div className="relative group">
                                             <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500" />
                                             <input
@@ -286,7 +286,7 @@ const AdminProfile = () => {
                                         type="submit"
                                         disabled={isSaving}
                                         className={cn(
-                                            "flex items-center gap-2 px-4 py-4 bg-black  text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-brand-100 active:scale-95",
+                                            "flex items-center gap-2 px-4 py-4 bg-black  text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all shadow-xl shadow-brand-100 active:scale-95",
                                             isSaving ? "opacity-70 cursor-wait" : "hover:bg-brand-700"
                                         )}
                                     >

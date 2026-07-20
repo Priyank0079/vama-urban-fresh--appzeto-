@@ -118,7 +118,7 @@ const Withdrawals = () => {
     };
 
     if (loading) {
-        return <div className="flex items-center justify-center h-screen font-black text-slate-600">LOADING WITHDRAWALS...</div>;
+        return <div className="flex items-center justify-center h-screen font-semibold text-slate-600">LOADING WITHDRAWALS...</div>;
     }
 
     const balances = {
@@ -133,7 +133,7 @@ const Withdrawals = () => {
             <BlurFade delay={0.1}>
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
+                        <h1 className="text-2xl font-semibold text-slate-900 flex items-center gap-3">
                             Money Requests
                             <div className="p-1.5 bg-brand-100 rounded-lg">
                                 <Wallet className="h-5 w-5 text-brand-600" />
@@ -143,7 +143,7 @@ const Withdrawals = () => {
                     </div>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl active:scale-95 flex items-center gap-2 group"
+                        className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-xs font-semibold uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl active:scale-95 flex items-center gap-2 group"
                     >
                         <ArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         New Request
@@ -171,8 +171,8 @@ const Withdrawals = () => {
                                 )}>
                                     <stat.icon className="h-5 w-5" />
                                 </div>
-                                <p className="text-xs font-black text-slate-600 uppercase tracking-widest mb-1">{stat.label}</p>
-                                <h3 className="text-3xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                                <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-1">{stat.label}</p>
+                                <h3 className="text-3xl font-semibold text-slate-900 tracking-tight">{stat.value}</h3>
                                 <p className="text-xs font-bold text-slate-600 mt-2 flex items-center gap-1.5 uppercase">
                                     <span className="w-1 h-3 rounded-full bg-slate-100" />
                                     {stat.sub}
@@ -190,7 +190,7 @@ const Withdrawals = () => {
             <BlurFade delay={0.5}>
                 <Card className="border-none shadow-xl ring-1 ring-slate-100 overflow-hidden bg-white rounded-3xl">
                     <div className="p-4 sm:p-6 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-                        <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+                        <h2 className="text-base sm:text-lg font-semibold text-slate-900 flex items-center gap-2">
                             <History className="h-5 w-5 text-brand-500" />
                             Withdrawal History
                         </h2>
@@ -209,10 +209,10 @@ const Withdrawals = () => {
                         <table className="w-full text-left min-w-[640px]">
                             <thead>
                                 <tr className="bg-slate-50/50">
-                                    <th className="px-8 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">Request Details</th>
-                                    <th className="px-8 py-4 text-xs font-black text-slate-600 uppercase tracking-widest">Amount</th>
-                                    <th className="px-8 py-4 text-xs font-black text-slate-600 uppercase tracking-widest text-center">Status</th>
-                                    <th className="px-8 py-4 text-xs font-black text-slate-600 uppercase tracking-widest text-right">Method</th>
+                                    <th className="px-8 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">Request Details</th>
+                                    <th className="px-8 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest">Amount</th>
+                                    <th className="px-8 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest text-center">Status</th>
+                                    <th className="px-8 py-4 text-xs font-semibold text-slate-600 uppercase tracking-widest text-right">Method</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -225,16 +225,16 @@ const Withdrawals = () => {
                                 ) : paginatedHistory.map((item, idx) => (
                                     <tr key={item.id || item.ref || item.reference || `wd-${idx}`} className="group hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-5">
-                                            <p className="text-sm font-black text-slate-900">{item.id}</p>
+                                            <p className="text-sm font-semibold text-slate-900">{item.id}</p>
                                             <p className="text-xs font-bold text-slate-600 mt-0.5 uppercase tracking-tighter">{item.date} • {item.time}</p>
                                         </td>
                                         <td className="px-8 py-5">
-                                            <p className="text-sm font-black text-slate-900">₹{Math.abs(item.amount).toLocaleString()}</p>
+                                            <p className="text-sm font-semibold text-slate-900">₹{Math.abs(item.amount).toLocaleString()}</p>
                                         </td>
                                         <td className="px-8 py-5 text-center">
                                             <Badge
                                                 variant={item.status === 'Settled' ? 'success' : (item.status === 'Pending' || item.status === 'Processing') ? 'warning' : 'danger'}
-                                                className="text-[8px] font-black px-2.5 py-0.5 uppercase tracking-widest rounded-lg"
+                                                className="text-[8px] font-semibold px-2.5 py-0.5 uppercase tracking-widest rounded-lg"
                                             >
                                                 {item.status === 'Settled' ? <CheckCircle2 className="h-3 w-3 mr-1" /> : (item.status === 'Pending' || item.status === 'Processing') ? <Clock className="h-3 w-3 mr-1" /> : <XCircle className="h-3 w-3 mr-1" />}
                                                 {item.status}
@@ -246,7 +246,7 @@ const Withdrawals = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => handleDownloadReceipt(item)}
-                                                className="text-[10px] font-black text-brand-500 hover:text-brand-600 mt-1 uppercase tracking-widest flex items-center gap-1 justify-end ml-auto"
+                                                className="text-[10px] font-semibold text-brand-500 hover:text-brand-600 mt-1 uppercase tracking-widest flex items-center gap-1 justify-end ml-auto"
                                             >
                                                 Receipt <Download className="h-3 w-3" />
                                             </button>
@@ -285,8 +285,8 @@ const Withdrawals = () => {
                 <form onSubmit={handleSubmitRequest} className="space-y-6 py-4">
                     <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex items-center justify-between">
                         <div>
-                            <p className="text-xs font-black text-slate-600 uppercase tracking-widest mb-1">Available to Withdraw</p>
-                            <h4 className="text-2xl font-black text-brand-600">₹{balances.available.toLocaleString()}</h4>
+                            <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-1">Available to Withdraw</p>
+                            <h4 className="text-2xl font-semibold text-brand-600">₹{balances.available.toLocaleString()}</h4>
                         </div>
                         <div className="h-12 w-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
                             <Info className="h-6 w-6 text-slate-300" />
@@ -295,27 +295,27 @@ const Withdrawals = () => {
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2 block ml-1">Enter Amount</label>
+                            <label className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2 block ml-1">Enter Amount</label>
                             <div className="relative group">
-                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl font-black text-slate-300 group-focus-within:text-brand-500 transition-colors">₹</span>
+                                <span className="absolute left-5 top-1/2 -translate-y-1/2 text-2xl font-semibold text-slate-300 group-focus-within:text-brand-500 transition-colors">₹</span>
                                 <input
                                     type="number"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
                                     placeholder="0.00"
-                                    className="w-full pl-12 pr-6 py-4 bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 rounded-2xl text-xl font-black outline-none transition-all placeholder:text-slate-200"
+                                    className="w-full pl-12 pr-6 py-4 bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 rounded-2xl text-xl font-semibold outline-none transition-all placeholder:text-slate-200"
                                 />
                             </div>
                         </div>
 
                         <div className="p-4 bg-brand-50/50 rounded-2xl border border-brand-100/50 space-y-3">
-                            <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest mb-1">Transfer Destination</p>
+                            <p className="text-[10px] font-semibold text-brand-600 uppercase tracking-widest mb-1">Transfer Destination</p>
                             <div className="flex items-center gap-4">
                                 <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
                                     <Building2 className="h-5 w-5 text-brand-400" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="text-xs font-black text-slate-900 uppercase">HDFC Bank Limited</p>
+                                    <p className="text-xs font-semibold text-slate-900 uppercase">HDFC Bank Limited</p>
                                     <p className="text-[10px] font-bold text-slate-600 uppercase tracking-tighter">Acct Ending in **** 4589</p>
                                 </div>
                                 <ArrowRight className="h-4 w-4 text-slate-300" />
@@ -327,14 +327,14 @@ const Withdrawals = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-2 hover:bg-slate-800 disabled:opacity-50 transition-all active:scale-95"
+                            className="w-full py-4 bg-slate-900 text-white rounded-2xl font-semibold text-xs uppercase tracking-widest shadow-xl flex items-center justify-center gap-2 hover:bg-slate-800 disabled:opacity-50 transition-all active:scale-95"
                         >
                             {isSubmitting ? <div className="h-4 w-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : 'SUBMIT REQUEST'}
                         </button>
                         <button
                             type="button"
                             onClick={() => setIsModalOpen(false)}
-                            className="w-full py-2 text-xs font-black text-slate-600 uppercase tracking-widest hover:text-slate-600 transition-colors"
+                            className="w-full py-2 text-xs font-semibold text-slate-600 uppercase tracking-widest hover:text-slate-600 transition-colors"
                         >
                             Nevermind, keep funds
                         </button>

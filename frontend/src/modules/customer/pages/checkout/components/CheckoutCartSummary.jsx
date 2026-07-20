@@ -81,7 +81,7 @@ const CheckoutCartSummary = React.memo(function CheckoutCartSummary({
               const totalMrp = Math.round(mrp * qty);
               return (
                 <div className="text-right leading-tight">
-                  <p className="text-base font-black text-slate-800">₹{total}</p>
+                  <p className="text-base font-semibold text-slate-800">₹{total}</p>
                   {hasDiscount && (
                     <p className="text-[11px] font-bold text-slate-400 line-through">
                       ₹{totalMrp}

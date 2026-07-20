@@ -395,7 +395,7 @@ const CategoryManagement = () => {
                     <button
                         onClick={() => setActiveView('tree')}
                         className={cn(
-                            "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            "px-6 py-2 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all",
                             activeView === 'tree' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
                         )}
                     >
@@ -404,7 +404,7 @@ const CategoryManagement = () => {
                     <button
                         onClick={() => setActiveView('subcategories')}
                         className={cn(
-                            "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            "px-6 py-2 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all",
                             activeView === 'subcategories' ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
                         )}
                     >
@@ -510,10 +510,10 @@ const CategoryManagement = () => {
                                 </div>
                             )}
                             <div className="p-6 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Subcategory Management</h3>
+                                <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Subcategory Management</h3>
                                 <button
                                     onClick={() => openModal('subcategory')}
-                                    className="text-[10px] font-black text-brand-600 hover:text-brand-700 uppercase tracking-widest flex items-center gap-2"
+                                    className="text-[10px] font-semibold text-brand-600 hover:text-brand-700 uppercase tracking-widest flex items-center gap-2"
                                 >
                                     <Plus className="h-3 w-3" />
                                     Quick Register
@@ -523,10 +523,10 @@ const CategoryManagement = () => {
                                 <table className="w-full text-left">
                                     <thead>
                                         <tr className="border-b border-slate-50">
-                                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Subcategory</th>
-                                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Parent Category</th>
-                                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
+                                            <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Subcategory</th>
+                                            <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Parent Category</th>
+                                            <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Status</th>
+                                            <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-50">
@@ -557,7 +557,7 @@ const CategoryManagement = () => {
                                                         </Badge>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <Badge variant={sub.status === 'active' ? 'emerald' : 'gray'} className="text-[9px] font-black uppercase tracking-widest">
+                                                        <Badge variant={sub.status === 'active' ? 'emerald' : 'gray'} className="text-[9px] font-semibold uppercase tracking-widest">
                                                             {sub.status}
                                                         </Badge>
                                                     </td>
@@ -591,7 +591,7 @@ const CategoryManagement = () => {
                     <Card className="bg-slate-900 border-none shadow-xl p-6 rounded-xl text-white relative overflow-hidden">
                         <div className="relative z-10">
                             <h3 className="text-lg font-bold mb-0.5 uppercase tracking-tight">Organization Guide</h3>
-                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-6">Organize Categories</p>
+                            <p className="text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6">Organize Categories</p>
 
                             <div className="space-y-4">
                                 {[
@@ -600,7 +600,7 @@ const CategoryManagement = () => {
                                     { step: '3', title: 'Subcategories', desc: 'Specific item groups (e.g., Milk).', color: 'bg-amber-500' }
                                 ].map((item, i) => (
                                     <div key={i} className="flex gap-4 group">
-                                        <div className={cn("h-8 w-8 shrink-0 rounded-xl flex items-center justify-center font-black text-sm shadow-lg rotate-2 group-hover:rotate-0 transition-transform duration-500", item.color)}>
+                                        <div className={cn("h-8 w-8 shrink-0 rounded-xl flex items-center justify-center font-semibold text-sm shadow-lg rotate-2 group-hover:rotate-0 transition-transform duration-500", item.color)}>
                                             {item.step}
                                         </div>
                                         <div>
@@ -644,7 +644,7 @@ const CategoryManagement = () => {
                                         ) : (
                                             <>
                                                 <Upload className="h-10 w-10 text-slate-300 group-hover:text-primary group-hover:scale-110 transition-all" />
-                                                <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-widest">Upload Image</p>
+                                                <p className="text-[10px] font-semibold text-slate-400 mt-2 uppercase tracking-widest">Upload Image</p>
                                             </>
                                         )}
                                         <input
@@ -671,13 +671,13 @@ const CategoryManagement = () => {
 
                                 <div className="space-y-6">
                                     <header>
-                                        <Badge variant="outline" className="text-[9px] font-black uppercase bg-slate-50 mb-1.5 tracking-widest text-slate-400">{formData.type} level</Badge>
+                                        <Badge variant="outline" className="text-[9px] font-semibold uppercase bg-slate-50 mb-1.5 tracking-widest text-slate-400">{formData.type} level</Badge>
                                         <h3 className="text-xl font-bold text-slate-900">{editingItem ? 'Edit Organization Unit' : 'Create New Unit'}</h3>
                                     </header>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-1">
-                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Display Name</label>
+                                            <label className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Display Name</label>
                                             <input
                                                 value={formData.name}
                                                 onChange={(e) => {
@@ -693,14 +693,14 @@ const CategoryManagement = () => {
                                             />
                                         </div>
                                         <div className="space-y-1">
-                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">URL Identifier (Slug)</label>
+                                            <label className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest ml-1">URL Identifier (Slug)</label>
                                             <input value={formData.slug} readOnly className="w-full px-4 py-2.5 bg-slate-50 border-none rounded-xl text-xs text-slate-400 font-bold outline-none" />
                                         </div>
                                     </div>
 
                                     {formData.type !== 'header' && (
                                         <div className="space-y-1">
-                                            <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">
+                                            <label className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest ml-1">
                                                 Parent {formData.type === 'category' ? 'Header' : 'Department'}
                                             </label>
                                             <div className="relative">
@@ -729,7 +729,7 @@ const CategoryManagement = () => {
                                     )}
 
                                     <div className="space-y-1">
-                                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Short Description</label>
+                                        <label className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Short Description</label>
                                         <textarea
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -746,7 +746,7 @@ const CategoryManagement = () => {
                                         <div className="flex p-1 bg-slate-200/60 rounded-xl">
                                             <button
                                                 onClick={() => setFormData({ ...formData, status: 'active' })}
-                                                className={cn("px-4 py-1.5 rounded-lg text-[10px] font-black transition-all flex items-center space-x-1.5 tracking-widest",
+                                                className={cn("px-4 py-1.5 rounded-lg text-[10px] font-semibold transition-all flex items-center space-x-1.5 tracking-widest",
                                                     formData.status === 'active' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400")}
                                             >
                                                 <Eye className="h-3.5 w-3.5" />
@@ -754,7 +754,7 @@ const CategoryManagement = () => {
                                             </button>
                                             <button
                                                 onClick={() => setFormData({ ...formData, status: 'inactive' })}
-                                                className={cn("px-4 py-1.5 rounded-lg text-[10px] font-black transition-all flex items-center space-x-1.5 tracking-widest",
+                                                className={cn("px-4 py-1.5 rounded-lg text-[10px] font-semibold transition-all flex items-center space-x-1.5 tracking-widest",
                                                     formData.status === 'inactive' ? "bg-white text-slate-700 shadow-sm" : "text-slate-400")}
                                             >
                                                 <EyeOff className="h-3.5 w-3.5" />
@@ -764,11 +764,11 @@ const CategoryManagement = () => {
                                     </div>
 
                                     <div className="flex gap-3 pt-2">
-                                        <button onClick={() => setIsAddModalOpen(false)} className="flex-1 py-3.5 rounded-xl text-xs font-black tracking-widest text-slate-400 hover:bg-slate-50 transition-colors uppercase">Discard</button>
+                                        <button onClick={() => setIsAddModalOpen(false)} className="flex-1 py-3.5 rounded-xl text-xs font-semibold tracking-widest text-slate-400 hover:bg-slate-50 transition-colors uppercase">Discard</button>
                                         <button
                                             onClick={handleSave}
                                             disabled={isSaving}
-                                            className="flex-[2] py-3.5 rounded-xl text-xs font-black tracking-widest bg-slate-900 text-white shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:translate-y-0 uppercase"
+                                            className="flex-[2] py-3.5 rounded-xl text-xs font-semibold tracking-widest bg-slate-900 text-white shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:translate-y-0 uppercase"
                                         >
                                             {isSaving ? 'Synchronizing...' : (editingItem ? 'Apply Changes' : 'Confirm Registration')}
                                         </button>
@@ -789,8 +789,8 @@ const CategoryManagement = () => {
                             <h3 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Irreversible Action</h3>
                             <p className="text-slate-500 text-xs font-bold mt-2 leading-relaxed uppercase tracking-tight">You are deleting <span className="text-rose-600">"{deleteTarget?.name}"</span>. This will destroy all linked categories and products within this group.</p>
                             <div className="flex gap-3 mt-8">
-                                <button onClick={() => setIsDeleteModalOpen(false)} className="flex-1 py-4 rounded-xl text-xs font-black tracking-widest text-slate-400 hover:bg-slate-50 uppercase">Abort</button>
-                                <button onClick={handleDelete} className="flex-1 py-4 rounded-xl text-xs font-black tracking-widest bg-rose-500 text-white shadow-xl hover:bg-rose-600 transition-colors uppercase">Destroy</button>
+                                <button onClick={() => setIsDeleteModalOpen(false)} className="flex-1 py-4 rounded-xl text-xs font-semibold tracking-widest text-slate-400 hover:bg-slate-50 uppercase">Abort</button>
+                                <button onClick={handleDelete} className="flex-1 py-4 rounded-xl text-xs font-semibold tracking-widest bg-rose-500 text-white shadow-xl hover:bg-rose-600 transition-colors uppercase">Destroy</button>
                             </div>
                         </motion.div>
                     </div>

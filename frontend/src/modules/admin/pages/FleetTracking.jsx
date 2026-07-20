@@ -235,7 +235,7 @@ const FleetTrackingTable = () => {
                   </button>
                 </div>
                 <div className="absolute -bottom-12 left-8">
-                  <div className="h-24 w-24 rounded-xl border-4 border-white overflow-hidden shadow-lg">
+                  <div className="h-24 w-24 rounded-xl border-2 border-white overflow-hidden shadow-lg">
                     <img
                       src={selectedBoy.image}
                       alt={selectedBoy.name}
@@ -247,7 +247,7 @@ const FleetTrackingTable = () => {
 
               <div className="pt-16 pb-8 px-4 space-y-6">
                 <div>
-                  <h2 className="text-2xl font-black text-slate-900">
+                  <h2 className="text-2xl font-semibold text-slate-900">
                     {selectedBoy.name}
                   </h2>
                   <div className="flex items-center gap-2 text-primary font-bold text-sm mt-1">
@@ -258,7 +258,7 @@ const FleetTrackingTable = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                       Rating
                     </p>
                     <div className="flex items-center gap-1.5 text-amber-500 font-bold">
@@ -267,7 +267,7 @@ const FleetTrackingTable = () => {
                     </div>
                   </div>
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                       Joined
                     </p>
                     <div className="flex items-center gap-1.5 text-slate-700 font-bold">
@@ -283,7 +283,7 @@ const FleetTrackingTable = () => {
                       <HiOutlinePhone className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">
+                      <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1">
                         Mobile Number
                       </p>
                       <p className="font-bold text-slate-900">
@@ -296,7 +296,7 @@ const FleetTrackingTable = () => {
                       <HiOutlineTruck className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">
+                      <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1">
                         Vehicle Details
                       </p>
                       <p className="font-bold text-slate-900">

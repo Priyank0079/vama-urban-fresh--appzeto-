@@ -88,11 +88,11 @@ const Header = () => {
                             <MapPin size={22} className="text-white fill-current" />
                         </div>
                         <div className="flex flex-col leading-tight">
-                            <span className="text-[10px] font-black text-white/80 uppercase tracking-widest flex items-center gap-1">
+                            <span className="text-[10px] font-semibold text-white/80 uppercase tracking-widest flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
                                 {currentLocation.time}
                             </span>
-                            <div className="flex items-center gap-1 font-black text-white text-base">
+                            <div className="flex items-center gap-1 font-semibold text-white text-base">
                                 <span className="max-w-[150px] truncate">{currentLocation.name}</span> <span className="text-[10px] opacity-70">▼</span>
                             </div>
                         </div>
@@ -104,7 +104,7 @@ const Header = () => {
                     {/* Logo */}
                     <div className="flex items-center gap-6 mr-4 md:mr-12">
                         <Link to="/" className="flex items-center gap-1">
-                            <span className="text-2xl md:text-3xl font-black tracking-tight" style={{ color: settings?.primaryColor || 'var(--primary)' }}>{settings?.appName || 'App'}</span>
+                            <span className="text-2xl md:text-3xl font-semibold tracking-tight" style={{ color: settings?.primaryColor || 'var(--primary)' }}>{settings?.appName || 'App'}</span>
                         </Link>
 
                         {/* Location Selector (Desktop ONLY) */}

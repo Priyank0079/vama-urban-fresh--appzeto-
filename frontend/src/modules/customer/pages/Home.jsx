@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import ProductCard from "../components/shared/ProductCard";
 import MainLocationHeader from "../components/shared/MainLocationHeader";
 import { useProductDetail } from "../context/ProductDetailContext";
+import mainBannerImage from "@/assets/images/new_vamaa_banner.png";
 import { cn } from "@/lib/utils";
 import CardBanner from "@/assets/CardBanner.jpg";
 import SectionRenderer from "../components/experience/SectionRenderer";
@@ -285,11 +286,44 @@ const Home = () => {
         dbCats.forEach((c) => { if (c.type === "category") catMap[c._id] = c; else if (c.type === "subcategory") subMap[c._id] = c; });
         nextHomeData.categoryMap = catMap;
         nextHomeData.subcategoryMap = subMap;
-        const formattedHeaders = dbCats.filter((cat) => cat.type === "header").map((cat) => {
-          const catName = cat.name;
+          let colorIndex = 0;
+          const attractiveColors = [
+            "#0284c7", // light blue
+            "#7c3aed", // violet
+            "#db2777", // pink
+            "#059669", // emerald
+            "#ea580c", // orange
+            "#4f46e5", // indigo
+            "#0d9488", // teal
+            "#e11d48", // rose
+            "#ca8a04", // yellow-dark
+            "#65a30d", // lime
+            "#4338ca", // deep indigo
+            "#be123c", // rose dark
+            "#15803d", // green
+            "#c2410c", // orange dark
+          ];
+          const formattedHeaders = dbCats.filter((cat) => cat.type === "header").map((cat) => {
+          const catName = cat.name || "";
           const meta = CATEGORY_METADATA[catName] || CATEGORY_METADATA[catName.toUpperCase()] || { icon: Sparkles, theme: DEFAULT_CATEGORY_THEME, banner: { title: catName.toUpperCase(), subtitle: "TOP PICKS", floatingElements: "sparkles" } };
           const IconComp = (cat.iconId && ICON_COMPONENTS[cat.iconId]) || meta.icon || Sparkles;
-          return { ...cat, id: cat._id, icon: IconComp, theme: meta.theme, banner: { ...meta.banner, textColor: "text-white" } };
+          
+          let headerColor = "";
+          const upName = catName.toUpperCase();
+          if (upName === "ALL") headerColor = "#0e7490";
+          else if (upName === "BEAUTY") headerColor = "#f472b6"; 
+          else if (upName === "ELECTRONIC" || upName === "ELECTRONICS" || upName === "ELECTRONICSS") headerColor = "#3b82f6";
+          else if (upName === "FASHION") headerColor = "#ec4899"; 
+          else if (upName === "FRESH") headerColor = "#10b981"; 
+          else if (upName === "GROCERY") headerColor = "#f59e0b"; 
+          else if (upName === "KIDS") headerColor = "#0ea5e9"; 
+          else if (upName === "HOME" || upName === "HOME & KITCHEN") headerColor = "#8b5cf6"; 
+          else {
+            headerColor = attractiveColors[colorIndex % attractiveColors.length];
+            colorIndex++;
+          }
+
+          return { ...cat, id: cat._id, icon: IconComp, theme: meta.theme, headerColor, banner: { ...meta.banner, textColor: "text-white" } };
         });
         nextHomeData.formattedHeaders = formattedHeaders;
         const allHeaderFromAdmin = formattedHeaders.find((h) => (h.slug?.toLowerCase() === "all") || (h.name?.toLowerCase() === "all"));
@@ -405,7 +439,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`min-h-screen pt-[190px] md:pt-[250px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
+    <div className={`min-h-screen pt-[190px] md:pt-[240px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
       <div className={cn("contents", isProductDetailOpen && "hidden md:contents")}>
         <MainLocationHeader categories={categories} activeCategory={activeCategory} onCategorySelect={setActiveCategory} />
       </div>
@@ -413,25 +447,21 @@ const Home = () => {
       {products.length === 0 && !isLoading ? (
         <div className="flex flex-col items-center justify-center pt-24 pb-48">
           <div className="w-64 h-64 md:w-96 md:h-96 mb-8">{noServiceData && <Lottie animationData={noServiceData} loop={true} />}</div>
-          <h3 className="text-3xl md:text-5xl font-black text-slate-800 text-center uppercase">Service <span className="text-primary">Unavailable</span></h3>
+          <h3 className="text-3xl md:text-5xl font-semibold text-slate-800 text-center uppercase">Service <span className="text-primary">Unavailable</span></h3>
           <p className="text-slate-500 font-bold max-w-md text-center px-10 text-sm md:text-lg opacity-80">Ah! We haven't reached your neighborhood yet.</p>
-          <button onClick={() => window.location.reload()} className="mt-12 px-10 py-4 bg-primary text-white font-black rounded-[24px] uppercase text-[13px] tracking-widest transition-all active:scale-95">Check Again</button>
+          <button onClick={() => window.location.reload()} className="mt-12 px-10 py-4 bg-primary text-white font-semibold rounded-[24px] uppercase text-[13px] tracking-widest transition-all active:scale-95">Check Again</button>
         </div>
       ) : (
         <>
           <motion.div ref={heroRef} className="block md:hidden will-change-transform" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
-            <div className="relative w-full overflow-hidden">
-              {heroConfig.banners?.items?.length ? (
-                <ExperienceBannerCarousel section={{ title: "" }} items={heroConfig.banners.items} fullWidth edgeToEdge />
-              ) : (
-                <div className="w-full h-[190px] bg-[#ecfeff] p-6 relative overflow-hidden flex items-center border-y border-primary/10 shadow-sm">
-                  <div className="relative z-10 w-3/5 flex flex-col items-start gap-2">
-                    <h4 className="text-2xl font-black text-[#1A1A1A] tracking-tight">Get <span className="text-primary">Products</span></h4>
-                    <button className="bg-[#FF1E56] text-white px-6 py-2.5 rounded-2xl font-black text-xs tracking-wide">Order now</button>
-                  </div>
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl -mt-12 -mr-12" />
-                </div>
-              )}
+            <div className="relative w-full overflow-hidden mb-4">
+              <div className="relative w-full aspect-[2/1] overflow-hidden shadow-sm mt-3 rounded-b-xl">
+                <img 
+                  src={mainBannerImage} 
+                  alt="Vamaa Urban Fresh Mega Sale" 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
             </div>
           </motion.div>
 

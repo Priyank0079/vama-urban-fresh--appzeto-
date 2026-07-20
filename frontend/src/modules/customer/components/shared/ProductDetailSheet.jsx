@@ -490,7 +490,7 @@ const ProductDetailSheet = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.15 }}
                                         >
-                                            <h1 className="text-[19px] lg:text-[22px] font-black text-[#111827] leading-[1.2] tracking-tight mb-1">
+                                            <h1 className="text-[19px] lg:text-[22px] font-semibold text-[#111827] leading-[1.2] tracking-tight mb-1">
                                                 {selectedProduct.name}
                                             </h1>
                                             {selectedProduct.weight && (
@@ -542,7 +542,7 @@ const ProductDetailSheet = () => {
                                                         whileHover={{ scale: 1.02, y: -2 }}
                                                         whileTap={{ scale: 0.98 }}
                                                         onClick={handleAddToCart}
-                                                        className="bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-12 px-8 rounded-xl font-black text-[13px] flex items-center gap-2 shadow-lg shadow-brand-100 hover:shadow-brand-200 transition-all uppercase tracking-widest border border-white/20"
+                                                        className="bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-12 px-8 rounded-xl font-semibold text-[13px] flex items-center gap-2 shadow-lg shadow-brand-100 hover:shadow-brand-200 transition-all uppercase tracking-widest border border-white/20"
                                                     >
                                                         <ShoppingBag size={16} strokeWidth={3} />
                                                         Add to Cart
@@ -584,7 +584,7 @@ const ProductDetailSheet = () => {
                                                 transition={{ delay: 0.25 }}
                                                 className="bg-gray-50/60 rounded-xl p-3 border border-gray-100/70"
                                             >
-                                                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2.5">Select Variant</h4>
+                                                <h4 className="text-[10px] font-semibold text-gray-400 uppercase tracking-[0.2em] mb-2.5">Select Variant</h4>
                                                 <div className="flex gap-3 flex-wrap">
                                                     {selectedProduct.variants.map((v, idx) => (
                                                         <motion.button
@@ -615,7 +615,7 @@ const ProductDetailSheet = () => {
                                         {/* Variants Selection (Desktop) */}
                                         {selectedProduct.variants && selectedProduct.variants.length > 0 && (
                                             <div className="bg-slate-50/50 rounded-2xl p-4 border border-slate-100/50 mt-4">
-                                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Select Variant</h4>
+                                                <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] mb-3">Select Variant</h4>
                                                 <div className="flex gap-2.5 flex-wrap">
                                                     {selectedProduct.variants.map((v, idx) => (
                                                         <motion.button
@@ -624,7 +624,7 @@ const ProductDetailSheet = () => {
                                                             whileTap={{ scale: 0.98 }}
                                                             onClick={() => setSelectedVariant(v)}
                                                             className={cn(
-                                                                'px-4 py-2 font-black rounded-xl text-xs transition-all border-2',
+                                                                'px-4 py-2 font-semibold rounded-xl text-xs transition-all border-2',
                                                                 selectedVariant?.sku === v.sku
                                                                     ? 'bg-white border-primary text-primary shadow-sm shadow-brand-100'
                                                                     : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'
@@ -668,7 +668,7 @@ const ProductDetailSheet = () => {
                                                     ].map((d) => (
                                                         <div key={d.label} className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 group hover:bg-white hover:shadow-sm transition-all">
                                                             <span className="text-[10px] text-slate-400 block mb-0.5 font-bold uppercase tracking-wider">{d.label}</span>
-                                                            <span className="font-black text-slate-800 text-[12px] break-all">{d.value}</span>
+                                                            <span className="font-semibold text-slate-800 text-[12px] break-all">{d.value}</span>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -682,7 +682,7 @@ const ProductDetailSheet = () => {
                                             >
                                                 <div className="space-y-6 mt-2">
                                                     <div className="flex items-center justify-between mb-4">
-                                                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-primary rounded-xl text-xs font-black border border-brand-100">
+                                                        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-primary rounded-xl text-xs font-semibold border border-brand-100">
                                                             <Star size={14} fill="currentColor" />
                                                             {reviews.length > 0 ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1) : '4.8'}
                                                         </div>
@@ -695,7 +695,7 @@ const ProductDetailSheet = () => {
                                                         </div>
                                                     ) : (selectedProduct?.hasPurchased || extendedProduct?.hasPurchased) ? (
                                                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 mb-6">
-                                                            <h4 className="font-black text-slate-800 text-xs mb-3 flex items-center gap-2">
+                                                            <h4 className="font-semibold text-slate-800 text-xs mb-3 flex items-center gap-2">
                                                                 <MessageSquare size={13} className="text-primary" />
                                                                 Rate this product
                                                             </h4>
@@ -718,7 +718,7 @@ const ProductDetailSheet = () => {
                                                                     ))}
                                                                 </div>
                                                                 <textarea value={newReview.comment} onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })} placeholder="Share your experience..." className="w-full bg-white border border-slate-100 rounded-xl p-3 text-xs font-medium min-h-[80px] outline-none focus:border-primary transition-all resize-none shadow-sm" />
-                                                                <Button type="submit" disabled={isSubmittingReview} className="w-full h-10 bg-primary hover:opacity-90 text-white font-black rounded-xl text-[11px] uppercase tracking-[0.1em] transition-all shadow-lg shadow-brand-100">
+                                                                <Button type="submit" disabled={isSubmittingReview} className="w-full h-10 bg-primary hover:opacity-90 text-white font-semibold rounded-xl text-[11px] uppercase tracking-[0.1em] transition-all shadow-lg shadow-brand-100">
                                                                     {isSubmittingReview ? 'Submitting...' : 'Post Review'}
                                                                     </Button>
                                                             </form>
@@ -738,9 +738,9 @@ const ProductDetailSheet = () => {
                                                                 <div key={r._id} className="p-4 rounded-xl border border-slate-100 bg-white hover:shadow-md hover:translate-x-1 transition-all group">
                                                                     <div className="flex justify-between items-start mb-2">
                                                                         <div className="flex items-center gap-2">
-                                                                            <div className="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center text-[11px] font-black text-primary border border-brand-100">{r.userId?.name?.[0] || 'A'}</div>
+                                                                            <div className="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center text-[11px] font-semibold text-primary border border-brand-100">{r.userId?.name?.[0] || 'A'}</div>
                                                                             <div>
-                                                                                <p className="text-[12px] font-black text-slate-800">
+                                                                                <p className="text-[12px] font-semibold text-slate-800">
                                                                                     {r.userId?.name || 'Anonymous'}
                                                                                     {r.status === 'pending' && <span className="ml-2 text-[10px] font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded uppercase">Pending</span>}
                                                                                 </p>
@@ -755,7 +755,7 @@ const ProductDetailSheet = () => {
                                                         ) : (
                                                             <div className="py-10 text-center bg-slate-50/50 rounded-2xl border border-dashed border-slate-200">
                                                                 <MessageSquare size={20} className="text-slate-300 mx-auto mb-2" />
-                                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">No reviews yet — be the first!</p>
+                                                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">No reviews yet — be the first!</p>
                                                             </div>
                                                         )}
                                                     </div>
@@ -886,19 +886,19 @@ const ProductDetailSheet = () => {
                             {/* Product Info Container */}
                             <div className="px-5 pt-2 pb-6">
                                 {/* Delivery Time Badge */}
-                                <div className="inline-flex items-center gap-1.5 bg-[#F0FDF4] border border-brand-100 text-primary px-2.5 py-1 rounded-lg text-[10px] font-black uppercase mb-3">
+                                <div className="inline-flex items-center gap-1.5 bg-[#F0FDF4] border border-brand-100 text-primary px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase mb-3">
                                     <Clock size={12} strokeWidth={3} />
                                     {selectedProduct.deliveryTime || "8 Mins"}
                                 </div>
 
-                                <h2 className="text-xl font-black text-[#1A1A1A] leading-tight mb-2">
+                                <h2 className="text-xl font-semibold text-[#1A1A1A] leading-tight mb-2">
                                     {selectedProduct.name}
                                 </h2>
 
                                 {/* Variants Selection (Mobile) */}
                                 {selectedProduct.variants && selectedProduct.variants.length > 0 && (
                                     <div className="mt-4 mb-2">
-                                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Select Variant</h4>
+                                        <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Select Variant</h4>
                                         <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
                                             {selectedProduct.variants.map((v, idx) => (
                                                 <motion.button
@@ -953,7 +953,7 @@ const ProductDetailSheet = () => {
                                             ].map((d) => (
                                                 <div key={d.label} className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                                                     <span className="text-gray-400 block mb-0.5 text-[10px] font-bold uppercase tracking-wider">{d.label}</span>
-                                                    <span className="font-black text-slate-800 text-xs break-all">{d.value}</span>
+                                                    <span className="font-semibold text-slate-800 text-xs break-all">{d.value}</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -967,7 +967,7 @@ const ProductDetailSheet = () => {
                                     >
                                         <div className="space-y-6 mt-2">
                                             <div className="flex items-center justify-between mb-4">
-                                                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-primary rounded-xl text-xs font-black border border-brand-100">
+                                                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-50 text-primary rounded-xl text-xs font-semibold border border-brand-100">
                                                     <Star size={16} fill="currentColor" />
                                                     {reviews.length > 0 ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1) : '4.8'}
                                                 </div>
@@ -980,7 +980,7 @@ const ProductDetailSheet = () => {
                                                 </div>
                                             ) : (selectedProduct?.hasPurchased || extendedProduct?.hasPurchased) ? (
                                                 <div className="bg-slate-50 p-5 rounded-3xl border border-slate-100 mb-6">
-                                                    <h4 className="font-black text-slate-800 text-sm mb-1">Rate this product</h4>
+                                                    <h4 className="font-semibold text-slate-800 text-sm mb-1">Rate this product</h4>
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-4">Reviews are moderated</p>
                                                     <form onSubmit={handleReviewSubmit} className="space-y-4">
                                                         <div className="flex gap-2">
@@ -999,7 +999,7 @@ const ProductDetailSheet = () => {
                                                             ))}
                                                         </div>
                                                         <textarea value={newReview.comment} onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })} placeholder="Write your experience..." className="w-full bg-white border border-slate-100 rounded-2xl p-4 text-sm font-medium min-h-[100px] outline-none focus:border-primary transition-all resize-none shadow-sm" />
-                                                        <Button type="submit" disabled={isSubmittingReview} className="w-full h-12 bg-primary hover:opacity-90 text-white font-black rounded-xl text-xs uppercase tracking-widest transition-all shadow-lg shadow-brand-100">
+                                                        <Button type="submit" disabled={isSubmittingReview} className="w-full h-12 bg-primary hover:opacity-90 text-white font-semibold rounded-xl text-xs uppercase tracking-widest transition-all shadow-lg shadow-brand-100">
                                                             {isSubmittingReview ? "Submitting..." : "Post Review"}
                                                         </Button>
                                                     </form>
@@ -1019,9 +1019,9 @@ const ProductDetailSheet = () => {
                                                         <div key={r._id} className="p-5 rounded-2xl border border-slate-100 bg-white hover:shadow-md transition-all">
                                                             <div className="flex justify-between items-start mb-2">
                                                                 <div className="flex items-center gap-2">
-                                                                    <div className="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center text-[10px] font-black text-primary border border-brand-100">{r.userId?.name?.[0] || 'A'}</div>
+                                                                    <div className="h-8 w-8 rounded-full bg-brand-50 flex items-center justify-center text-[10px] font-semibold text-primary border border-brand-100">{r.userId?.name?.[0] || 'A'}</div>
                                                                     <div>
-                                                                        <p className="text-xs font-black text-slate-800">{r.userId?.name || 'Anonymous'}</p>
+                                                                        <p className="text-xs font-semibold text-slate-800">{r.userId?.name || 'Anonymous'}</p>
                                                                         <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={10} className={cn(i < r.rating ? 'text-primary fill-primary' : 'text-slate-200')} />)}</div>
                                                                     </div>
                                                                 </div>
@@ -1033,7 +1033,7 @@ const ProductDetailSheet = () => {
                                                 ) : (
                                                     <div className="py-12 text-center bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
                                                         <MessageSquare size={24} className="text-slate-300 mx-auto mb-3" />
-                                                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">No reviews yet — be the first!</p>
+                                                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">No reviews yet — be the first!</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -1056,14 +1056,14 @@ const ProductDetailSheet = () => {
                                                 <span className="text-sm font-medium text-gray-400 line-through decoration-gray-400/50">
                                                     ₹{selectedVariant?.price || selectedProduct.originalPrice}
                                                 </span>
-                                                <span className="bg-red-50 text-red-500 text-[10px] font-black px-1.5 py-0.5 rounded leading-none">
+                                                <span className="bg-red-50 text-red-500 text-[10px] font-semibold px-1.5 py-0.5 rounded leading-none">
                                                     {selectedVariant
                                                         ? Math.round(((selectedVariant.price - selectedVariant.salePrice) / selectedVariant.price) * 100)
                                                         : Math.round(((selectedProduct.originalPrice - selectedProduct.price) / selectedProduct.originalPrice) * 100)}% OFF
                                                 </span>
                                             </div>
                                         )}
-                                        <div className="text-2xl font-black text-[#1A1A1A] leading-none mt-1">
+                                        <div className="text-2xl font-semibold text-[#1A1A1A] leading-none mt-1">
                                             ₹{selectedVariant?.salePrice || selectedVariant?.price || selectedProduct.price}
                                         </div>
                                     </div>
@@ -1077,7 +1077,7 @@ const ProductDetailSheet = () => {
                                             >
                                                 <Minus size={18} strokeWidth={3.5} />
                                             </motion.button>
-                                            <span className="font-black text-xl text-slate-800 w-8 text-center tabular-nums">{quantity}</span>
+                                            <span className="font-semibold text-xl text-slate-800 w-8 text-center tabular-nums">{quantity}</span>
                                             <motion.button
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={handleIncrement}
@@ -1091,7 +1091,7 @@ const ProductDetailSheet = () => {
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={handleAddToCart}
-                                            className="flex-1 bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-[56px] rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-brand-100 transition-all border border-white/20 uppercase tracking-[0.05em] whitespace-nowrap px-4"
+                                            className="flex-1 bg-gradient-to-r from-primary to-[var(--brand-400)] text-white h-[56px] rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 shadow-xl shadow-brand-100 transition-all border border-white/20 uppercase tracking-[0.05em] whitespace-nowrap px-4"
                                         >
                                             <ShoppingBag size={18} strokeWidth={3} />
                                             ADD TO CART

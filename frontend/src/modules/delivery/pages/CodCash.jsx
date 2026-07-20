@@ -137,7 +137,7 @@ const CodCash = () => {
                 <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">
                   Cash To Submit
                 </p>
-                <p className="text-3xl font-extrabold text-gray-900">
+                <p className="text-3xl font-semibold text-gray-900">
                   {RUPEE}
                   {safeMoney(data.systemFloatCOD).toLocaleString()}
                 </p>
@@ -176,7 +176,7 @@ const CodCash = () => {
                     <p className="text-[11px] font-bold text-orange-700 uppercase">
                       Ready To Pay Now
                     </p>
-                    <p className="text-xl font-extrabold text-gray-900 mt-1">
+                    <p className="text-xl font-semibold text-gray-900 mt-1">
                       {RUPEE}
                       {safeMoney(payableNowAmount).toLocaleString()}
                     </p>
@@ -252,7 +252,7 @@ const CodCash = () => {
                       {safeMoney(row.amountGross).toLocaleString()} (gross)
                     </p>
                   </div>
-                  <p className="text-sm font-extrabold text-orange-700">
+                  <p className="text-sm font-semibold text-orange-700">
                     {RUPEE}
                     {safeMoney(row.amountNetExpected).toLocaleString()}
                   </p>
@@ -285,7 +285,7 @@ const CodCash = () => {
                     <p className="text-sm font-bold text-gray-900">Order #{row.orderId}</p>
                     <p className="text-xs text-gray-500">Submit to platform (net)</p>
                   </div>
-                  <p className="text-sm font-extrabold text-gray-900">
+                  <p className="text-sm font-semibold text-gray-900">
                     {RUPEE}
                     {safeMoney(row.amountNetPending).toLocaleString()}
                   </p>

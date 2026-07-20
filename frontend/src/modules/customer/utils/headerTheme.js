@@ -45,8 +45,7 @@ export function mixHexWithWhite(hex, t) {
 
 /** Search field surface: tinted header theme, a bit darker than near-white. */
 export function buildSearchBarBackgroundColor(baseHeaderColor) {
-  const base = baseHeaderColor || DEFAULT_BASE;
-  return mixHexWithWhite(base, 0.7);
+  return "#f3f4f6"; // Light gray/white for search bar
 }
 
 /**
@@ -54,7 +53,7 @@ export function buildSearchBarBackgroundColor(baseHeaderColor) {
  */
 export function buildHeaderGradient(baseHeaderColor) {
   const base = baseHeaderColor || DEFAULT_BASE;
-  return `linear-gradient(to bottom, ${shiftHex(base, -18)} 0%, ${shiftHex(base, 20)} 54%, ${shiftHex(base, 165)} 100%)`;
+  return base; // Return solid color instead of gradient
 }
 
 /** Solid fill for floating cart pill: header mid tone, slightly darker. */

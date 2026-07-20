@@ -42,7 +42,7 @@ const CheckoutCouponSection = React.memo(function CheckoutCouponSection({
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <Tag size={20} className="text-orange-500" />
-            <h3 className="font-black text-slate-800">Available Coupons</h3>
+            <h3 className="font-semibold text-slate-800">Available Coupons</h3>
           </div>
           <button
             onClick={() => onOpenChange(true)}
@@ -68,7 +68,7 @@ const CheckoutCouponSection = React.memo(function CheckoutCouponSection({
                   }`}>
                   <div className="flex items-center justify-between">
                     <span
-                      className={`text-xs font-black px-2 py-0.5 rounded-lg tracking-widest uppercase ${
+                      className={`text-xs font-semibold px-2 py-0.5 rounded-lg tracking-widest uppercase ${
                         isApplied
                           ? "bg-green-100 text-green-700"
                           : "bg-orange-100 text-orange-600"
@@ -76,12 +76,12 @@ const CheckoutCouponSection = React.memo(function CheckoutCouponSection({
                       {coupon.code}
                     </span>
                     {isApplied && (
-                      <span className="text-[10px] font-black text-green-600 uppercase tracking-wide">
+                      <span className="text-[10px] font-semibold text-green-600 uppercase tracking-wide">
                         ✓ Applied
                       </span>
                     )}
                   </div>
-                  <p className="text-sm font-black text-slate-800 leading-tight">
+                  <p className="text-sm font-semibold text-slate-800 leading-tight">
                     {coupon.discountType === "percentage"
                       ? `${coupon.discountValue}% OFF`
                       : `₹${coupon.discountValue} OFF`}
@@ -99,13 +99,13 @@ const CheckoutCouponSection = React.memo(function CheckoutCouponSection({
                   {isApplied ? (
                     <button
                       onClick={onRemoveCoupon}
-                      className="mt-auto w-full py-1.5 rounded-xl text-xs font-black bg-red-50 text-red-500 hover:bg-red-100 active:scale-95 transition-all">
+                      className="mt-auto w-full py-1.5 rounded-xl text-xs font-semibold bg-red-50 text-red-500 hover:bg-red-100 active:scale-95 transition-all">
                       Remove
                     </button>
                   ) : (
                     <button
                       onClick={() => onApplyCoupon(coupon)}
-                      className="mt-auto w-full py-1.5 rounded-xl text-xs font-black bg-primary text-primary-foreground hover:bg-[var(--brand-400)] active:scale-95 transition-all">
+                      className="mt-auto w-full py-1.5 rounded-xl text-xs font-semibold bg-primary text-primary-foreground hover:bg-[var(--brand-400)] active:scale-95 transition-all">
                       Apply
                     </button>
                   )}
@@ -147,7 +147,7 @@ const CheckoutCouponSection = React.memo(function CheckoutCouponSection({
                     <Tag size={20} />
                   </div>
                   <div className="flex-1">
-                    <p className="font-black text-slate-800 tracking-wider mb-1">
+                    <p className="font-semibold text-slate-800 tracking-wider mb-1">
                       {coupon.code}
                     </p>
                     <p className="text-xs text-slate-500 leading-relaxed mb-3">

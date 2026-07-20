@@ -17,7 +17,7 @@ const CheckoutRecommendedProducts = React.memo(function CheckoutRecommendedProdu
 
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-      <h3 className="font-black text-slate-800 text-lg mb-4">
+      <h3 className="font-semibold text-slate-800 text-lg mb-4">
         You might also like
       </h3>
       <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar -mx-4 px-4 snap-x">

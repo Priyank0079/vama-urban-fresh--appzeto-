@@ -210,7 +210,7 @@ const CashCollection = () => {
                             </div>
                             {stat.sub && <Badge variant="danger" className="text-[8px] px-1.5 py-0">{stat.sub}</Badge>}
                         </div>
-                        <p className="ds-label mb-1 uppercase tracking-tight font-black">{stat.label}</p>
+                        <p className="ds-label mb-1 uppercase tracking-tight font-semibold">{stat.label}</p>
                         <h3 className="ds-stat-medium ds-stat-large">{stat.value}</h3>
                     </Card>
                 ))}
@@ -222,7 +222,7 @@ const CashCollection = () => {
                     <button
                         onClick={() => setActiveTab('live_balances')}
                         className={cn(
-                            "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black transition-all",
+                            "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-semibold transition-all",
                             activeTab === 'live_balances' ? "bg-white text-slate-900 shadow-xl" : "text-slate-500 hover:text-slate-700"
                         )}
                     >
@@ -232,7 +232,7 @@ const CashCollection = () => {
                     <button
                         onClick={() => setActiveTab('history')}
                         className={cn(
-                            "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black transition-all",
+                            "flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-semibold transition-all",
                             activeTab === 'history' ? "bg-white text-slate-900 shadow-xl" : "text-slate-500 hover:text-slate-700"
                         )}
                     >
@@ -286,7 +286,7 @@ const CashCollection = () => {
                                                     )} />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-black text-slate-900">{rider.name}</p>
+                                                    <p className="text-sm font-semibold text-slate-900">{rider.name}</p>
                                                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter mt-0.5">
                                                         {rider.id} • {rider.totalOrders || 0} Delivered • {rider.pendingOrders || 0} Pending
                                                     </p>
@@ -296,7 +296,7 @@ const CashCollection = () => {
                                         <td className="px-6 py-6">
                                             <div className="space-y-2 max-w-[180px]">
                                                 <div className="flex justify-between items-end">
-                                                    <span className="text-lg font-black text-slate-900">₹{rider.currentCash.toLocaleString()}</span>
+                                                    <span className="text-lg font-semibold text-slate-900">₹{rider.currentCash.toLocaleString()}</span>
                                                     <span className="text-[10px] font-bold text-slate-400 uppercase">Limit: ₹{rider.limit}</span>
                                                 </div>
                                                 <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -314,7 +314,7 @@ const CashCollection = () => {
                                         <td className="px-6 py-6 text-center">
                                             <Badge
                                                 variant={rider.status === 'safe' ? 'success' : rider.status === 'warning' ? 'warning' : 'danger'}
-                                                className="text-[9px] font-black px-3 py-1 uppercase tracking-widest"
+                                                className="text-[9px] font-semibold px-3 py-1 uppercase tracking-widest"
                                             >
                                                 {rider.status.replace('_', ' ')}
                                             </Badge>
@@ -333,7 +333,7 @@ const CashCollection = () => {
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
                                                     onClick={() => handleSettlement(rider)}
-                                                    className="px-4 py-2 bg-brand-50 text-brand-600 rounded-xl text-[10px] font-black hover:bg-black  hover:text-white transition-all shadow-sm active:scale-95 uppercase tracking-widest"
+                                                    className="px-4 py-2 bg-brand-50 text-brand-600 rounded-xl text-[10px] font-semibold hover:bg-black  hover:text-white transition-all shadow-sm active:scale-95 uppercase tracking-widest"
                                                 >
                                                     Settle
                                                 </button>
@@ -366,11 +366,11 @@ const CashCollection = () => {
                             <tbody className="divide-y divide-slate-50">
                                 {filteredHistory.map((log) => (
                                     <tr key={log.id} className="group hover:bg-slate-50/40 transition-all">
-                                        <td className="px-6 py-5 pl-8 text-[10px] font-black text-slate-400 uppercase tracking-tighter">{log.id}</td>
+                                        <td className="px-6 py-5 pl-8 text-[10px] font-semibold text-slate-400 uppercase tracking-tighter">{log.id}</td>
                                         <td className="px-6 py-5 text-sm font-bold text-slate-900">{log.rider}</td>
-                                        <td className="px-6 py-5 text-center text-sm font-black text-brand-600">₹{log.amount.toLocaleString()}</td>
+                                        <td className="px-6 py-5 text-center text-sm font-semibold text-brand-600">₹{log.amount.toLocaleString()}</td>
                                         <td className="px-6 py-5">
-                                            <Badge variant="secondary" className="text-[9px] font-black px-2 py-0.5 uppercase">
+                                            <Badge variant="secondary" className="text-[9px] font-semibold px-2 py-0.5 uppercase">
                                                 {log.method}
                                             </Badge>
                                         </td>
@@ -416,7 +416,7 @@ const CashCollection = () => {
                                 className="h-20 w-20 rounded-xl shadow-xl ring-4 ring-white object-cover bg-gray-100"
                             />
                             <div>
-                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">{selectedRider.name}</h3>
+                                <h3 className="text-2xl font-semibold text-slate-900 tracking-tight">{selectedRider.name}</h3>
                                 <div className="flex items-center gap-2 mt-2">
                                     <Badge variant={selectedRider.status === 'safe' ? 'success' : 'warning'}>
                                         {selectedRider.status.toUpperCase()}
@@ -428,8 +428,8 @@ const CashCollection = () => {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="p-6 border-none bg-slate-900 text-white rounded-xl relative overflow-hidden shadow-lg">
-                                <p className="text-[10px] opacity-60 font-black uppercase tracking-widest mb-2">Primary Wallet</p>
-                                <h4 className="text-3xl font-black italic">₹{selectedRider.currentCash.toLocaleString()}</h4>
+                                <p className="text-[10px] opacity-60 font-semibold uppercase tracking-widest mb-2">Primary Wallet</p>
+                                <h4 className="text-3xl font-semibold italic">₹{selectedRider.currentCash.toLocaleString()}</h4>
                                 <div className="mt-4 flex items-center gap-2">
                                     <div className="h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden">
                                         <div className="h-full bg-brand-400" style={{ width: `${Math.min((selectedRider.currentCash / selectedRider.limit) * 100, 100)}%` }} />
@@ -439,14 +439,14 @@ const CashCollection = () => {
                                 <CircleDollarSign className="absolute -bottom-4 -right-4 h-20 w-20 opacity-10" />
                             </div>
                             <div className="p-6 border-none bg-slate-50 ring-1 ring-slate-100 rounded-xl shadow-lg">
-                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2">Pending COD Orders</p>
-                                <h4 className="text-3xl font-black text-slate-900">{selectedRider.pendingOrders}</h4>
+                                <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest mb-2">Pending COD Orders</p>
+                                <h4 className="text-3xl font-semibold text-slate-900">{selectedRider.pendingOrders}</h4>
                                 <p className="text-[10px] font-bold text-slate-400 mt-4 uppercase">Requires immediate sync</p>
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                            <h4 className="text-[10px] font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-brand-600" />
                                 Collection Ledger
                             </h4>
@@ -462,13 +462,13 @@ const CashCollection = () => {
                                             <div className="flex items-center gap-3">
                                                 <div className="h-2 w-2 rounded-full bg-brand-500 group-hover:scale-125 transition-transform" />
                                                 <div>
-                                                    <p className="text-xs font-black text-slate-900">{item.reference || item.id}</p>
+                                                    <p className="text-xs font-semibold text-slate-900">{item.reference || item.id}</p>
                                                     <p className="text-[9px] font-bold text-slate-400 uppercase">
                                                         {new Date(item.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <span className="text-sm font-black text-slate-700">₹{item.amount.toLocaleString()}</span>
+                                            <span className="text-sm font-semibold text-slate-700">₹{item.amount.toLocaleString()}</span>
                                         </div>
                                     ))
                                 ) : (
@@ -483,7 +483,7 @@ const CashCollection = () => {
                         <div className="pt-2 flex gap-3">
                             <button
                                 onClick={() => { setSelectedRider(null); handleSettlement(selectedRider); }}
-                                className="flex-1 py-4 bg-black  hover:bg-brand-700 text-primary-foreground rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-brand-100 transition-all active:scale-[0.98]"
+                                className="flex-1 py-4 bg-black  hover:bg-brand-700 text-primary-foreground rounded-2xl font-semibold text-[11px] uppercase tracking-widest shadow-xl shadow-brand-100 transition-all active:scale-[0.98]"
                             >
                                 Trigger Settlement
                             </button>
@@ -509,17 +509,17 @@ const CashCollection = () => {
                                 <CircleDollarSign className="h-10 w-10" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">Record Cash Receive</h3>
+                                <h3 className="text-2xl font-semibold text-slate-900 tracking-tight">Record Cash Receive</h3>
                                 <p className="text-sm font-medium text-slate-500 mt-1 max-w-[240px] mx-auto">
-                                    Finalizing cash submission for <span className="font-black text-slate-900">{settlementData.rider.name}</span>.
+                                    Finalizing cash submission for <span className="font-semibold text-slate-900">{settlementData.rider.name}</span>.
                                 </p>
                             </div>
                         </div>
 
                         <div className="bg-slate-50 p-6 rounded-xl ring-1 ring-slate-100 mt-6">
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mb-2">Total Amount to Settle</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center mb-2">Total Amount to Settle</p>
                             <div className="flex items-center justify-center gap-2">
-                                <span className="text-xl font-black italic text-slate-900">₹</span>
+                                <span className="text-xl font-semibold italic text-slate-900">₹</span>
                                 <input
                                     type="number"
                                     min="0"
@@ -531,7 +531,7 @@ const CashCollection = () => {
                                         if (val > settlementData.rider.currentCash) val = settlementData.rider.currentCash;
                                         setSettlementData({ ...settlementData, amount: val });
                                     }}
-                                    className="bg-transparent text-2xl font-black italic text-slate-900 w-40 outline-none text-center"
+                                    className="bg-transparent text-2xl font-semibold italic text-slate-900 w-40 outline-none text-center"
                                 />
                             </div>
                         </div>
@@ -540,7 +540,7 @@ const CashCollection = () => {
                             <button
                                 onClick={confirmSettlement}
                                 disabled={isProcessing}
-                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-3 disabled:opacity-50 active:scale-[0.98]"
+                                className="w-full py-4 bg-slate-900 text-white rounded-2xl font-semibold text-[11px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-3 disabled:opacity-50 active:scale-[0.98]"
                             >
                                 {isProcessing && <RotateCw className="h-4 w-4 animate-spin" />}
                                 {isProcessing ? 'SYNCHRONIZING...' : 'CONFIRM & DEPOSIT'}
@@ -548,7 +548,7 @@ const CashCollection = () => {
                             <button
                                 onClick={() => setIsSettleModalOpen(false)}
                                 disabled={isProcessing}
-                                className="w-full py-4 bg-white ring-1 ring-slate-200 text-slate-400 font-black text-[11px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all active:scale-[0.98]"
+                                className="w-full py-4 bg-white ring-1 ring-slate-200 text-slate-400 font-semibold text-[11px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all active:scale-[0.98]"
                             >
                                 ABORT SESSION
                             </button>

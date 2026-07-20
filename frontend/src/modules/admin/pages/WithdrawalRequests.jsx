@@ -347,12 +347,12 @@ const WithdrawalRequests = () => {
                                             <span className="text-[10px] font-mono font-bold text-slate-500">{req.reference || req._id}</span>
                                         </td>
                                         <td className="px-6 py-5 text-center">
-                                            <p className="text-sm font-black text-slate-900">₹{Math.abs(req.amount).toLocaleString()}</p>
+                                            <p className="text-sm font-semibold text-slate-900">₹{Math.abs(req.amount).toLocaleString()}</p>
                                         </td>
                                         <td className="px-6 py-5">
                                             <Badge
                                                 variant={req.status === 'Pending' ? 'warning' : req.status === 'Settled' ? 'success' : req.status === 'Processing' ? 'primary' : 'danger'}
-                                                className="text-[9px] font-black px-3 py-1 uppercase tracking-wider"
+                                                className="text-[9px] font-semibold px-3 py-1 uppercase tracking-wider"
                                             >
                                                 {req.status}
                                             </Badge>
@@ -435,7 +435,7 @@ const WithdrawalRequests = () => {
                                 {activeTab === 'sellers' ? <Building2 className="h-10 w-10" /> : <Truck className="h-10 w-10" />}
                             </div>
                             <div>
-                                <h3 className="text-2xl font-black text-slate-900 tracking-tight">{selectedRequest.user?.shopName || selectedRequest.user?.name || "Unknown"}</h3>
+                                <h3 className="text-2xl font-semibold text-slate-900 tracking-tight">{selectedRequest.user?.shopName || selectedRequest.user?.name || "Unknown"}</h3>
                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">{selectedRequest._id}</p>
                                 <div className="flex items-center gap-2 mt-3">
                                     <Badge variant={selectedRequest.status === 'Pending' ? 'warning' : 'success'}>
@@ -449,7 +449,7 @@ const WithdrawalRequests = () => {
                         <div className="grid grid-cols-1 gap-4">
                             <Card className="p-5 border-none bg-slate-50 ring-1 ring-slate-100 rounded-xl">
                                 <p className="ds-label mb-2">Request Amount</p>
-                                <h4 className="text-2xl font-black text-slate-900">₹{Math.abs(selectedRequest.amount).toLocaleString()}</h4>
+                                <h4 className="text-2xl font-semibold text-slate-900">₹{Math.abs(selectedRequest.amount).toLocaleString()}</h4>
                                 <p className="text-[10px] font-semibold text-slate-400 mt-1">Reference: {selectedRequest.reference}</p>
                             </Card>
                         </div>
@@ -459,13 +459,13 @@ const WithdrawalRequests = () => {
                                 <>
                                     <button
                                         onClick={() => { setSelectedRequest(null); handleAction('approve', selectedRequest); }}
-                                        className="flex-1 py-4 bg-black  hover:bg-brand-700 text-primary-foreground rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-brand-200 transition-all active:scale-[0.98]"
+                                        className="flex-1 py-4 bg-black  hover:bg-brand-700 text-primary-foreground rounded-2xl font-semibold text-[11px] uppercase tracking-widest shadow-xl shadow-brand-200 transition-all active:scale-[0.98]"
                                     >
                                         Authorize Transfer
                                     </button>
                                     <button
                                         onClick={() => { setSelectedRequest(null); handleAction('reject', selectedRequest); }}
-                                        className="flex-1 py-4 bg-white ring-1 ring-slate-200 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-50 transition-all"
+                                        className="flex-1 py-4 bg-white ring-1 ring-slate-200 text-slate-600 rounded-2xl font-semibold text-[11px] uppercase tracking-widest hover:bg-slate-50 transition-all"
                                     >
                                         Deny Request
                                     </button>
@@ -473,7 +473,7 @@ const WithdrawalRequests = () => {
                             ) : (
                                 <button
                                     onClick={() => setSelectedRequest(null)}
-                                    className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest"
+                                    className="w-full py-4 bg-slate-900 text-white rounded-2xl font-semibold text-[11px] uppercase tracking-widest"
                                 >
                                     Close Intelligence
                                 </button>
@@ -499,7 +499,7 @@ const WithdrawalRequests = () => {
                             {actionModal.type === 'approve' ? <CheckCircle className="h-8 w-8" /> : <XCircle className="h-8 w-8" />}
                         </div>
                         <div>
-                            <h3 className="text-xl font-black text-slate-900">Are you sure?</h3>
+                            <h3 className="text-xl font-semibold text-slate-900">Are you sure?</h3>
                             <p className="text-sm font-medium text-slate-500 mt-2 px-6">
                                 You are about to {actionModal.type === 'approve' ? 'approve' : 'reject'} the withdrawal request for <b className="text-slate-900">₹{Math.abs(actionModal.request.amount).toLocaleString()}</b>.
                             </p>
@@ -509,7 +509,7 @@ const WithdrawalRequests = () => {
                                 onClick={confirmAction}
                                 disabled={loading}
                                 className={cn(
-                                    "w-full py-4 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2",
+                                    "w-full py-4 rounded-2xl font-semibold text-[11px] uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2",
                                     actionModal.type === 'approve' ? "bg-black  hover:bg-brand-700 text-primary-foreground shadow-brand-100" : "bg-rose-600 hover:bg-rose-700 text-white shadow-rose-100"
                                 )}
                             >
@@ -519,7 +519,7 @@ const WithdrawalRequests = () => {
                             <button
                                 onClick={() => setActionModal({ isOpen: false, type: null, request: null })}
                                 disabled={loading}
-                                className="w-full py-4 bg-slate-50 text-slate-400 font-black text-[11px] uppercase tracking-widest rounded-2xl hover:bg-slate-100 transition-all"
+                                className="w-full py-4 bg-slate-50 text-slate-400 font-semibold text-[11px] uppercase tracking-widest rounded-2xl hover:bg-slate-100 transition-all"
                             >
                                 CANCEL
                             </button>

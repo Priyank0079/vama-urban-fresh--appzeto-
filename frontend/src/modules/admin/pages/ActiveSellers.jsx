@@ -455,7 +455,7 @@ const ActiveSellers = () => {
                       <div className="flex flex-col gap-2">
                         <Badge
                           variant="success"
-                          className="w-fit text-[8px] font-black uppercase tracking-widest"
+                          className="w-fit text-[8px] font-semibold uppercase tracking-widest"
                         >
                           Active
                         </Badge>
@@ -539,7 +539,7 @@ const ActiveSellers = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900">
+                    <h3 className="text-2xl font-semibold text-slate-900">
                       {selectedSeller.shopName}
                     </h3>
                     <p className="text-sm font-semibold text-slate-500">
@@ -548,13 +548,13 @@ const ActiveSellers = () => {
                     <div className="mt-2 flex items-center gap-2">
                       <Badge
                         variant="success"
-                        className="text-[8px] font-black uppercase tracking-widest"
+                        className="text-[8px] font-semibold uppercase tracking-widest"
                       >
                         Active
                       </Badge>
                       <Badge
                         variant="primary"
-                        className="text-[8px] font-black uppercase tracking-widest"
+                        className="text-[8px] font-semibold uppercase tracking-widest"
                       >
                         {selectedSeller.category || "General"}
                       </Badge>
@@ -574,7 +574,7 @@ const ActiveSellers = () => {
                 <div className="lg:col-span-4 bg-slate-50 p-5 border-r border-slate-100">
                   <div className="space-y-5">
                     <div className="space-y-3">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                      <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
                         Contact
                       </p>
                       <div className="space-y-3">
@@ -600,7 +600,7 @@ const ActiveSellers = () => {
                     </div>
 
                     <div className="space-y-3">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                      <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
                         Store Health
                       </p>
                       <div className="p-4 bg-white rounded-2xl ring-1 ring-slate-100">
@@ -654,17 +654,17 @@ const ActiveSellers = () => {
                         key={item.label}
                         className="p-4 rounded-2xl bg-slate-50 border border-slate-100"
                       >
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                           {item.label}
                         </p>
-                        <p className="text-lg font-black text-slate-900">{item.value}</p>
+                        <p className="text-lg font-semibold text-slate-900">{item.value}</p>
                       </div>
                     ))}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-4 rounded-2xl bg-brand-50 border border-brand-100">
-                      <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest mb-1">
+                      <p className="text-[10px] font-semibold text-brand-600 uppercase tracking-widest mb-1">
                         Performance
                       </p>
                       <p className="text-sm font-semibold text-slate-700 leading-relaxed">
@@ -672,7 +672,7 @@ const ActiveSellers = () => {
                       </p>
                     </div>
                     <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">
+                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-1">
                         Average order value
                       </p>
                       <p className="text-sm font-semibold text-slate-700 leading-relaxed">

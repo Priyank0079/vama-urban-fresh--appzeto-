@@ -239,8 +239,8 @@ const FAQManagement = () => {
                                 <stat.icon className={cn("h-6 w-6", stat.iconColor)} />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
-                                <h3 className="text-2xl font-black text-slate-900">{stat.value}</h3>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1">{stat.label}</p>
+                                <h3 className="text-2xl font-semibold text-slate-900">{stat.value}</h3>
                             </div>
                         </div>
                     </Card>
@@ -251,7 +251,7 @@ const FAQManagement = () => {
                 {/* Left Sidebar: Categories */}
                 <div className="lg:col-span-1 space-y-4">
                     <Card className="p-6 border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl text-left">
-                        <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-6">FAQ Categories</h4>
+                        <h4 className="text-[11px] font-semibold text-slate-400 uppercase tracking-widest mb-6">FAQ Categories</h4>
                         <div className="space-y-2">
                             <button
                                 onClick={() => setActiveCategory('All')}
@@ -264,7 +264,7 @@ const FAQManagement = () => {
                                     <Layers className="h-4 w-4 opacity-70" />
                                     All Topics
                                 </span>
-                                <span className="text-[10px] opacity-60 font-black">{faqs.length}</span>
+                                <span className="text-[10px] opacity-60 font-semibold">{faqs.length}</span>
                             </button>
                             {categoriesWithCounts.map((cat) => (
                                 <button
@@ -279,7 +279,7 @@ const FAQManagement = () => {
                                         <div className={cn("h-1.5 w-1.5 rounded-full", activeCategory === cat.name ? "bg-white" : `bg-${cat.color}-500`)} />
                                         {cat.name}
                                     </span>
-                                    <span className="text-[10px] opacity-60 font-black">{cat.count}</span>
+                                    <span className="text-[10px] opacity-60 font-semibold">{cat.count}</span>
                                 </button>
                             ))}
                         </div>
@@ -301,11 +301,11 @@ const FAQManagement = () => {
                             />
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Sort:</span>
+                            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mr-2">Sort:</span>
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
-                                className="bg-slate-50 border-none px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none text-slate-600 cursor-pointer"
+                                className="bg-slate-50 border-none px-4 py-2 rounded-xl text-[10px] font-semibold uppercase tracking-widest outline-none text-slate-600 cursor-pointer"
                             >
                                 <option>Most Viewed</option>
                                 <option>Newest First</option>
@@ -338,10 +338,10 @@ const FAQManagement = () => {
                                                 <div className="flex-1">
                                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
                                                         <div className="flex items-center gap-3">
-                                                            <Badge variant="outline" className="text-[8px] font-black uppercase tracking-widest border-slate-200 text-slate-400">
+                                                            <Badge variant="outline" className="text-[8px] font-semibold uppercase tracking-widest border-slate-200 text-slate-400">
                                                                 {faq.id}
                                                             </Badge>
-                                                            <Badge variant={faq.status === 'published' ? 'success' : 'secondary'} className="text-[8px] font-black uppercase tracking-widest">
+                                                            <Badge variant={faq.status === 'published' ? 'success' : 'secondary'} className="text-[8px] font-semibold uppercase tracking-widest">
                                                                 {faq.status}
                                                             </Badge>
                                                         </div>
@@ -375,7 +375,7 @@ const FAQManagement = () => {
                                                         onClick={() => setExpandedId(expandedId === faq.id ? null : faq.id)}
                                                         className="cursor-pointer group"
                                                     >
-                                                        <h3 className="text-base font-black text-slate-900 group-hover:text-pink-600 transition-colors flex items-center justify-between">
+                                                        <h3 className="text-base font-semibold text-slate-900 group-hover:text-pink-600 transition-colors flex items-center justify-between">
                                                             {faq.question}
                                                             {expandedId === faq.id ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                                                         </h3>
@@ -399,11 +399,11 @@ const FAQManagement = () => {
                                                                 </p>
                                                             </div>
                                                             <div className="flex items-center justify-between mt-4">
-                                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
+                                                                <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-widest flex items-center gap-2">
                                                                     <ArrowUpRight className="h-3 w-3" />
                                                                     Category: <span className="text-slate-500">{faq.category}</span>
                                                                 </span>
-                                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                                                                <span className="text-[10px] font-semibold text-slate-300 uppercase tracking-widest">
                                                                     Updated: {faq.lastUpdated}
                                                                 </span>
                                                             </div>
@@ -449,7 +449,7 @@ const FAQManagement = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-4">
                             <div>
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Category</label>
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">Category</label>
                                 <select
                                     value={newFaq.category}
                                     onChange={(e) => setNewFaq({ ...newFaq, category: e.target.value })}
@@ -459,35 +459,35 @@ const FAQManagement = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Visibility State</label>
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">Visibility State</label>
                                 <div className="flex bg-slate-100 p-1 rounded-2xl">
                                     <button
                                         type="button"
                                         onClick={() => setNewFaq({ ...newFaq, status: 'published' })}
-                                        className={cn("flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all", newFaq.status === 'published' ? "bg-white text-pink-600 shadow-sm" : "text-slate-400")}
+                                        className={cn("flex-1 py-3 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all", newFaq.status === 'published' ? "bg-white text-pink-600 shadow-sm" : "text-slate-400")}
                                     >PUBLISHED</button>
                                     <button
                                         type="button"
                                         onClick={() => setNewFaq({ ...newFaq, status: 'draft' })}
-                                        className={cn("flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all", newFaq.status === 'draft' ? "bg-white text-pink-600 shadow-sm" : "text-slate-400")}
+                                        className={cn("flex-1 py-3 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all", newFaq.status === 'draft' ? "bg-white text-pink-600 shadow-sm" : "text-slate-400")}
                                     >DRAFT</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Question</label>
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">Question</label>
                         <input
                             type="text"
                             required
                             value={newFaq.question}
                             onChange={(e) => setNewFaq({ ...newFaq, question: e.target.value })}
                             placeholder="Enter the question..."
-                            className="w-full px-5 py-5 bg-slate-50 border-none rounded-2xl text-base font-black outline-none focus:ring-2 focus:ring-pink-500/10 transition-all shadow-sm"
+                            className="w-full px-5 py-5 bg-slate-50 border-none rounded-2xl text-base font-semibold outline-none focus:ring-2 focus:ring-pink-500/10 transition-all shadow-sm"
                         />
                     </div>
                     <div>
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Answer</label>
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">Answer</label>
                         <textarea
                             rows={4}
                             required
@@ -498,8 +498,8 @@ const FAQManagement = () => {
                         />
                     </div>
                     <div className="flex gap-4">
-                        <button type="button" onClick={() => setIsAddModalOpen(false)} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-200 transition-all">CANCEL</button>
-                        <button type="submit" className="flex-[2] py-4 bg-pink-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-pink-700 shadow-xl shadow-pink-100 transition-all flex items-center justify-center gap-2">
+                        <button type="button" onClick={() => setIsAddModalOpen(false)} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-semibold text-[11px] uppercase tracking-widest hover:bg-slate-200 transition-all">CANCEL</button>
+                        <button type="submit" className="flex-[2] py-4 bg-pink-600 text-white rounded-2xl font-semibold text-[11px] uppercase tracking-widest hover:bg-pink-700 shadow-xl shadow-pink-100 transition-all flex items-center justify-center gap-2">
                             <Save className="h-4 w-4" /> SAVE FAQ
                         </button>
                     </div>
@@ -517,7 +517,7 @@ const FAQManagement = () => {
                             <div key={cat.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                 <div className="flex items-center gap-4">
                                     <div className={cn("h-4 w-4 rounded-full shadow-sm", `bg-${cat.color}-500`)} />
-                                    <span className="text-sm font-black text-slate-900">{cat.name}</span>
+                                    <span className="text-sm font-semibold text-slate-900">{cat.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <button onClick={() => handleDeleteCategory(cat.name)} className="p-2 text-slate-400 hover:text-rose-500 hover:bg-white rounded-lg transition-all"><Trash2 className="h-4 w-4" /></button>
@@ -533,10 +533,10 @@ const FAQManagement = () => {
                             onChange={(e) => setNewCategoryName(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
                             placeholder="New Category Label..."
-                            className="w-full pl-11 pr-4 py-4 bg-white ring-1 ring-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest outline-none focus:ring-2 focus:ring-brand-500/10 transition-all"
+                            className="w-full pl-11 pr-4 py-4 bg-white ring-1 ring-slate-200 rounded-2xl text-[10px] font-semibold uppercase tracking-widest outline-none focus:ring-2 focus:ring-brand-500/10 transition-all"
                         />
                     </div>
-                    <button onClick={handleAddCategory} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-800 transition-all">GENERATE NEW CATEGORY</button>
+                    <button onClick={handleAddCategory} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-semibold text-[11px] uppercase tracking-widest hover:bg-slate-800 transition-all">GENERATE NEW CATEGORY</button>
                 </div>
             </Modal>
         </div>

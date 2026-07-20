@@ -154,7 +154,7 @@ const Notifications = () => {
 
                       <div className="flex-1">
                         <h3
-                          className={`font-extrabold text-gray-900 mb-0.5 text-sm ${!notification.isRead ? "text-brand-900" : "text-gray-700 font-bold"}`}>
+                          className={`font-semibold text-gray-900 mb-0.5 text-sm ${!notification.isRead ? "text-brand-900" : "text-gray-700 font-bold"}`}>
                           {notification.title}
                         </h3>
                         <p className={`text-xs mb-2 leading-snug ${!notification.isRead ? "text-gray-900 font-medium" : "text-gray-500"}`}>

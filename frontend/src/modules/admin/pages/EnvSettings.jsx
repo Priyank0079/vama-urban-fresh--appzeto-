@@ -78,7 +78,7 @@ const EnvSettings = () => {
 
     const InputField = ({ label, name, type = 'text', icon: Icon, isSecret = false, placeholder = '' }) => (
         <div className="space-y-3">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 {label}
                 {name && <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] lowercase font-mono">{name}</span>}
             </label>
@@ -130,7 +130,7 @@ const EnvSettings = () => {
                         onClick={handleSave}
                         disabled={isSaving}
                         className={cn(
-                            "flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-slate-200 active:scale-95",
+                            "flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all shadow-xl shadow-slate-200 active:scale-95",
                             isSaving ? "opacity-70 cursor-wait" : "hover:bg-slate-800"
                         )}
                     >
@@ -172,7 +172,7 @@ const EnvSettings = () => {
                     <div className="ds-section-spacing animate-in slide-in-from-left-4 duration-500">
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     <Globe className="h-4 w-4 text-slate-400" />
                                     Core Client Config
                                 </h3>
@@ -185,7 +185,7 @@ const EnvSettings = () => {
 
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     <Cloud className="h-4 w-4 text-amber-500" />
                                     Firebase Client SDK
                                 </h3>
@@ -211,7 +211,7 @@ const EnvSettings = () => {
                     <div className="ds-section-spacing animate-in slide-in-from-right-4 duration-500">
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     <Server className="h-4 w-4 text-slate-400" />
                                     Server & Security
                                 </h3>
@@ -230,7 +230,7 @@ const EnvSettings = () => {
 
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     <CreditCard className="h-4 w-4 text-purple-500" />
                                     Integrations
                                 </h3>
@@ -262,14 +262,14 @@ const EnvSettings = () => {
 
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     <Shield className="h-4 w-4 text-red-500" />
                                     Firebase Admin Service Account
                                 </h3>
                             </div>
                             <div className="p-4">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                         Service Account JSON
                                         <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] lowercase font-mono">FIREBASE_SERVICE_ACCOUNT</span>
                                     </label>

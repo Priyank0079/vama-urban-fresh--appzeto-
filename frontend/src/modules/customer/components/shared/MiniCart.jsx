@@ -67,7 +67,7 @@ const MiniCart = () => {
 
                             {/* Text Section */}
                             <div className="flex-1 flex flex-col justify-center min-w-0">
-                                <h4 className="text-[12px] font-black leading-tight truncate">View cart</h4>
+                                <h4 className="text-[12px] font-semibold leading-tight truncate">View cart</h4>
                                 <p className="text-[9px] opacity-90 font-bold leading-tight">{cartCount} {cartCount === 1 ? 'item' : 'items'}</p>
                             </div>
 

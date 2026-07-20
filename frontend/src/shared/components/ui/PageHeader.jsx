@@ -3,15 +3,15 @@ import { cn } from '@/lib/utils';
 
 const PageHeader = ({ title, description, actions, badge, className }) => {
     return (
-        <div className={cn("ds-page-header", className)}>
-            <div className="ds-page-title-group">
+        <div className={cn("flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8", className)}>
+            <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
-                    <h1 className="ds-h1">{title}</h1>
+                    <h1 className="admin-h1">{title}</h1>
                     {badge && badge}
                 </div>
-                {description && <p className="ds-description">{description}</p>}
+                {description && <p className="admin-description">{description}</p>}
             </div>
-            {actions && <div className="ds-page-actions">{actions}</div>}
+            {actions && <div className="flex items-center gap-3">{actions}</div>}
         </div>
     );
 };

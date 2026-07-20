@@ -339,7 +339,7 @@ const AdminWallet = () => {
                                         <stat.icon className={cn("h-4 w-4", stat.iconColor)} strokeWidth={2.5} />
                                     </div>
                                     <div className="flex items-center gap-1.5">
-                                        <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Live</span>
+                                        <span className="text-[9px] font-semibold text-slate-300 uppercase tracking-widest leading-none">Live</span>
                                         <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
                                     </div>
                                 </div>
@@ -385,7 +385,7 @@ const AdminWallet = () => {
                                         key={tab}
                                         onClick={() => setActiveTab(tab)}
                                         className={cn(
-                                            "px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-tight transition-all relative",
+                                            "px-3 py-1.5 rounded-lg text-[9px] font-semibold uppercase tracking-tight transition-all relative",
                                             activeTab === tab ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
                                         )}
                                     >
@@ -440,10 +440,10 @@ const AdminWallet = () => {
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-5 text-center">
-                                                        <p className="text-sm font-black text-slate-900">₹{Math.abs(req.amount).toLocaleString()}</p>
+                                                        <p className="text-sm font-semibold text-slate-900">₹{Math.abs(req.amount).toLocaleString()}</p>
                                                     </td>
                                                     <td className="px-6 py-5">
-                                                        <Badge variant={req.status === 'COMPLETED' ? 'success' : (req.status === 'PENDING' || req.status === 'PROCESSING') ? 'warning' : 'danger'} className="text-[8px] font-black px-2.5 py-1">
+                                                        <Badge variant={req.status === 'COMPLETED' ? 'success' : (req.status === 'PENDING' || req.status === 'PROCESSING') ? 'warning' : 'danger'} className="text-[8px] font-semibold px-2.5 py-1">
                                                             {req.status.toUpperCase()}
                                                         </Badge>
                                                     </td>
@@ -453,7 +453,7 @@ const AdminWallet = () => {
                                                                 <button
                                                                     disabled={isProcessing || loadingId === req._id}
                                                                     onClick={() => handleUpdateStatus(req._id, 'COMPLETED')}
-                                                                    className="px-4 py-2 bg-black  text-primary-foreground rounded-xl text-[10px] font-black uppercase hover:bg-brand-700 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] flex items-center justify-center"
+                                                                    className="px-4 py-2 bg-black  text-primary-foreground rounded-xl text-[10px] font-semibold uppercase hover:bg-brand-700 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px] flex items-center justify-center"
                                                                 >
                                                                     {loadingId === req._id ? (
                                                                         <RotateCw className="h-3 w-3 animate-spin" />
@@ -516,14 +516,14 @@ const AdminWallet = () => {
                                                     </td>
                                                     <td className="px-6 py-5 text-center">
                                                         <p className={cn(
-                                                            "text-sm font-black",
+                                                            "text-sm font-semibold",
                                                             txn.amount > 0 ? "text-brand-600" : "text-rose-600"
                                                         )}>
                                                             {txn.amount > 0 ? '+' : ''}₹{Math.abs(txn.amount).toLocaleString()}
                                                         </p>
                                                     </td>
                                                     <td className="px-6 py-5 text-center">
-                                                        <Badge variant={txn.status === 'COMPLETED' || txn.status === 'Settled' ? 'success' : 'warning'} className="text-[8px] font-black px-2.5 py-1">
+                                                        <Badge variant={txn.status === 'COMPLETED' || txn.status === 'Settled' ? 'success' : 'warning'} className="text-[8px] font-semibold px-2.5 py-1">
                                                             {txn.status.toUpperCase()}
                                                         </Badge>
                                                     </td>
@@ -583,8 +583,8 @@ const AdminWallet = () => {
                         <Card className="p-6 border-none shadow-xl ring-1 ring-slate-100 bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-hidden relative">
                             <div className="relative z-10 space-y-6">
                                 <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">Ready for Settlement</p>
-                                    <h3 className="text-4xl font-black">₹{((walletData.stats?.sellerPendingPayouts || 0) + (walletData.stats?.deliveryPendingPayouts || 0)).toLocaleString()}</h3>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">Ready for Settlement</p>
+                                    <h3 className="text-4xl font-semibold">₹{((walletData.stats?.sellerPendingPayouts || 0) + (walletData.stats?.deliveryPendingPayouts || 0)).toLocaleString()}</h3>
                                 </div>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center bg-slate-800/50 p-3 rounded-2xl border border-white/5">
@@ -592,20 +592,20 @@ const AdminWallet = () => {
                                             <div className="h-2 w-2 rounded-full bg-brand-400" />
                                             <span className="text-xs font-bold text-slate-300">Sellers</span>
                                         </div>
-                                        <span className="text-xs font-black">₹{(walletData.stats?.sellerPendingPayouts || 0).toLocaleString()}</span>
+                                        <span className="text-xs font-semibold">₹{(walletData.stats?.sellerPendingPayouts || 0).toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between items-center bg-slate-800/50 p-3 rounded-2xl border border-white/5">
                                         <div className="flex items-center gap-2">
                                             <div className="h-2 w-2 rounded-full bg-purple-400" />
                                             <span className="text-xs font-bold text-slate-300">Riders</span>
                                         </div>
-                                        <span className="text-xs font-black">₹{(walletData.stats?.deliveryPendingPayouts || 0).toLocaleString()}</span>
+                                        <span className="text-xs font-semibold">₹{(walletData.stats?.deliveryPendingPayouts || 0).toLocaleString()}</span>
                                     </div>
                                 </div>
                                 <button
                                     onClick={handleProcessPayouts}
                                     disabled={isProcessing}
-                                    className="w-full py-4 bg-white hover:bg-slate-100 text-slate-900 rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2 group disabled:opacity-50"
+                                    className="w-full py-4 bg-white hover:bg-slate-100 text-slate-900 rounded-2xl font-semibold text-[11px] uppercase tracking-widest transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2 group disabled:opacity-50"
                                 >
                                     {isProcessing ? <RotateCw className="h-4 w-4 animate-spin" /> : <Wallet className="h-4 w-4 group-hover:rotate-12 transition-transform" />}
                                     {isProcessing ? 'SETTLING...' : 'Bulk Settlement'}
@@ -623,7 +623,7 @@ const AdminWallet = () => {
                             <div className="p-2 bg-brand-50 text-brand-600 rounded-lg">
                                 <BarChart3 className="h-5 w-5" />
                             </div>
-                            <h2 className="text-xl font-black text-slate-900">Analytics</h2>
+                            <h2 className="text-xl font-semibold text-slate-900">Analytics</h2>
                         </div>
                         <div className="space-y-3">
                             {[
@@ -640,7 +640,7 @@ const AdminWallet = () => {
                                         <div className="p-2 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-primary/10 group-hover:text-primary transition-all">
                                             <link.icon className="h-4 w-4" />
                                         </div>
-                                        <span className="text-xs font-black text-slate-700">{link.label}</span>
+                                        <span className="text-xs font-semibold text-slate-700">{link.label}</span>
                                     </div>
                                     <ArrowRight className="h-4 w-4 text-slate-300 group-hover:translate-x-1 transition-transform" />
                                 </button>
@@ -666,37 +666,37 @@ const AdminWallet = () => {
                             )}>
                                 {selectedTransaction.amount > 0 ? <ArrowDownCircle className="h-8 w-8" /> : <ArrowUpCircle className="h-8 w-8" />}
                             </div>
-                            <h4 className="text-3xl font-black text-slate-900">₹{Math.abs(selectedTransaction.amount)}</h4>
+                            <h4 className="text-3xl font-semibold text-slate-900">₹{Math.abs(selectedTransaction.amount)}</h4>
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">{selectedTransaction.status}</p>
                         </div>
 
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Type</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Type</p>
                                 <p className="text-sm font-bold text-slate-900">{selectedTransaction.type.replace('_', ' ').toUpperCase()}</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Date & Time</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Date & Time</p>
                                 <p className="text-sm font-bold text-slate-900">{selectedTransaction.date}</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">From</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">From</p>
                                 <p className="text-sm font-bold text-slate-700">{selectedTransaction.sender}</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">To</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">To</p>
                                 <p className="text-sm font-bold text-slate-700">{selectedTransaction.recipient}</p>
                             </div>
                             <div className="col-span-2 space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reference ID</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Reference ID</p>
                                 <p className="text-sm font-mono font-bold text-slate-900">{selectedTransaction.id}</p>
                             </div>
                             <div className="col-span-2 space-y-1">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment Method</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Payment Method</p>
                                 <p className="text-sm font-bold text-slate-700">{selectedTransaction.method}</p>
                             </div>
                             <div className="col-span-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Notes</p>
+                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">Notes</p>
                                 <p className="text-xs font-medium text-slate-600 italic">"{selectedTransaction.notes}"</p>
                             </div>
                         </div>

@@ -309,7 +309,7 @@ const PendingSellers = () => {
                                     {/* Sidebar Info */}
                                     <div className="lg:col-span-4 bg-slate-50 p-4 border-r border-slate-100">
                                         <div className="flex justify-between items-start mb-8">
-                                            <div className="h-20 w-20 rounded-xl bg-white shadow-xl flex items-center justify-center ds-stat-large font-bold text-primary border-4 border-white">
+                                            <div className="h-20 w-20 rounded-xl bg-white shadow-xl flex items-center justify-center ds-stat-large font-bold text-primary border-2 border-white">
                                                 {(viewingSeller.shopName || 'S').charAt(0)}
                                             </div>
                                             <button

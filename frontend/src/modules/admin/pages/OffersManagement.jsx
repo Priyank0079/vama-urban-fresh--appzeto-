@@ -221,7 +221,7 @@ const OffersManagement = () => {
                 <div>
                     <h1 className="ds-h1 flex items-center gap-3">
                         Offers Manager
-                        <Badge variant="primary" className="text-[10px] font-black uppercase tracking-widest">
+                        <Badge variant="primary" className="text-[10px] font-semibold uppercase tracking-widest">
                             Beta
                         </Badge>
                     </h1>
@@ -231,7 +231,7 @@ const OffersManagement = () => {
                 </div>
                 <button
                     onClick={openCreateModal}
-                    className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
                 >
                     <HiOutlinePlus className="h-5 w-5" />
                     NEW OFFER
@@ -240,7 +240,7 @@ const OffersManagement = () => {
 
             <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                 <div className="p-4 border-b border-slate-50 flex items-center justify-between">
-                    <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <h2 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                         Active Offers ({offers.length})
                     </h2>
                     {isLoading && (
@@ -267,7 +267,7 @@ const OffersManagement = () => {
                                         <IconComp className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-black text-slate-900">
+                                        <p className="text-xs font-semibold text-slate-900">
                                             #{idx + 1} • {offer.title}
                                         </p>
                                         {offer.code && (
@@ -285,7 +285,7 @@ const OffersManagement = () => {
 
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3 text-[11px]">
                                     <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                                             Categories
                                         </p>
                                         <div className="flex flex-wrap gap-1.5">
@@ -303,7 +303,7 @@ const OffersManagement = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                                             Products
                                         </p>
                                         <div className="flex flex-wrap gap-1.5">
@@ -326,7 +326,7 @@ const OffersManagement = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-1">
                                             Meta
                                         </p>
                                         <div className="flex items-center gap-3">
@@ -335,7 +335,7 @@ const OffersManagement = () => {
                                             </span>
                                             <Badge
                                                 variant={offer.status === 'active' ? 'success' : 'secondary'}
-                                                className="text-[9px] font-black uppercase"
+                                                className="text-[9px] font-semibold uppercase"
                                             >
                                                 {offer.status}
                                             </Badge>
@@ -390,7 +390,7 @@ const OffersManagement = () => {
                             <div className="h-16 w-16 rounded-2xl bg-slate-50 flex items-center justify-center mx-auto mb-4">
                                 <HiOutlineSparkles className="h-8 w-8 text-slate-200" />
                             </div>
-                            <h3 className="text-lg font-black text-slate-900">No offers configured yet</h3>
+                            <h3 className="text-lg font-semibold text-slate-900">No offers configured yet</h3>
                             <p className="text-sm font-bold text-slate-400 mt-2">
                                 Click &quot;New Offer&quot; to create your first offer card.
                             </p>
@@ -406,7 +406,7 @@ const OffersManagement = () => {
             >
                 <form onSubmit={handleSave} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                             Offer Title
                         </label>
                         <input
@@ -417,7 +417,7 @@ const OffersManagement = () => {
                         />
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                             Description
                         </label>
                         <textarea
@@ -431,18 +431,18 @@ const OffersManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Offer Code
                             </label>
                             <input
                                 value={formData.code}
                                 onChange={(e) => setFormData(prev => ({ ...prev, code: e.target.value.toUpperCase() }))}
                                 placeholder="WELCOME60"
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-mono font-black uppercase tracking-widest outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-mono font-semibold uppercase tracking-widest outline-none"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Applies on order #
                             </label>
                             <input
@@ -457,7 +457,7 @@ const OffersManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Style
                             </label>
                             <div className="flex gap-2">
@@ -480,7 +480,7 @@ const OffersManagement = () => {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Icon
                             </label>
                             <div className="flex gap-2">
@@ -509,7 +509,7 @@ const OffersManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Attach Categories (optional)
                             </label>
                             <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1">
@@ -541,7 +541,7 @@ const OffersManagement = () => {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Attach Products (optional)
                             </label>
                             <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1">
@@ -576,7 +576,7 @@ const OffersManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Display Order
                             </label>
                             <input
@@ -588,7 +588,7 @@ const OffersManagement = () => {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                 Status
                             </label>
                             <select
@@ -606,13 +606,13 @@ const OffersManagement = () => {
                         <button
                             type="button"
                             onClick={() => setIsModalOpen(false)}
-                            className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+                            className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-semibold uppercase tracking-widest"
                         >
                             CANCEL
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20"
+                            className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl shadow-primary/20"
                         >
                             {editingOffer ? 'SAVE CHANGES' : 'CREATE OFFER'}
                         </button>

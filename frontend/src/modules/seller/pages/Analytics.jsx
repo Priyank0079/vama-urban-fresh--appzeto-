@@ -218,7 +218,7 @@ const Analytics = () => {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen font-black text-slate-600">LOADING ANALYTICS...</div>;
+    return <div className="flex items-center justify-center h-screen font-semibold text-slate-600">LOADING ANALYTICS...</div>;
   }
 
   return (
@@ -227,7 +227,7 @@ const Analytics = () => {
         {/* Header */}
         <div className="flex flex-col gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 flex flex-wrap items-center gap-2">
               Advanced Analytics
               <Badge
                 variant="success"
@@ -289,15 +289,15 @@ const Analytics = () => {
               }>
               <div className="p-6 relative z-10 flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-black text-slate-600 uppercase tracking-widest">
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">
                     {stat.label}
                   </p>
-                  <h4 className="text-2xl font-black text-slate-900 mt-1 tracking-tight">
+                  <h4 className="text-2xl font-semibold text-slate-900 mt-1 tracking-tight">
                     {stat.value}
                   </h4>
                   <div
                     className={cn(
-                      "flex items-center mt-3 text-xs sm:text-sm font-black px-2 py-0.5 rounded-full w-fit",
+                      "flex items-center mt-3 text-xs sm:text-sm font-semibold px-2 py-0.5 rounded-full w-fit",
                       stat.trend.startsWith("+")
                         ? "text-brand-600 bg-brand-50"
                         : "text-rose-600 bg-rose-50",
@@ -343,7 +343,7 @@ const Analytics = () => {
           <Card className="border-none shadow-xl shadow-slate-200/50 rounded-3xl p-6 bg-white overflow-hidden group h-full">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-lg font-black text-slate-900">
+                <h3 className="text-lg font-semibold text-slate-900">
                   Revenue & Trends
                 </h3>
                 <p className="text-xs text-slate-600 font-bold uppercase tracking-widest">
@@ -447,7 +447,7 @@ const Analytics = () => {
         <BlurFade delay={0.5} className="lg:col-span-1">
           <Card className="border-none shadow-xl shadow-slate-200/50 rounded-lg p-6 bg-white flex flex-col items-center justify-center group h-full">
             <div className="w-full text-center mb-6">
-              <h3 className="text-lg font-black text-slate-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 Category Mix
               </h3>
               <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">
@@ -488,7 +488,7 @@ const Analytics = () => {
                 <div
                   key={idx}
                   className="bg-slate-50 p-3 rounded-lg flex flex-col items-center border border-slate-100/50">
-                  <p className="text-[10px] font-black text-slate-900">
+                  <p className="text-[10px] font-semibold text-slate-900">
                     {cat.A}
                   </p>
                   <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase">
@@ -508,7 +508,7 @@ const Analytics = () => {
         <BlurFade delay={0.6}>
           <Card className="border-none shadow-xl shadow-slate-200/50 rounded-lg p-0 overflow-hidden bg-white">
             <div className="p-6 border-b border-slate-50">
-              <h3 className="text-lg font-black text-slate-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 Top Performing Products
               </h3>
               <p className="text-xs text-slate-600 font-medium">
@@ -525,11 +525,11 @@ const Analytics = () => {
                   }}
                   className="px-6 py-5 flex items-center justify-between hover:bg-slate-50/50 transition-colors group cursor-pointer">
                   <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 font-black text-xs group-hover:bg-primary group-hover:text-white transition-all">
+                    <div className="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 font-semibold text-xs group-hover:bg-primary group-hover:text-white transition-all">
                       {i + 1}
                     </div>
                     <div>
-                      <h4 className="text-sm font-black text-slate-900">
+                      <h4 className="text-sm font-semibold text-slate-900">
                         {product.name}
                       </h4>
                       <p className="text-xs sm:text-sm text-slate-600 font-bold">
@@ -538,12 +538,12 @@ const Analytics = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-black text-slate-900">
+                    <p className="text-sm font-semibold text-slate-900">
                       {product.revenue}
                     </p>
                     <div
                       className={cn(
-                        "flex items-center justify-end text-[10px] font-black mt-0.5",
+                        "flex items-center justify-end text-[10px] font-semibold mt-0.5",
                         product.trend > 0
                           ? "text-brand-600"
                           : "text-rose-600",
@@ -562,7 +562,7 @@ const Analytics = () => {
             <div className="p-4 bg-slate-50/50 border-t border-slate-50 text-center">
               <button
                 onClick={() => navigate("/seller/products")}
-                className="text-xs font-black text-primary uppercase tracking-widest hover:underline">
+                className="text-xs font-semibold text-primary uppercase tracking-widest hover:underline">
                 View All Products Analytics
               </button>
             </div>
@@ -575,7 +575,7 @@ const Analytics = () => {
         <BlurFade delay={0.7}>
           <Card className="border-none shadow-xl shadow-slate-200/50 rounded-3xl p-6 bg-white overflow-hidden group h-full">
             <div className="mb-8">
-              <h3 className="text-lg font-black text-slate-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 New Customers
               </h3>
               <p className="text-xs text-slate-600 font-bold uppercase tracking-widest">
@@ -626,7 +626,7 @@ const Analytics = () => {
                         {source.name}
                       </span>
                     </div>
-                    <span className="text-xs font-black text-slate-900">
+                    <span className="text-xs font-semibold text-slate-900">
                       {((source.value / (statsData?.trafficSources?.reduce((a, b) => a + b.value, 0) || 1)) * 100).toFixed(0)}%
                     </span>
                   </div>
@@ -639,7 +639,7 @@ const Analytics = () => {
                 <div className="h-10 w-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <HiOutlineMapPin className="h-5 w-5" />
                 </div>
-                <p className="text-[10px] font-black text-slate-900 tracking-tight">
+                <p className="text-[10px] font-semibold text-slate-900 tracking-tight">
                   {statsData?.insights?.topCity || "N/A"}
                 </p>
                 <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest">
@@ -650,7 +650,7 @@ const Analytics = () => {
                 <div className="h-10 w-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <HiOutlineClock className="h-5 w-5" />
                 </div>
-                <p className="text-[10px] font-black text-slate-900 tracking-tight">
+                <p className="text-[10px] font-semibold text-slate-900 tracking-tight">
                   {statsData?.insights?.peakTime || "N/A"}
                 </p>
                 <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest">
@@ -661,7 +661,7 @@ const Analytics = () => {
                 <div className="h-10 w-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <HiOutlineDevicePhoneMobile className="h-5 w-5" />
                 </div>
-                <p className="text-[10px] font-black text-slate-900 tracking-tight">
+                <p className="text-[10px] font-semibold text-slate-900 tracking-tight">
                   {statsData?.insights?.topDevice || "N/A"}
                 </p>
                 <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest">
@@ -685,7 +685,7 @@ const Analytics = () => {
                 <HiOutlineShoppingBag className="h-8 w-8" />
               </div>
               <div>
-                <h3 className="font-black text-slate-900">
+                <h3 className="font-semibold text-slate-900">
                   {selectedProduct.name}
                 </h3>
                 <p className="text-xs text-slate-600 font-bold uppercase tracking-widest mt-1">
@@ -696,25 +696,25 @@ const Analytics = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-brand-50 rounded-2xl">
-                <p className="text-[10px] font-black text-brand-700 uppercase tracking-widest">
+                <p className="text-[10px] font-semibold text-brand-700 uppercase tracking-widest">
                   Revenue
                 </p>
-                <p className="text-xl font-black text-brand-900">
+                <p className="text-xl font-semibold text-brand-900">
                   {selectedProduct.revenue}
                 </p>
               </div>
               <div className="p-4 bg-brand-50 rounded-2xl">
-                <p className="text-[10px] font-black text-brand-700 uppercase tracking-widest">
+                <p className="text-[10px] font-semibold text-brand-700 uppercase tracking-widest">
                   Units Sold
                 </p>
-                <p className="text-xl font-black text-brand-900">
+                <p className="text-xl font-semibold text-brand-900">
                   {selectedProduct.sales}
                 </p>
               </div>
             </div>
 
             <div className="space-y-2">
-              <p className="text-xs font-black text-slate-900 uppercase tracking-widest pl-1">
+              <p className="text-xs font-semibold text-slate-900 uppercase tracking-widest pl-1">
                 Sales velocity
               </p>
               <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -727,7 +727,7 @@ const Analytics = () => {
 
             <Button
               onClick={() => setIsProductModalOpen(false)}
-              className="w-full py-4 rounded-2xl font-black shadow-xl shadow-primary/20">
+              className="w-full py-4 rounded-2xl font-semibold shadow-xl shadow-primary/20">
               CLOSE DETAILS
             </Button>
           </div>

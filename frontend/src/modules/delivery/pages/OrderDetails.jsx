@@ -627,7 +627,7 @@ const OrderDetails = () => {
             order.payment?.method?.toLowerCase() === "cod") &&
             !isReturn &&
             step < 4 && (
-              <span className={`mt-1 text-white text-[10px] font-black px-2 py-0.5 rounded shadow-sm animate-pulse bg-orange-600`}>
+              <span className={`mt-1 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm animate-pulse bg-orange-600`}>
                 COLLECT CASH: ₹{Math.max(0, (order.pricing?.total || 0) - (order.pricing?.walletAmount || 0))}
               </span>
             )}
@@ -652,7 +652,7 @@ const OrderDetails = () => {
                   <Package className="text-white" size={32} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black mb-1 uppercase tracking-tight text-white">
+                  <h2 className="text-2xl font-semibold mb-1 uppercase tracking-tight text-white">
                     New Return Task
                   </h2>
                   <p className="text-brand-100 text-sm font-medium leading-relaxed">
@@ -665,7 +665,7 @@ const OrderDetails = () => {
                     <p className="text-[10px] uppercase font-bold text-brand-200 mb-1">
                       Earnings
                     </p>
-                    <p className="text-xl font-black text-white">
+                    <p className="text-xl font-semibold text-white">
                       ₹{order.returnDeliveryCommission || 0}
                     </p>
                   </div>
@@ -673,7 +673,7 @@ const OrderDetails = () => {
                     <p className="text-[10px] uppercase font-bold text-brand-200 mb-1">
                       Distance
                     </p>
-                    <p className="text-xl font-black text-white">
+                    <p className="text-xl font-semibold text-white">
                       {summary.totalDistanceText}
                     </p>
                   </div>
@@ -724,7 +724,7 @@ const OrderDetails = () => {
                   <Button
                     isLoading={accepting}
                     onClick={handleAcceptReturn}
-                    className="w-full bg-white text-slate-900 hover:bg-slate-50 h-14 rounded-2xl font-black text-lg shadow-lg border-none"
+                    className="w-full bg-white text-slate-900 hover:bg-slate-50 h-14 rounded-2xl font-semibold text-lg shadow-lg border-none"
                   >
                     ACCEPT TASK
                   </Button>
@@ -779,7 +779,7 @@ const OrderDetails = () => {
               <p className="text-[11px] font-bold text-[#C85D00] uppercase tracking-wider">
                 Estimated Time
               </p>
-              <p className="text-xl font-black text-[#8B3F00] leading-none">
+              <p className="text-xl font-semibold text-[#8B3F00] leading-none">
                 {summary.arrivalTimeText}
               </p>
             </div>
@@ -789,7 +789,7 @@ const OrderDetails = () => {
               <p className="text-[11px] font-bold text-[#C85D00] uppercase tracking-wider">
                 Arriving in
               </p>
-              <p className="text-xl font-black text-[#8B3F00] leading-none">
+              <p className="text-xl font-semibold text-[#8B3F00] leading-none">
                 {summary.arrivingInText}
               </p>
             </div>
@@ -813,7 +813,7 @@ const OrderDetails = () => {
               <p className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">
                 Expected Earnings
               </p>
-              <p className="text-xl font-black text-emerald-700 leading-none">
+              <p className="text-xl font-semibold text-emerald-700 leading-none">
                 ₹{isReturn ? (order.returnDeliveryCommission || 0) : (order.paymentBreakdown?.riderPayoutTotal || 0)}
               </p>
             </div>

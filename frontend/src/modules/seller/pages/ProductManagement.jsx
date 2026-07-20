@@ -1389,7 +1389,7 @@ const ProductManagement = () => {
               )}
             </div>
             <div>
-              <h3 className="text-lg font-black text-slate-900 leading-tight">{viewingVariants?.name}</h3>
+              <h3 className="text-lg font-semibold text-slate-900 leading-tight">{viewingVariants?.name}</h3>
               <div className="flex items-center gap-2 mt-1">
                 <Badge variant="primary" className="text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5">{viewingVariants?.categoryId?.name || 'Category'}</Badge>
                 <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">Master SKU: {viewingVariants?.sku || viewingVariants?._id?.slice(-6).toUpperCase() || 'N/A'}</span>
@@ -1401,10 +1401,10 @@ const ProductManagement = () => {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest">Variant Specification</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest text-center">Unit Price</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest text-center">Available Stock</th>
-                  <th className="px-6 py-4 text-[10px] font-black text-slate-600 uppercase tracking-widest text-right">Variant SKU</th>
+                  <th className="px-6 py-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest">Variant Specification</th>
+                  <th className="px-6 py-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest text-center">Unit Price</th>
+                  <th className="px-6 py-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest text-center">Available Stock</th>
+                  <th className="px-6 py-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest text-right">Variant SKU</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -1412,7 +1412,7 @@ const ProductManagement = () => {
                   <tr key={idx} className="hover:bg-slate-50/30 transition-all cursor-default">
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-xs font-black text-slate-700 group-hover:text-primary transition-colors">{v.name}</span>
+                        <span className="text-xs font-semibold text-slate-700 group-hover:text-primary transition-colors">{v.name}</span>
                         <span className="text-[9px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">Variation {idx + 1}</span>
                       </div>
                     </td>
@@ -1423,7 +1423,7 @@ const ProductManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <Badge variant={v.stock === 0 ? "rose" : v.stock <= 10 ? "amber" : "emerald"} className="text-[10px] font-black uppercase tracking-widest px-2 shadow-sm">
+                      <Badge variant={v.stock === 0 ? "rose" : v.stock <= 10 ? "amber" : "emerald"} className="text-[10px] font-semibold uppercase tracking-widest px-2 shadow-sm">
                         {v.stock === 0 ? 'OUT OF STOCK' : `${v.stock} UNITS`}
                       </Badge>
                     </td>
@@ -1441,7 +1441,7 @@ const ProductManagement = () => {
           <div className="mt-8 flex justify-end">
             <button
               onClick={() => setIsVariantsViewModalOpen(false)}
-              className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
+              className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
             >
               CLOSE VIEWER
             </button>

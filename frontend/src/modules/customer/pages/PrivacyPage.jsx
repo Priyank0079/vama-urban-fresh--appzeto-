@@ -23,7 +23,7 @@ const PrivacyPage = () => {
                 >
                     <ChevronLeft size={24} className="text-slate-600" />
                 </button>
-                <h1 className="text-lg font-black text-slate-800">Privacy Policy</h1>
+                <h1 className="text-lg font-semibold text-slate-800">Privacy Policy</h1>
             </div>
 
             <div className="p-5 max-w-3xl mx-auto space-y-6">

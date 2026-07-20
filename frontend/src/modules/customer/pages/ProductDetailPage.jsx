@@ -147,7 +147,7 @@ const ProductDetailPage = () => {
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
-                <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                <div className="w-16 h-16 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             </div>
         );
     }
@@ -173,13 +173,13 @@ const ProductDetailPage = () => {
                 <div className="flex flex-col gap-3 w-full max-w-xs">
                     <button 
                         onClick={() => navigate('/')}
-                        className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 active:scale-95 transition-all shadow-xl shadow-black/10"
+                        className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-semibold text-sm uppercase tracking-widest hover:bg-slate-800 active:scale-95 transition-all shadow-xl shadow-black/10"
                     >
                         Go to Home
                     </button>
                     <button 
                         onClick={() => navigate(-1)}
-                        className="px-10 py-4 bg-white text-slate-900 border border-slate-200 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-50 active:scale-95 transition-all"
+                        className="px-10 py-4 bg-white text-slate-900 border border-slate-200 rounded-2xl font-semibold text-sm uppercase tracking-widest hover:bg-slate-50 active:scale-95 transition-all"
                     >
                         Go Back
                     </button>
@@ -237,7 +237,7 @@ const ProductDetailPage = () => {
                 <div className="lg:w-[55%] xl:w-[60%] space-y-6 md:space-y-8">
                     <div>
                         <div className="flex items-center gap-3 mb-4">
-                            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-primary/20">
+                            <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider border border-primary/20">
                                 {product.categoryId?.name || 'Essential'}
                             </span>
                             <div className="flex items-center gap-1 text-orange-500 font-bold bg-orange-50 px-3 py-0.5 rounded-full text-xs">
@@ -245,17 +245,17 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
 
-                        <h1 className="text-3xl md:text-4xl font-black text-slate-800 leading-tight mb-3">
+                        <h1 className="text-3xl md:text-4xl font-semibold text-slate-800 leading-tight mb-3">
                             {product.name}
                         </h1>
 
                         <div className="flex items-baseline gap-4 mb-5">
-                            <span className="text-4xl font-black text-primary">₹{product.salePrice || product.price}</span>
+                            <span className="text-4xl font-semibold text-primary">₹{product.salePrice || product.price}</span>
                             {(product.salePrice && product.salePrice < product.price) && (
                                 <span className="text-lg text-slate-400 line-through font-bold">₹{product.price}</span>
                             )}
                             {product.salePrice && product.salePrice < product.price && (
-                                <span className="text-xs bg-red-50 text-red-500 px-2 py-1 rounded-lg font-black uppercase">
+                                <span className="text-xs bg-red-50 text-red-500 px-2 py-1 rounded-lg font-semibold uppercase">
                                     {Math.round(((product.price - product.salePrice) / product.price) * 100)}% OFF
                                 </span>
                             )}
@@ -275,7 +275,7 @@ const ProductDetailPage = () => {
                                 >
                                     <Minus size={24} strokeWidth={3} />
                                 </button>
-                                <span className="w-16 text-center font-black text-xl">{quantity}</span>
+                                <span className="w-16 text-center font-semibold text-xl">{quantity}</span>
                                 <button
                                     onClick={() => updateQuantity(product.id, 1, "")}
                                     className="w-12 h-12 flex items-center justify-center hover:bg-white/20 rounded-xl transition-all"
@@ -289,14 +289,14 @@ const ProductDetailPage = () => {
                                     addToCart(product);
                                     showToast(`${product.name} added to cart`, 'success');
                                 }}
-                                className="h-16 w-full sm:w-64 bg-primary hover:bg-[var(--brand-400)] text-white text-lg font-black rounded-2xl shadow-xl transition-all hover:-translate-y-1"
+                                className="h-16 w-full sm:w-64 bg-primary hover:bg-[var(--brand-400)] text-white text-lg font-semibold rounded-2xl shadow-xl transition-all hover:-translate-y-1"
                             >
                                 <Plus className="mr-2" size={24} strokeWidth={3} /> ADD TO CART
                             </Button>
                         )}
 
                         <div className="flex flex-col gap-1 text-center sm:text-left">
-                            <span className="text-xs font-black text-primary uppercase tracking-widest flex items-center justify-center sm:justify-start gap-1">
+                            <span className="text-xs font-semibold text-primary uppercase tracking-widest flex items-center justify-center sm:justify-start gap-1">
                                 <ShieldCheck size={14} /> Quality Guaranteed
                             </span>
                             <span className="text-sm font-bold text-slate-400 flex items-center justify-center sm:justify-start gap-1">
@@ -308,15 +308,15 @@ const ProductDetailPage = () => {
                     <div className="grid grid-cols-3 gap-4">
                         <div className="bg-white p-4 rounded-2xl border border-slate-100 text-center shadow-sm">
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Weight</p>
-                            <p className="text-sm font-black text-slate-800">{product.weight || '1 unit'}</p>
+                            <p className="text-sm font-semibold text-slate-800">{product.weight || '1 unit'}</p>
                         </div>
                         <div className="bg-white p-4 rounded-2xl border border-slate-100 text-center shadow-sm">
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Stock</p>
-                            <p className="text-sm font-black text-slate-800">{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
+                            <p className="text-sm font-semibold text-slate-800">{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
                         </div>
                         <div className="bg-white p-4 rounded-2xl border border-slate-100 text-center shadow-sm">
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Brand</p>
-                            <p className="text-sm font-black text-slate-800">{product.brand || 'Premium'}</p>
+                            <p className="text-sm font-semibold text-slate-800">{product.brand || 'Premium'}</p>
                         </div>
                     </div>
                 </div>
@@ -326,7 +326,7 @@ const ProductDetailPage = () => {
                 <div className="flex flex-col lg:flex-row gap-12">
                     <div className="lg:w-[40%]">
                         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm sticky top-24">
-                            <h3 className="text-2xl font-black text-slate-800 mb-2">Write a Review</h3>
+                            <h3 className="text-2xl font-semibold text-slate-800 mb-2">Write a Review</h3>
                             <p className="text-slate-500 font-medium mb-6 text-sm">Share your experience with this product</p>
                             {product?.hasReviewed || localHasReviewed ? (
                                 <div className="bg-brand-50 p-6 rounded-2xl border border-brand-100 text-center mt-6">
@@ -335,7 +335,7 @@ const ProductDetailPage = () => {
                             ) : product?.hasPurchased ? (
                                 <form onSubmit={handleReviewSubmit} className="space-y-6">
                                     <div className="space-y-3">
-                                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Your Rating</label>
+                                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Your Rating</label>
                                         <div className="flex gap-2">
                                             {[1, 2, 3, 4, 5].map((star) => (
                                                 <button
@@ -354,7 +354,7 @@ const ProductDetailPage = () => {
                                     </div>
 
                                     <div className="space-y-3">
-                                        <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Comment</label>
+                                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Comment</label>
                                         <textarea
                                             value={newReview.comment}
                                             onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
@@ -366,7 +366,7 @@ const ProductDetailPage = () => {
                                     <Button
                                         type="submit"
                                         disabled={isSubmittingReview}
-                                        className="w-full h-12 bg-primary hover:opacity-90 text-white font-black rounded-xl text-xs uppercase tracking-[0.1em] transition-all shadow-lg shadow-brand-100"
+                                        className="w-full h-12 bg-primary hover:opacity-90 text-white font-semibold rounded-xl text-xs uppercase tracking-[0.1em] transition-all shadow-lg shadow-brand-100"
                                     >
                                         {isSubmittingReview ? 'Submitting...' : 'Post Review'}
                                     </Button>
@@ -381,16 +381,16 @@ const ProductDetailPage = () => {
 
                     <div className="lg:w-[60%] space-y-8">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-3xl font-black text-slate-800">Customer Reviews</h3>
+                            <h3 className="text-3xl font-semibold text-slate-800">Customer Reviews</h3>
                             <div className="flex items-center gap-2 px-4 py-2 bg-primary/5 rounded-xl border border-primary/10">
                                 <MessageSquare size={18} className="text-primary" />
-                                <span className="font-black text-primary">{reviews.length} Verified</span>
+                                <span className="font-semibold text-primary">{reviews.length} Verified</span>
                             </div>
                         </div>
 
                         {reviewLoading ? (
                             <div className="flex justify-center p-20">
-                                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                             </div>
                         ) : reviews.length > 0 ? (
                             <div className="space-y-6">
@@ -398,11 +398,11 @@ const ProductDetailPage = () => {
                                     <div key={review._id} className="p-8 rounded-[2rem] bg-white border border-slate-100 shadow-sm">
                                         <div className="flex justify-between items-start mb-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center font-black text-slate-400 text-xl">
+                                                <div className="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center font-semibold text-slate-400 text-xl">
                                                     {review.userId?.name?.[0] || "?"}
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-black text-slate-800">
+                                                    <h4 className="font-semibold text-slate-800">
                                                         {review.userId?.name || "Anonymous"}
                                                         {review.status === 'pending' && <span className="ml-2 text-[10px] font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded uppercase">Pending</span>}
                                                     </h4>
@@ -425,7 +425,7 @@ const ProductDetailPage = () => {
                             </div>
                         ) : (
                             <div className="p-20 text-center rounded-[3rem] bg-slate-50 border-2 border-dashed border-slate-200">
-                                <p className="text-slate-400 font-black uppercase text-sm">No reviews yet. Be the first!</p>
+                                <p className="text-slate-400 font-semibold uppercase text-sm">No reviews yet. Be the first!</p>
                             </div>
                         )}
                     </div>

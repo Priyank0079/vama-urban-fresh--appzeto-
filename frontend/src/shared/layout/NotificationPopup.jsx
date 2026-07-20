@@ -18,12 +18,12 @@ const NotificationPopup = ({ notifications, onMarkAsRead, onMarkAllAsRead, onClo
                     <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                         <HiOutlineBell className="h-4 w-4" />
                     </div>
-                    <h3 className="text-sm font-black text-slate-900 tracking-tight">Notifications</h3>
+                    <h3 className="text-sm font-semibold text-slate-900 tracking-tight">Notifications</h3>
                 </div>
                 {notifications.length > 0 && (
                     <button
                         onClick={onMarkAllAsRead}
-                        className="text-[10px] font-black text-primary hover:text-primary/80 uppercase tracking-widest transition-colors"
+                        className="text-[10px] font-semibold text-primary hover:text-primary/80 uppercase tracking-widest transition-colors"
                     >
                         Mark all as read
                     </button>
@@ -62,7 +62,7 @@ const NotificationPopup = ({ notifications, onMarkAsRead, onMarkAllAsRead, onClo
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between mb-1">
                                                 <p className={cn(
-                                                    "text-xs font-black tracking-tight",
+                                                    "text-xs font-semibold tracking-tight",
                                                     notif.isRead ? "text-slate-600" : "text-slate-900"
                                                 )}>
                                                     {notif.title}
@@ -85,7 +85,7 @@ const NotificationPopup = ({ notifications, onMarkAsRead, onMarkAllAsRead, onClo
                         <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
                             <HiOutlineBell className="h-8 w-8 text-slate-300" />
                         </div>
-                        <p className="text-sm font-black text-slate-900 mb-1">No New Notifications</p>
+                        <p className="text-sm font-semibold text-slate-900 mb-1">No New Notifications</p>
                         <p className="text-xs text-slate-400 font-medium">We'll alert you when something happens.</p>
                     </div>
                 )}
@@ -94,7 +94,7 @@ const NotificationPopup = ({ notifications, onMarkAsRead, onMarkAllAsRead, onClo
             <div className="p-3 bg-slate-50/50 border-t border-gray-50 text-center flex-shrink-0">
                 <button
                     onClick={onClose}
-                    className="text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors"
+                    className="text-[10px] font-semibold text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors"
                 >
                     Close Panel
                 </button>

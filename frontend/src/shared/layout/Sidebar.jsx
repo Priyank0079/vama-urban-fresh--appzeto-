@@ -58,16 +58,16 @@ const SidebarItem = ({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           className={cn(
-            "w-full flex items-center justify-between rounded-lg px-3 pr-12 py-2.5 transition-all duration-300 group relative overflow-hidden",
+            "w-full flex items-center justify-between rounded-xl px-[14px] pr-12 py-[14px] transition-all duration-300 group relative overflow-hidden",
             isChildActive || isOpen
-              ? "bg-white/10 text-white ring-1 ring-white/10"
-              : "text-gray-400 hover:text-white",
+              ? "bg-[#E6FFFB] text-[#0EA5A4]"
+              : "text-slate-500 hover:text-[#0EA5A4] hover:bg-[#ECFEFF]",
           )}>
           <AnimatePresence>
             {isHovered && (
               <motion.div
                 layoutId="hover-highlight"
-                className="absolute inset-0 bg-white/5 rounded-lg -z-10"
+                className="absolute inset-0 bg-[#ECFEFF] rounded-xl -z-10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -83,10 +83,10 @@ const SidebarItem = ({
           <div className="flex items-center space-x-2.5 z-10">
             <div
               className={cn(
-                "p-1.5 rounded-lg transition-all duration-500 shadow-lg",
+                "p-1.5 rounded-xl transition-all duration-500",
                 isChildActive || isOpen
-                  ? "bg-primary text-primary-foreground ring-2 ring-primary/20"
-                  : "bg-white/5 text-gray-500 group-hover:bg-white/10 group-hover:text-gray-300",
+                  ? "text-[#0EA5A4]"
+                  : "text-slate-400 group-hover:text-[#0EA5A4]",
               )}>
               {item.icon && <item.icon className="h-4 w-4" />}
             </div>
@@ -99,16 +99,16 @@ const SidebarItem = ({
             </span>
           </div>
           {badgeCount > 0 && !isOpen && (
-            <span className="pointer-events-none absolute top-2 right-3 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10]">
+            <span className="pointer-events-none absolute top-2 right-3 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-semibold flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10]">
               {badgeLabel}
             </span>
           )}
           <div
             className={cn(
               "transition-all duration-300 z-10",
-              isOpen
-                ? "rotate-180 text-primary"
-                : "rotate-0 text-gray-600 group-hover:text-gray-400",
+                isOpen
+                  ? "rotate-180 text-[#0EA5A4]"
+                  : "rotate-0 text-slate-400 group-hover:text-[#0EA5A4]",
             )}>
             <HiChevronDown className="h-4 w-4" />
           </div>
@@ -126,21 +126,21 @@ const SidebarItem = ({
                 end={child.end !== undefined ? child.end : false}
                 className={({ isActive }) =>
                   cn(
-                    "block text-xs py-1.5 px-2.5 rounded-lg transition-all duration-300 relative",
+                    "block text-[13px] py-2 px-3 rounded-xl transition-all duration-300 relative font-medium",
                     isActive
-                      ? "text-white font-bold bg-white/10 shadow-sm ring-1 ring-white/5"
-                      : "text-gray-500 hover:text-gray-300 hover:bg-white/5",
+                      ? "text-[#0EA5A4] bg-[#E6FFFB] font-semibold"
+                      : "text-slate-500 hover:text-[#0EA5A4] hover:bg-[#ECFEFF]",
                     showChildBadge && "pr-9",
                   )
                 }>
                 {({ isActive }) => (
                   <>
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-[#0EA5A4]" />
                     )}
                     {child.label}
                     {showChildBadge && (
-                      <span className="pointer-events-none absolute top-1 right-2 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10]">
+                      <span className="pointer-events-none absolute top-1 right-2 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-semibold flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10]">
                         {badgeLabel}
                       </span>
                     )}
@@ -163,10 +163,10 @@ const SidebarItem = ({
       onMouseLeave={onMouseLeave}
       className={({ isActive }) =>
         cn(
-          "flex items-center space-x-2.5 rounded-lg px-3 py-2.5 transition-all duration-300 group relative overflow-hidden",
+          "flex items-center space-x-2.5 rounded-xl px-[14px] py-[14px] transition-all duration-300 group relative overflow-hidden",
           isActive
-            ? "bg-primary text-primary-foreground"
-            : "text-gray-400 hover:text-white",
+            ? "bg-[#E6FFFB] text-[#0EA5A4]"
+            : "text-slate-500 hover:text-[#0EA5A4] hover:bg-[#ECFEFF]",
         )
       }>
       {({ isActive }) => (
@@ -175,7 +175,7 @@ const SidebarItem = ({
             {isHovered && !isActive && (
               <motion.div
                 layoutId="hover-highlight"
-                className="absolute inset-0 bg-white/5 rounded-lg -z-10"
+                className="absolute inset-0 bg-[#ECFEFF] rounded-xl -z-10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -190,10 +190,10 @@ const SidebarItem = ({
 
           <div
             className={cn(
-              "p-1.5 rounded-lg transition-all duration-500 shadow-md z-10",
+              "p-1.5 rounded-xl transition-all duration-500 z-10",
               isActive
-                ? "bg-white/20 text-white"
-                : "bg-white/5 text-gray-500 group-hover:bg-white/10 group-hover:text-gray-300",
+                ? "text-[#0EA5A4]"
+                : "text-slate-400 group-hover:text-[#0EA5A4]",
             )}>
             {item.icon && <item.icon className="h-4 w-4" />}
           </div>
@@ -205,12 +205,12 @@ const SidebarItem = ({
             {item.label}
           </span>
           {badgeCount > 0 && (
-            <span className="pointer-events-none absolute top-2 right-3 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10] z-10">
+            <span className="pointer-events-none absolute top-2 right-3 min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-semibold flex items-center justify-center shadow-lg shadow-rose-500/30 ring-2 ring-[#0a0c10] z-10">
               {badgeLabel}
             </span>
           )}
           {isActive && (
-            <div className="absolute right-0 top-0 bottom-0 w-1 bg-white/30 rounded-l-full animate-in slide-in-from-right-1" />
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#0EA5A4] rounded-r-full animate-in slide-in-from-left-1" />
           )}
         </>
       )}
@@ -227,7 +227,7 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
 
   return (
     <div className="flex flex-col h-full min-h-0">
-      <div className="flex-shrink-0 flex h-16 items-center justify-between px-5 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent z-10">
+      <div className="flex-shrink-0 flex h-[72px] items-center justify-between px-6 border-b border-[#E8EDF5] bg-white z-10">
         <NavLink to={homePath} className="flex items-center space-x-2.5 hover:opacity-90 transition-opacity">
           {settings?.logoUrl ? (
             <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-white/10 group-hover:scale-110 transition-all duration-500 ease-out">
@@ -235,14 +235,14 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
             </div>
           ) : (
             <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-sm transform -rotate-6 hover:rotate-0 transition-all duration-500 ease-out">
-              <span className="text-lg font-black italic">{appName.charAt(0)}</span>
+              <span className="text-lg font-semibold italic">{appName.charAt(0)}</span>
             </div>
           )}
           <div>
-            <h1 className="text-base font-black tracking-tight text-white leading-none">
+            <h1 className="text-base font-bold tracking-tight text-[#0F172A] leading-none">
               {appName}
             </h1>
-            <span className="text-[9px] font-black text-primary uppercase tracking-[0.2em] mt-1 block">
+            <span className="text-[9px] font-semibold text-primary uppercase tracking-[0.2em] mt-1 block">
               {title}
             </span>
           </div>
@@ -251,7 +251,7 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
         {/* Mobile Close Button */}
         <button
           onClick={onClose}
-          className="p-2 md:hidden text-gray-500 hover:text-white transition-colors"
+          className="p-2 md:hidden text-slate-400 hover:text-[#0EA5A4] transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
@@ -263,7 +263,7 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
         className="mt-4 px-3 space-y-1.5 flex-1 overflow-y-auto overscroll-contain custom-scrollbar-dark min-h-0 pb-6 relative z-20"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        <p className="px-3 text-[9px] font-black text-gray-600 uppercase tracking-[0.3em] mb-3">
+        <p className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 mt-2">
           Core Management
         </p>
         <AnimatePresence>
@@ -284,8 +284,8 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
         </AnimatePresence>
       </nav>
 
-      <div className="p-4 border-t border-white/5 bg-gradient-to-t from-white/[0.02] to-transparent flex-shrink-0">
-        <div className="bg-white/5 rounded-lg p-3 shadow-sm border border-white/5 hover:bg-white/[0.08] hover:border-white/10 transition-all group cursor-pointer">
+      <div className="p-4 border-t border-[#E8EDF5] bg-white flex-shrink-0">
+        <div className="bg-[#F7F9FC] rounded-xl p-3 shadow-sm border border-[#E8EDF5] hover:border-[#0EA5A4]/30 transition-all group cursor-pointer">
           <div className="flex items-center space-x-2.5">
             <div className="relative group">
               {settings?.logoUrl ? (
@@ -293,17 +293,17 @@ const SidebarContent = ({ items, title, onClose, openMenu, handleToggle, hovered
                   <img src={settings.logoUrl} alt={appName} className="h-full w-full object-contain" />
                 </div>
               ) : (
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary via-brand-500 to-violet-600 flex items-center justify-center text-white font-black text-xs shadow-lg group-hover:scale-110 transition-all duration-500">
+                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary via-brand-500 to-violet-600 flex items-center justify-center text-white font-semibold text-xs shadow-lg group-hover:scale-110 transition-all duration-500">
                   {appName.charAt(0)}
                 </div>
               )}
               <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-brand-500 rounded-full border-2 border-[#0a0c10] shadow-sm animate-pulse"></div>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold text-white truncate group-hover:text-primary transition-colors">
+              <p className="text-[13px] font-bold text-[#0F172A] truncate group-hover:text-[#0EA5A4] transition-colors">
                 {title?.toLowerCase().includes('seller') ? 'Seller Console' : 'Admin Console'}
               </p>
-              <p className="text-[9px] text-gray-500 truncate font-black uppercase tracking-widest">
+              <p className="text-[9px] text-gray-500 truncate font-semibold uppercase tracking-widest">
                 {title?.toLowerCase().includes('seller') ? 'Seller' : 'Super Admin'}
               </p>
             </div>
@@ -337,7 +337,7 @@ const Sidebar = ({ items, title, isOpen, onClose }) => {
     <>
       {/* Desktop Sidebar */}
       <aside className={cn(
-        "fixed left-0 inset-y-0 w-72 bg-[#0a0c10] text-gray-400 border-r border-white/5 shadow-[20px_0_60px_rgba(0,0,0,0.4)] md:flex flex-col z-50 transition-all duration-300",
+        "fixed left-0 inset-y-0 w-[280px] bg-white text-slate-500 border-r border-[#E8EDF5] shadow-[4px_0_24px_rgba(15,23,42,0.02)] md:flex flex-col z-50 transition-all duration-300",
         (role === "admin" || role === "seller") ? "hidden md:flex" : "flex",
       )}>
         <SidebarContent {...commonProps} />
@@ -357,14 +357,14 @@ const Sidebar = ({ items, title, isOpen, onClose }) => {
             />
 
             {/* Outer Container (Fixed Shell - NO TRANSFORM) */}
-            <div className="absolute left-0 inset-y-0 w-72 flex flex-col pointer-events-none">
+            <div className="absolute left-0 inset-y-0 w-[280px] flex flex-col pointer-events-none">
               {/* Inner Animation Wrapper (TRANSFORM APPLIED HERE) */}
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-                className="flex-1 bg-[#0a0c10] shadow-2xl flex flex-col pointer-events-auto min-h-0"
+                className="flex-1 bg-white shadow-[20px_0_40px_rgba(15,23,42,0.08)] flex flex-col pointer-events-auto min-h-0"
               >
                 <SidebarContent {...commonProps} />
               </motion.div>

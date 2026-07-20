@@ -2,6 +2,7 @@ import Order from "../models/order.js";
 import Delivery from "../models/delivery.js";
 import Seller from "../models/seller.js";
 import CheckoutGroup from "../models/checkoutGroup.js";
+import OrderOtp from "../models/orderOtp.js";
 import { WORKFLOW_STATUS } from "../constants/orderWorkflow.js";
 import { distanceMeters } from "../utils/geoUtils.js";
 import {
@@ -573,6 +574,27 @@ export async function getOrderWithAccess(orderId, userId, role) {
       "Access denied. You are not authorized to view this order.",
       403,
     );
+  }
+
+  // Fetch active delivery OTP if order is out for delivery
+  if (order.status === "out_for_delivery" || order.workflowStatus === WORKFLOW_STATUS.OUT_FOR_DELIVERY) {
+    try {
+      const activeOtp = await OrderOtp.findOne({
+        orderId: order.orderId,
+        type: "delivery",
+        consumedAt: null,
+        expiresAt: { $gt: new Date() },
+      }).lean();
+      if (activeOtp) {
+        order.deliveryOtpData = {
+          otp: activeOtp.code,
+          expiresAt: activeOtp.expiresAt,
+          deliveryPersonNearby: true,
+        };
+      }
+    } catch (err) {
+      logger.warn("Failed to fetch active OTP for order details", { orderId: order.orderId, err: err.message });
+    }
   }
 
   return {

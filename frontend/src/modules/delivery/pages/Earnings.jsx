@@ -123,7 +123,7 @@ const Earnings = () => {
             </p>
             <div className="flex items-baseline mb-6 relative z-10">
               <span className="text-3xl font-bold mr-1">{"\u20B9"}</span>
-              <span className="text-5xl font-extrabold tracking-tight">
+              <span className="text-5xl font-semibold tracking-tight">
                 {earningsData.totalEarnings.toLocaleString()}
               </span>
             </div>
@@ -199,7 +199,7 @@ const Earnings = () => {
                 <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">
                   COD Cash Management
                 </p>
-                <p className="text-3xl font-extrabold text-gray-900">
+                <p className="text-3xl font-semibold text-gray-900">
                   {"\u20B9"}{Number(codCash.systemFloatCOD || 0).toLocaleString()}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
@@ -245,7 +245,7 @@ const Earnings = () => {
                       Collect from customer • Gross {"\u20B9"}{Number(row.amountGross || 0).toLocaleString()}
                     </p>
                   </div>
-                  <p className="text-sm font-extrabold text-orange-700">
+                  <p className="text-sm font-semibold text-orange-700">
                     {"\u20B9"}{Number(row.amountNetExpected || 0).toLocaleString()}
                   </p>
                 </div>
@@ -264,7 +264,7 @@ const Earnings = () => {
                       Remit to platform â€¢ Net of commission
                     </p>
                   </div>
-                  <p className="text-sm font-extrabold text-gray-900">
+                  <p className="text-sm font-semibold text-gray-900">
                     {"\u20B9"}{Number(row.amountNetPending || 0).toLocaleString()}
                   </p>
                 </div>

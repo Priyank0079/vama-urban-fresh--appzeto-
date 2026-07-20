@@ -175,7 +175,7 @@ const SupportPage = () => {
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <div>
-                                        <h2 className="text-2xl font-black text-slate-800">Raise a Ticket</h2>
+                                        <h2 className="text-2xl font-semibold text-slate-800">Raise a Ticket</h2>
                                         <p className="text-sm text-slate-500 font-medium">Describe your issue in detail</p>
                                     </div>
                                     <button
@@ -188,7 +188,7 @@ const SupportPage = () => {
 
                                 <form onSubmit={handleTicketSubmit} className="space-y-6">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Subject</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Subject</label>
                                         <input
                                             type="text"
                                             required
@@ -206,7 +206,7 @@ const SupportPage = () => {
                                                 type="button"
                                                 onClick={() => setTicketData({ ...ticketData, priority: p })}
                                                 className={cn(
-                                                    "py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border",
+                                                    "py-3 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all border",
                                                     ticketData.priority === p
                                                         ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-brand-100"
                                                         : "bg-white text-slate-400 border-slate-100 hover:bg-slate-50"
@@ -218,7 +218,7 @@ const SupportPage = () => {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Description</label>
                                         <textarea
                                             required
                                             value={ticketData.description}
@@ -231,7 +231,7 @@ const SupportPage = () => {
                                     <Button
                                         type="submit"
                                         disabled={ticketLoading}
-                                        className="w-full h-14 bg-primary hover:bg-[#0b721b] text-white text-lg font-black rounded-2xl shadow-xl shadow-brand-100 transition-all active:scale-95"
+                                        className="w-full h-14 bg-primary hover:bg-[#0b721b] text-white text-lg font-semibold rounded-2xl shadow-xl shadow-brand-100 transition-all active:scale-95"
                                     >
                                         {ticketLoading ? (
                                             <div className="flex items-center gap-2 text-center w-full justify-center">

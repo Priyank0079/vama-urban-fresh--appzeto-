@@ -350,8 +350,8 @@ const SupportTickets = () => {
                 >
                     <div className="p-6 border-b border-slate-50 space-y-4">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">Support Desk</h2>
-                            <Badge variant="blue" className="text-[10px] font-black">{tickets.length} ACTIVE</Badge>
+                            <h2 className="text-xl font-semibold text-slate-900 tracking-tight">Support Desk</h2>
+                            <Badge variant="blue" className="text-[10px] font-semibold">{tickets.length} ACTIVE</Badge>
                         </div>
                         <div className="relative group">
                             <HiOutlineMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -360,7 +360,7 @@ const SupportTickets = () => {
                                 placeholder="Search by ID or Name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-2 border-slate-800/40 focus:border-slate-900 rounded-2xl text-xs font-bold outline-none transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-2 border-slate-200/40 focus:border-slate-900 rounded-2xl text-xs font-bold outline-none transition-all"
                             />
                         </div>
                     </div>
@@ -371,16 +371,16 @@ const SupportTickets = () => {
                                 key={t.id}
                                 onClick={() => setSelectedTicket(t)}
                                 className={cn(
-                                    "w-full text-left p-4 pr-10 rounded-2xl transition-all group relative overflow-hidden border border-slate-800/20 bg-white",
+                                    "w-full text-left p-4 pr-10 rounded-2xl transition-all group relative overflow-hidden border border-slate-200/20 bg-white",
                                     selectedTicket?.id === t.id
                                         ? "bg-slate-900 text-white shadow-xl translate-x-1 border-black/30"
-                                        : "hover:bg-slate-50 hover:border-slate-800/30 text-slate-700"
+                                        : "hover:bg-slate-50 hover:border-slate-200/30 text-slate-700"
                                 )}
                             >
                                 {Number(unreadByTicket?.[t.id] || 0) > 0 && (
                                     <span
                                         className={cn(
-                                            "absolute top-3 right-3 min-w-5 h-5 px-1.5 rounded-full text-[10px] font-black flex items-center justify-center shadow-lg ring-2",
+                                            "absolute top-3 right-3 min-w-5 h-5 px-1.5 rounded-full text-[10px] font-semibold flex items-center justify-center shadow-lg ring-2",
                                             selectedTicket?.id === t.id
                                                 ? "bg-rose-500 text-white ring-slate-900 shadow-rose-500/30"
                                                 : "bg-rose-500 text-white ring-white shadow-rose-500/30",
@@ -393,13 +393,13 @@ const SupportTickets = () => {
                                 <div className="flex items-start justify-between mb-2">
                                     <Badge
                                         variant={t.priority === 'high' ? 'danger' : t.priority === 'medium' ? 'warning' : 'secondary'}
-                                        className={cn("text-[8px] font-black uppercase tracking-widest", selectedTicket?.id === t.id && "bg-white/20 text-white border-none")}
+                                        className={cn("text-[8px] font-semibold uppercase tracking-widest", selectedTicket?.id === t.id && "bg-white/20 text-white border-none")}
                                     >
                                         {t.priority}
                                     </Badge>
                                     <span className={cn("text-[9px] font-bold opacity-60", selectedTicket?.id === t.id ? "text-white" : "text-slate-400")}>{t.date}</span>
                                 </div>
-                                <h4 className="text-xs font-black truncate mb-1">{t.subject}</h4>
+                                <h4 className="text-xs font-semibold truncate mb-1">{t.subject}</h4>
                                 <div className="flex items-center gap-2">
                                     <div className={cn("p-1 rounded-md", selectedTicket?.id === t.id ? "bg-white/10" : "bg-slate-100")}>
                                         {t.userType === 'Customer' && <HiOutlineUser className="h-3 w-3" />}
@@ -445,7 +445,7 @@ const SupportTickets = () => {
                                     <HiOutlineChatBubbleLeftRight className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-black text-slate-900 leading-none mb-1">{selectedTicket.subject}</h3>
+                                    <h3 className="text-sm font-semibold text-slate-900 leading-none mb-1">{selectedTicket.subject}</h3>
                                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">
                                         Ticket ID: {selectedTicket.ticketCode} • USER: {selectedTicket.user} • STATUS: {selectedTicket.status}
                                     </p>
@@ -481,19 +481,19 @@ const SupportTickets = () => {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                             transition={{ duration: 0.12 }}
-                                            className="absolute right-0 top-[52px] w-56 bg-white border-2 border-slate-800/40 rounded-2xl shadow-xl overflow-hidden z-50"
+                                            className="absolute right-0 top-[52px] w-56 bg-white border-2 border-slate-200/40 rounded-2xl shadow-xl overflow-hidden z-50"
                                             role="menu"
                                         >
                                             <button
                                                 onClick={() => copyToClipboard(selectedTicket.id)}
-                                                className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors"
+                                                className="w-full text-left px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                                                 role="menuitem"
                                             >
                                                 Copy ticket ID
                                             </button>
                                             <button
                                                 onClick={() => copyToClipboard(selectedTicket.user)}
-                                                className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors"
+                                                className="w-full text-left px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                                                 role="menuitem"
                                             >
                                                 Copy user name
@@ -501,21 +501,21 @@ const SupportTickets = () => {
                                             <div className="h-px bg-slate-100" />
                                             <button
                                                 onClick={() => handleSetStatus(selectedTicket.id, 'open')}
-                                                className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors"
+                                                className="w-full text-left px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                                                 role="menuitem"
                                             >
                                                 Mark as open
                                             </button>
                                             <button
                                                 onClick={() => handleSetStatus(selectedTicket.id, 'processing')}
-                                                className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors"
+                                                className="w-full text-left px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                                                 role="menuitem"
                                             >
                                                 Mark as processing
                                             </button>
                                             <button
                                                 onClick={() => handleSetStatus(selectedTicket.id, 'closed')}
-                                                className="w-full text-left px-4 py-3 text-xs font-black text-slate-700 hover:bg-slate-50 transition-colors"
+                                                className="w-full text-left px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                                                 role="menuitem"
                                             >
                                                 Mark as closed
@@ -544,7 +544,7 @@ const SupportTickets = () => {
                                     <div key={m.id} className={cn("flex flex-col", m.isAdmin ? "items-end" : "items-start")}>
                                         <div className={cn(
                                             "max-w-[80%] p-4 rounded-xl text-sm font-medium leading-relaxed shadow-sm",
-                                            m.isAdmin ? "bg-slate-900 text-white rounded-tr-sm" : "bg-white text-slate-700 border border-slate-800/40 rounded-tl-sm"
+                                            m.isAdmin ? "bg-slate-900 text-white rounded-tr-sm" : "bg-white text-slate-700 border border-slate-200/40 rounded-tl-sm"
                                         )}>
                                             {m.mediaUrl ? (
                                                 <img
@@ -562,7 +562,7 @@ const SupportTickets = () => {
                             </div>
 
                             <div className="absolute inset-x-0 bottom-0 p-6 bg-white border-t border-slate-50 shadow-[0_-10px_30px_rgba(15,23,42,0.05)]">
-                                <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-2xl border-2 border-slate-800/70 focus-within:border-slate-900 focus-within:bg-white transition-all">
+                                <div className="flex items-center gap-4 bg-slate-50 p-2 rounded-2xl border-2 border-slate-200/70 focus-within:border-slate-900 focus-within:bg-white transition-all">
                                     <textarea
                                         value={reply}
                                         onChange={(e) => setReply(e.target.value)}
@@ -591,7 +591,7 @@ const SupportTickets = () => {
                         <div className="h-24 w-24 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 ring-1 ring-slate-100">
                             <HiOutlineChatBubbleLeftRight className="h-10 w-10 text-slate-200" />
                         </div>
-                        <h4 className="text-xl font-black text-slate-900 uppercase">Universal Support Hub</h4>
+                        <h4 className="text-xl font-semibold text-slate-900 uppercase">Universal Support Hub</h4>
                         <p className="text-sm font-bold text-slate-400 mt-2 max-w-sm mx-auto leading-relaxed">
                             Select a transaction or dispute ticket from the sidebar to begin resolution protocol.
                         </p>

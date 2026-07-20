@@ -758,7 +758,7 @@ const OrderDetailPage = () => {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
-                  <h3 className="text-sm font-black text-brand-900 uppercase tracking-tight">Payment Required</h3>
+                  <h3 className="text-sm font-semibold text-brand-900 uppercase tracking-tight">Payment Required</h3>
                 </div>
                 <p className="text-xs text-brand-700 font-medium leading-relaxed">
                   Complete your payment of <span className="font-bold">₹{order.pricing.total}</span> to proceed with this order.
@@ -766,7 +766,7 @@ const OrderDetailPage = () => {
               </div>
               <button
                 onClick={handleRetryPayment}
-                className="bg-black  hover:bg-brand-700 text-primary-foreground px-5 py-2.5 rounded-xl text-xs font-black shadow-lg shadow-brand-200 transition-all active:scale-95 flex items-center gap-2 uppercase tracking-wide shrink-0"
+                className="bg-black  hover:bg-brand-700 text-primary-foreground px-5 py-2.5 rounded-xl text-xs font-semibold shadow-lg shadow-brand-200 transition-all active:scale-95 flex items-center gap-2 uppercase tracking-wide shrink-0"
               >
                 Pay Now <ArrowRight size={14} />
               </button>
@@ -815,6 +815,7 @@ const OrderDetailPage = () => {
           <DeliveryOtpDisplay
             orderId={order?.orderId || orderId}
             checkoutGroupId={order?.checkoutGroupId || orderId}
+            initialOtpData={order?.deliveryOtpData}
           />
         )}
 
@@ -1017,7 +1018,7 @@ const OrderDetailPage = () => {
               <span className="text-base font-bold text-slate-900">
                 Total Amount
               </span>
-              <span className="text-xl font-black text-brand-600">
+              <span className="text-xl font-semibold text-brand-600">
                 ₹{order.pricing.total}
               </span>
             </div>
@@ -1098,7 +1099,7 @@ const OrderDetailPage = () => {
                       {handoffOtp ? (
                         <div className="flex gap-2">
                           {handoffOtp.split('').map((digit, i) => (
-                            <div key={i} className="h-10 w-8 bg-white border-2 border-brand-200 rounded-lg flex items-center justify-center text-lg font-black text-brand-700 shadow-sm">
+                            <div key={i} className="h-10 w-8 bg-white border-2 border-brand-200 rounded-lg flex items-center justify-center text-lg font-semibold text-brand-700 shadow-sm">
                               {digit}
                             </div>
                           ))}
@@ -1166,7 +1167,7 @@ const OrderDetailPage = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="relative z-10 w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 space-y-4"
           >
-            <h3 className="text-lg font-black text-slate-900">
+            <h3 className="text-lg font-semibold text-slate-900">
               Request Return
             </h3>
             <p className="text-xs text-slate-500">

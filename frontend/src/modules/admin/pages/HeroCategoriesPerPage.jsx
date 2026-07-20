@@ -205,7 +205,7 @@ export default function HeroCategoriesPerPage() {
   return (
     <div className="p-4 md:p-6 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-xl md:text-2xl font-semibold text-slate-900 tracking-tight">
           Hero & categories per page
         </h1>
         <p className="text-sm text-slate-500 mt-1">
@@ -223,16 +223,16 @@ export default function HeroCategoriesPerPage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-slate-100">
-                  <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <th className="pb-3 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                     Page
                   </th>
-                  <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <th className="pb-3 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                     Hero (top banners)
                   </th>
-                  <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <th className="pb-3 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                     Categories below hero
                   </th>
-                  <th className="pb-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <th className="pb-3 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                     Action
                   </th>
                 </tr>
@@ -321,7 +321,7 @@ export default function HeroCategoriesPerPage() {
           <div className="space-y-6">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                   Hero banners
                 </label>
                 <button
@@ -395,7 +395,7 @@ export default function HeroCategoriesPerPage() {
             </div>
 
             <div>
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">
+              <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest block mb-2">
                 Categories below hero
               </label>
               <div className="flex flex-wrap gap-2">

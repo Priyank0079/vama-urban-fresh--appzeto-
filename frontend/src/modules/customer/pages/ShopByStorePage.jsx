@@ -86,10 +86,10 @@ const ShopByStorePage = () => {
       {/* Header */}
       <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <p className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-primary/80 mb-2">
+          <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.25em] text-primary/80 mb-2">
             Shop by store
           </p>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-3">
+          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-3">
             Curated Aisles,{" "}
             <span className="text-primary">Just for You</span>
           </h1>
@@ -146,10 +146,10 @@ const ShopByStorePage = () => {
                     />
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-1 line-clamp-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1 line-clamp-1">
                       Curated store
                     </p>
-                    <p className="text-sm md:text-base font-black text-slate-800 line-clamp-2">
+                    <p className="text-sm md:text-base font-semibold text-slate-800 line-clamp-2">
                       {store.title}
                     </p>
                   </div>
@@ -173,7 +173,7 @@ const ShopByStorePage = () => {
             <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-100 via-amber-50 to-rose-50 border border-slate-100 shadow-xl h-full flex flex-col">
               <div className="p-6 md:p-8 flex-1 flex flex-col justify-between relative z-10">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.3em] text-brand-500 mb-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-500 mb-2">
                     {activeStore.categoryIds?.length || 0}+ categories
                   </p>
                   <h2 className="text-2xl md:text-3xl font-[1000] text-slate-900 leading-tight mb-2">
@@ -223,7 +223,7 @@ const ShopByStorePage = () => {
                         />
                       </div>
                       <div className="mt-1">
-                        <p className="text-xs md:text-sm font-black text-slate-800 leading-snug line-clamp-2">
+                        <p className="text-xs md:text-sm font-semibold text-slate-800 leading-snug line-clamp-2">
                           {name}
                         </p>
                       </div>

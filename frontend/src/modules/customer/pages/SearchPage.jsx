@@ -278,7 +278,7 @@ const SearchPage = () => {
                 {query ? (
                     <section>
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-black text-slate-800 tracking-tight">
+                            <h2 className="text-xl font-semibold text-slate-800 tracking-tight">
                                 Search Results
                             </h2>
                             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{results.length} found</span>
@@ -301,7 +301,7 @@ const SearchPage = () => {
                                         <div className="w-48 h-48 md:w-64 md:h-64" />
                                     )}
                                 </div>
-                                <h3 className="text-xl font-black text-slate-800 tracking-tight mb-2">No items found</h3>
+                                <h3 className="text-xl font-semibold text-slate-800 tracking-tight mb-2">No items found</h3>
                                 <p className="text-slate-500 font-medium max-w-xs">We couldn't find anything for "{query}". Try different keywords!</p>
                             </div>
                         )}
@@ -311,7 +311,7 @@ const SearchPage = () => {
                         {/* 1. Recently Searched Item Section */}
                         {pastSearches.length > 0 && (
                             <section>
-                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Recently Searched</h3>
+                                <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Recently Searched</h3>
                                 <div className="flex gap-2 overflow-x-auto no-scrollbar">
                                     {pastSearches.map((term) => (
                                         <div
@@ -338,9 +338,9 @@ const SearchPage = () => {
                         {/* 2. Lowest Price Ever Section */}
                         <section>
                             <div className="flex justify-between items-center mb-5">
-                                <h2 className="text-xl font-black text-slate-800 tracking-tight">Lowest Price Ever!</h2>
+                                <h2 className="text-xl font-semibold text-slate-800 tracking-tight">Lowest Price Ever!</h2>
                                 <button 
-                                    className="flex items-center gap-1 md:gap-1.5 px-3 py-1 md:px-4 md:py-1.5 bg-slate-50 hover:bg-slate-100 rounded-full text-xs md:text-sm font-black transition-all" 
+                                    className="flex items-center gap-1 md:gap-1.5 px-3 py-1 md:px-4 md:py-1.5 bg-slate-50 hover:bg-slate-100 rounded-full text-xs md:text-sm font-semibold transition-all" 
                                     style={{ color: settings?.primaryColor || 'var(--primary)' }}
                                     onClick={() => navigate('/category/all')}
                                 >

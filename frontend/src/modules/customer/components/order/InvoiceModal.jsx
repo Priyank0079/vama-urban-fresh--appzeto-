@@ -35,7 +35,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                             {/* Header */}
                             <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-lg font-black text-slate-800">Invoice</h2>
+                                    <h2 className="text-lg font-semibold text-slate-800">Invoice</h2>
                                     <p className="text-xs text-slate-500 font-medium">#{order.id}</p>
                                 </div>
                                 <button onClick={onClose} className="p-2 bg-white rounded-full hover:bg-slate-200 transition-colors shadow-sm border border-slate-100">
@@ -47,7 +47,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                             <div className="p-8 space-y-6" id="printable-invoice">
                                 <div className="flex justify-between items-start">
                                     <div>
-                                        <h1 className="text-2xl font-black tracking-tight" style={{ color: primaryColor }}>{appName}</h1>
+                                        <h1 className="text-2xl font-semibold tracking-tight" style={{ color: primaryColor }}>{appName}</h1>
                                         <p className="text-xs text-slate-500 print:text-black mt-1">{settings?.companyName || 'Quick Commerce'}<br />{settings?.address || '—'}</p>
                                     </div>
                                     <div className="text-right">
@@ -86,7 +86,7 @@ const InvoiceModal = ({ isOpen, onClose, order }) => {
                                         <span>Tax</span>
                                         <span>₹{order.pricing?.gst || 0}</span>
                                     </div>
-                                    <div className="flex justify-between text-base font-black text-slate-800 print:text-black pt-2 border-t border-slate-100 print:border-black">
+                                    <div className="flex justify-between text-base font-semibold text-slate-800 print:text-black pt-2 border-t border-slate-100 print:border-black">
                                         <span>Total Paid</span>
                                         <span>₹{order.pricing?.total || 0}</span>
                                     </div>

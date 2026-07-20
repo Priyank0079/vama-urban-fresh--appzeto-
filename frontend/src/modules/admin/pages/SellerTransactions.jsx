@@ -318,7 +318,7 @@ const SellerTransactions = () => {
                                     key={status}
                                     onClick={() => setFilterStatus(status)}
                                     className={cn(
-                                        "px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-tight transition-all",
+                                        "px-4 py-1.5 rounded-lg text-[9px] font-semibold uppercase tracking-tight transition-all",
                                         filterStatus === status ? "bg-white text-orange-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
                                     )}
                                 >
@@ -357,7 +357,7 @@ const SellerTransactions = () => {
                                                 {txn.type === 'sale' ? <ShoppingCart className="h-5 w-5" /> : txn.type === 'payout' ? <ArrowUpRight className="h-5 w-5" /> : <Undo2 className="h-5 w-5" />}
                                             </div>
                                             <div>
-                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">{txn.id}</p>
+                                                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-tighter">{txn.id}</p>
                                                 <p className="text-xs font-bold text-slate-900 mt-0.5">{txn.date}</p>
                                             </div>
                                         </div>
@@ -370,13 +370,13 @@ const SellerTransactions = () => {
                                     </td>
                                     <td className="px-6 py-5">
                                         <div className="flex flex-col gap-0.5">
-                                            <span className="text-[10px] font-black text-slate-400 uppercase">{txn.type}</span>
+                                            <span className="text-[10px] font-semibold text-slate-400 uppercase">{txn.type}</span>
                                             {txn.orderId && <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">{txn.orderId}</span>}
                                         </div>
                                     </td>
                                     <td className="px-6 py-5 text-center">
                                         <p className={cn(
-                                            "text-sm font-black",
+                                            "text-sm font-semibold",
                                             txn.amount > 0 ? "text-slate-900" : "text-rose-600"
                                         )}>
                                             ₹{Math.abs(txn.amount).toLocaleString()}
@@ -386,7 +386,7 @@ const SellerTransactions = () => {
                                         {txn.type === 'sale' ? (
                                             <div className="flex flex-col items-center">
                                                 <span className="text-[9px] font-bold text-rose-500">(-₹{txn.commissionAmount})</span>
-                                                <span className="text-xs font-black text-brand-600 pt-0.5">₹{txn.netPayable.toLocaleString()}</span>
+                                                <span className="text-xs font-semibold text-brand-600 pt-0.5">₹{txn.netPayable.toLocaleString()}</span>
                                             </div>
                                         ) : (
                                             <span className="text-slate-300 font-bold text-[10px]">---</span>
@@ -395,7 +395,7 @@ const SellerTransactions = () => {
                                     <td className="px-6 py-5 text-center">
                                         <Badge
                                             variant={txn.status === 'settled' || txn.status === 'processed' || txn.status === 'completed' ? 'success' : 'warning'}
-                                            className="text-[8px] font-black px-2 py-0.5 uppercase tracking-widest"
+                                            className="text-[8px] font-semibold px-2 py-0.5 uppercase tracking-widest"
                                         >
                                             {txn.status}
                                         </Badge>
@@ -453,7 +453,7 @@ const SellerTransactions = () => {
                             )}>
                                 {selectedTxn.type === 'sale' ? <ShoppingCart className="h-8 w-8" /> : selectedTxn.type === 'payout' ? <ArrowUpRight className="h-8 w-8" /> : <Undo2 className="h-8 w-8" />}
                             </div>
-                            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+                            <h2 className="text-3xl font-semibold text-slate-900 tracking-tight">
                                 {selectedTxn.amount > 0 ? '' : '-'}₹{Math.abs(selectedTxn.amount).toLocaleString()}
                             </h2>
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mt-2">{(selectedTxn.id || '').substring(0, 10)}</p>
@@ -492,7 +492,7 @@ const SellerTransactions = () => {
 
                             {selectedTxn.type === 'sale' && (
                                 <div className="space-y-4">
-                                    <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest px-4">Financial Drill-Down</h4>
+                                    <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-widest px-4">Financial Drill-Down</h4>
                                     <div className="bg-slate-900 rounded-xl p-6 text-white space-y-4">
                                         <div className="flex justify-between items-center text-sm font-medium">
                                             <span className="opacity-60">Base Subtotal</span>
@@ -507,8 +507,8 @@ const SellerTransactions = () => {
                                             <span className="text-orange-400">-₹{selectedTxn.taxAmount}</span>
                                         </div>
                                         <div className="pt-4 border-t border-white/10 flex justify-between items-center">
-                                            <span className="text-xs font-black uppercase tracking-widest">Merchant Net Payable</span>
-                                            <span className="text-lg font-black text-brand-400">₹{selectedTxn.netPayable}</span>
+                                            <span className="text-xs font-semibold uppercase tracking-widest">Merchant Net Payable</span>
+                                            <span className="text-lg font-semibold text-brand-400">₹{selectedTxn.netPayable}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -516,7 +516,7 @@ const SellerTransactions = () => {
 
                             {selectedTxn.type === 'payout' && (
                                 <div className="space-y-4">
-                                    <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest px-4">Transfer Intel</h4>
+                                    <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-widest px-4">Transfer Intel</h4>
                                     <div className="bg-brand-50 ring-1 ring-brand-100 rounded-[24px] p-6 space-y-4">
                                         <div className="flex items-center gap-3">
                                             <Info className="h-5 w-5 text-brand-600" />
@@ -525,11 +525,11 @@ const SellerTransactions = () => {
                                         <div className="space-y-2">
                                             <div className="flex justify-between">
                                                 <span className="text-[10px] font-bold text-brand-600/60 uppercase">Reference Identifier</span>
-                                                <span className="text-xs font-mono font-black text-brand-900 line-clamp-1">{selectedTxn.referenceId}</span>
+                                                <span className="text-xs font-mono font-semibold text-brand-900 line-clamp-1">{selectedTxn.referenceId}</span>
                                             </div>
                                             <div className="flex justify-between">
                                                 <span className="text-[10px] font-bold text-brand-600/60 uppercase">Settlement Target</span>
-                                                <span className="text-xs font-black text-brand-900">{selectedTxn.bankDetails}</span>
+                                                <span className="text-xs font-semibold text-brand-900">{selectedTxn.bankDetails}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -616,7 +616,7 @@ const SellerTransactions = () => {
                                             toast.error('Failed to download voucher');
                                         }
                                     }}
-                                    className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl active:scale-[0.98] transition-all hover:bg-slate-800"
+                                    className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-semibold text-[11px] uppercase tracking-widest shadow-xl active:scale-[0.98] transition-all hover:bg-slate-800"
                                 >
                                     Download Voucher
                                 </button>

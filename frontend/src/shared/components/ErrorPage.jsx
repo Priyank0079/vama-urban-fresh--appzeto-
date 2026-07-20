@@ -15,14 +15,14 @@ const ErrorPage = () => {
                     <AlertTriangle size={40} className="text-red-500" />
                 </div>
                 
-                <h1 className="text-3xl font-black text-slate-800 mb-4 tracking-tight">Oops! Something went wrong</h1>
+                <h1 className="text-3xl font-semibold text-slate-800 mb-4 tracking-tight">Oops! Something went wrong</h1>
                 <p className="text-slate-500 mb-8 leading-relaxed font-medium">
                     We encountered an unexpected error. Don't worry, our team has been notified.
                 </p>
 
                 {isDev && (
                     <div className="mb-8 p-4 bg-slate-50 rounded-2xl text-left border border-slate-200 overflow-hidden">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Developer info</p>
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-2">Developer info</p>
                         <p className="text-xs font-mono text-red-600 break-words">
                             {error?.statusText || error?.message || "Unknown Error"}
                         </p>

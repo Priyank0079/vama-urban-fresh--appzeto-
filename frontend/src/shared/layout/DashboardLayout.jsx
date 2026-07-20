@@ -390,10 +390,10 @@ const DashboardLayout = ({ children, navItems, title }) => {
     };
 
     return (
-        <div className="min-h-screen mesh-gradient-light relative">
-            {/* Background Blobs for depth */}
-            <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] -z-10 animate-pulse pointer-events-none"></div>
-            <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-500/5 rounded-full blur-[120px] -z-10 animate-pulse pointer-events-none" style={{ animationDelay: '2s' }}></div>
+        <div className="min-h-screen bg-[#F7F9FC] relative">
+            {/* Background Blobs for depth (Optional, can be removed for cleaner look, but leaving for subtle effect if needed) */}
+            <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#0EA5A4]/5 rounded-full blur-[120px] -z-10 animate-pulse pointer-events-none"></div>
+            <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#0EA5A4]/5 rounded-full blur-[120px] -z-10 animate-pulse pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
             <Sidebar
                 items={navItems}
@@ -401,7 +401,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
                 isOpen={isSidebarOpen}
                 onClose={() => setIsSidebarOpen(false)}
             />
-            <div className={cn("transition-all duration-300", (role === "admin" || role === "seller") ? "pl-0 md:pl-72" : "pl-72")}>
+            <div className={cn("transition-all duration-300", (role === "admin" || role === "seller") ? "pl-0 md:pl-[280px]" : "pl-[280px]")}>
                 <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
                 <main className={cn("p-4 md:p-6 min-h-screen", (role === "admin" || role === "seller") ? "pt-20 md:pt-24 pb-24 md:pb-6" : "pt-20")}>
                     <div className="w-full pb-12">
@@ -435,13 +435,13 @@ const DashboardLayout = ({ children, navItems, title }) => {
                             className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100"
                         >
                             <div className="flex flex-col items-center text-center">
-                                <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 animate-bounce">
-                                    <BellRing className="h-10 w-10 text-primary" />
+                                <div className="h-20 w-20 bg-[#ECFEFF] rounded-full flex items-center justify-center mb-6 animate-bounce">
+                                    <BellRing className="h-10 w-10 text-[#0EA5A4]" />
                                 </div>
 
-                                <h2 className="text-2xl font-black text-slate-900 mb-2">New Order Received!</h2>
-                                <p className="text-slate-600 font-medium mb-6">
-                                    You have a new order <span className="text-primary font-bold">#{newOrderAlert.orderId}</span> for <span className="text-slate-900 font-bold">₹{newOrderAlert.pricing?.total || newOrderAlert.total}</span>
+                                <h2 className="text-2xl font-bold text-[#0F172A] mb-2">New Order Received!</h2>
+                                <p className="text-slate-500 font-medium mb-6">
+                                    You have a new order <span className="text-[#0EA5A4] font-bold">#{newOrderAlert.orderId}</span> for <span className="text-[#0F172A] font-bold">₹{newOrderAlert.pricing?.total || newOrderAlert.total}</span>
                                 </p>
 
                                 {/* Timer Bar — width from real server deadline */}
@@ -449,7 +449,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
                                     <div
                                         className={cn(
                                             "h-full transition-[width] duration-1000 ease-linear",
-                                            timeLeft < 15 ? "bg-rose-500" : "bg-primary",
+                                            timeLeft < 15 ? "bg-[#EF4444]" : "bg-[#0EA5A4]",
                                         )}
                                         style={{
                                             width: `${acceptWindowTotalRef.current > 0 ? (timeLeft / acceptWindowTotalRef.current) * 100 : 0}%`,
@@ -458,8 +458,8 @@ const DashboardLayout = ({ children, navItems, title }) => {
                                 </div>
 
                                 <div className="flex items-center gap-4 text-sm font-bold mb-8">
-                                    <Clock className={cn("h-4 w-4", timeLeft < 15 ? "text-rose-500 animate-pulse" : "text-slate-600")} />
-                                    <span className={timeLeft < 15 ? "text-rose-500" : "text-slate-600"}>
+                                    <Clock className={cn("h-4 w-4", timeLeft < 15 ? "text-[#EF4444] animate-pulse" : "text-slate-500")} />
+                                    <span className={timeLeft < 15 ? "text-[#EF4444]" : "text-slate-500"}>
                                         Accept within {timeLeft} {timeLeft === 1 ? "second" : "seconds"}
                                     </span>
                                 </div>
@@ -474,7 +474,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
                                     </button>
                                     <button
                                         onClick={() => handleAcceptOrder(newOrderAlert.orderId)}
-                                        className="flex items-center justify-center gap-2 py-4 rounded-2xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-95"
+                                        className="flex items-center justify-center gap-2 py-4 rounded-xl bg-[#0EA5A4] text-white font-bold hover:bg-[#0D9488] shadow-lg shadow-[#0EA5A4]/20 transition-all active:scale-95"
                                     >
                                         <Check className="h-5 w-5" />
                                         Accept
@@ -499,7 +499,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
                                     <Truck className="h-10 w-10 text-brand-600" />
                                 </div>
 
-                                <h2 className="text-2xl font-black text-slate-900 mb-2">Rider at Store!</h2>
+                                <h2 className="text-2xl font-semibold text-slate-900 mb-2">Rider at Store!</h2>
                                 <p className="text-slate-600 font-medium mb-6">
                                     A rider is at your store for Return <span className="text-brand-600 font-bold">#{returnDropOtpAlert.orderId}</span>.
                                     Please share the OTP below:
@@ -507,7 +507,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
 
                                 <div className="flex items-center justify-center gap-3 mb-8">
                                     {returnDropOtpAlert.otp.split('').map((char, i) => (
-                                        <div key={i} className="h-16 w-14 bg-slate-50 rounded-2xl shadow-sm border border-brand-100 flex items-center justify-center text-4xl font-black text-slate-900 border-b-4 border-b-brand-600">
+                                        <div key={i} className="h-16 w-14 bg-slate-50 rounded-2xl shadow-sm border border-brand-100 flex items-center justify-center text-4xl font-semibold text-slate-900 border-b-2 border-b-brand-600">
                                             {char}
                                         </div>
                                     ))}
@@ -519,7 +519,7 @@ const DashboardLayout = ({ children, navItems, title }) => {
 
                                 <button
                                     onClick={() => setReturnDropOtpAlert(null)}
-                                    className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-black hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-95 uppercase tracking-widest text-xs"
+                                    className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-semibold hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-95 uppercase tracking-widest text-xs"
                                 >
                                     Dismiss Alert
                                 </button>

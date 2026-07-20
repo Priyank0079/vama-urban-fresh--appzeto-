@@ -18,7 +18,7 @@ const CheckoutWishlistSection = React.memo(function CheckoutWishlistSection({
 
   return (
     <div ref={sectionRef} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-      <h3 className="font-black text-slate-800 text-lg mb-4">Your wishlist</h3>
+      <h3 className="font-semibold text-slate-800 text-lg mb-4">Your wishlist</h3>
       <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar -mx-4 px-4 snap-x">
         {visibleItems.map((item) => (
           <div

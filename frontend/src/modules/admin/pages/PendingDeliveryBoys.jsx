@@ -164,7 +164,7 @@ return (
                                 key={status}
                                 onClick={() => setFilterStatus(status)}
                                 className={cn(
-                                    "px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all",
+                                    "px-4 py-2.5 rounded-xl text-[10px] font-semibold uppercase tracking-wider transition-all",
                                     filterStatus === status
                                         ? "bg-white text-slate-900 shadow-sm"
                                         : "text-slate-400 hover:text-slate-600"
@@ -186,8 +186,8 @@ return (
             {isLoading && (
                 <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm">
                     <div className="flex flex-col items-center gap-3">
-                        <div className="h-10 w-10 border-4 border-slate-200 border-t-primary rounded-full animate-spin" />
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Loading Applications...</p>
+                        <div className="h-10 w-10 border-2 border-slate-200 border-t-primary rounded-full animate-spin" />
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Loading Applications...</p>
                     </div>
                 </div>
             )}
@@ -220,7 +220,7 @@ return (
                                                className="h-12 w-12 rounded-lg bg-gray-100 ring-2 ring-white shadow-sm object-cover group-hover:scale-110 transition-all" 
                                             />
                                             <div>
-                                                <p className="text-sm font-black text-slate-900">{rider.name}</p>
+                                                <p className="text-sm font-semibold text-slate-900">{rider.name}</p>
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <Phone className="h-3 w-3 text-slate-400" />
                                                     <span className="text-[10px] font-bold text-slate-500">{rider.phone}</span>
@@ -242,7 +242,7 @@ return (
                                     </td>
                                     <td className="px-8 py-6">
                                         <div className="flex flex-col gap-2">
-                                            <Badge variant={rider.status === 'pending_review' ? 'primary' : 'warning'} className="w-fit text-[8px] font-black uppercase">
+                                            <Badge variant={rider.status === 'pending_review' ? 'primary' : 'warning'} className="w-fit text-[8px] font-semibold uppercase">
                                                 {rider.status.replace('_', ' ')}
                                             </Badge>
                                             <div className="flex gap-1">
@@ -322,21 +322,21 @@ return (
 
                             <div className="space-y-6">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Preferred Area</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Preferred Area</p>
                                     <div className="flex items-center gap-2 text-slate-700">
                                         <MapPin className="h-4 w-4 text-slate-400" />
                                         <span className="text-xs font-bold">{viewingRider.preferredArea}</span>
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Experience</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Experience</p>
                                     <div className="flex items-center gap-2 text-slate-700">
                                         <Calendar className="h-4 w-4 text-slate-400" />
                                         <span className="text-xs font-bold">{viewingRider.experience}</span>
                                     </div>
                                 </div>
                                 <div className="pt-6 border-t border-slate-200">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">System Confidence</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">System Confidence</p>
                                     <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
                                         <div className="h-full bg-brand-500 w-[85%]" />
                                     </div>
@@ -359,7 +359,7 @@ return (
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
                                 <div className="space-y-4">
-                                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Contact Records</h4>
+                                    <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Contact Records</h4>
                                     <div className="p-6 bg-slate-50 rounded-xl space-y-4">
                                         <div className="flex items-center gap-4">
                                             <div className="h-10 w-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-primary">
@@ -377,14 +377,14 @@ return (
                                 </div>
 
                                 <div className="space-y-4">
-                                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Vehicle Identification</h4>
+                                    <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Vehicle Identification</h4>
                                     <div className="p-6 bg-slate-50 rounded-xl border-2 border-brand-500/10">
                                         <div className="flex items-center gap-4">
                                             <div className="h-12 w-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-brand-600">
                                                 <Truck className="h-6 w-6" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-black text-slate-900">{viewingRider.vehicle}</p>
+                                                <p className="text-sm font-semibold text-slate-900">{viewingRider.vehicle}</p>
                                                 <p className="text-[9px] font-bold text-brand-600 uppercase tracking-widest mt-0.5">Eco-Friendly Ready</p>
                                             </div>
                                         </div>
@@ -393,13 +393,13 @@ return (
                             </div>
 
                             <div className="space-y-4 mb-14">
-                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Submitted Documents ({viewingRider.documents.length})</h4>
+                                <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">Submitted Documents ({viewingRider.documents.length})</h4>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     {viewingRider.documents.map((doc, idx) => (
                                         <div key={idx} className="group relative aspect-[4/3] bg-slate-100 rounded-[24px] overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all">
                                             <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
                                                 <FileSearch className="h-8 w-8 text-slate-400 group-hover:text-primary transition-colors" />
-                                                <p className="text-[9px] font-black text-slate-500 uppercase mt-2 text-center">{doc}</p>
+                                                <p className="text-[9px] font-semibold text-slate-500 uppercase mt-2 text-center">{doc}</p>
                                             </div>
                                             <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors" />
                                         </div>
@@ -411,7 +411,7 @@ return (
                                 <button
                                     disabled={isProcessing}
                                     onClick={() => handleApprove(viewingRider.id)}
-                                    className="flex-1 py-5 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                                    className="flex-1 py-5 bg-slate-900 text-white rounded-xl font-semibold text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                                 >
                                     {isProcessing ? (
                                         <>
@@ -427,7 +427,7 @@ return (
                                 </button>
                                 <button
                                     onClick={() => handleReject(viewingRider.id)}
-                                    className="py-5 px-5 bg-rose-50 text-rose-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
+                                    className="py-5 px-5 bg-rose-50 text-rose-600 rounded-xl font-semibold text-xs uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95"
                                 >
                                     REJECT APPLICATION
                                 </button>

@@ -518,13 +518,13 @@ const Dashboard = () => {
                     <HiOutlineTruck className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-black text-slate-900">
+                    <h3 className="text-base font-semibold text-slate-900">
                       Order Details
                     </h3>
                     <div className="flex items-center space-x-2 mt-0.5">
                       <Badge
                         variant={getStatusColor(selectedOrder.status)}
-                        className="text-[10px] font-black uppercase tracking-widest px-1.5 py-0"
+                        className="text-[10px] font-semibold uppercase tracking-widest px-1.5 py-0"
                       >
                         {selectedOrder.status}
                       </Badge>
@@ -546,7 +546,7 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                   <div className="space-y-3 sm:space-y-4">
                     <div>
-                      <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
+                      <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
                         <HiOutlineMapPin className="h-3 w-3 text-primary" />{" "}
                         Delivery Address
                       </h4>
@@ -555,7 +555,7 @@ const Dashboard = () => {
                       </p>
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
+                      <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
                         <HiOutlinePhone className="h-3 w-3 text-brand-500" />{" "}
                         Contact Info
                       </h4>
@@ -571,7 +571,7 @@ const Dashboard = () => {
                   </div>
                   <div className="space-y-3 sm:space-y-4">
                     <div className="bg-primary/5 p-3 sm:p-4 rounded-3xl border border-primary/10">
-                      <h4 className="text-[10px] font-black text-primary uppercase tracking-widest mb-3">
+                      <h4 className="text-[10px] font-semibold text-primary uppercase tracking-widest mb-3">
                         Order Summary
                       </h4>
                       <div className="space-y-2">
@@ -579,7 +579,7 @@ const Dashboard = () => {
                           <span className="font-bold text-slate-600">
                             Subtotal
                           </span>
-                          <span className="font-black text-slate-900">
+                          <span className="font-semibold text-slate-900">
                             ₹{(selectedOrder.total - 10).toFixed(2)}
                           </span>
                         </div>
@@ -587,23 +587,23 @@ const Dashboard = () => {
                           <span className="font-bold text-slate-600">
                             Delivery Fee
                           </span>
-                          <span className="font-black text-brand-600">
+                          <span className="font-semibold text-brand-600">
                             ₹10.00
                           </span>
                         </div>
                         <div className="h-px bg-primary/10 my-2" />
                         <div className="flex justify-between text-sm">
-                          <span className="font-black text-slate-900">
+                          <span className="font-semibold text-slate-900">
                             Total
                           </span>
-                          <span className="font-black text-primary">
+                          <span className="font-semibold text-primary">
                             ₹{selectedOrder.total.toFixed(2)}
                           </span>
                         </div>
                       </div>
                     </div>
                     <div className="bg-slate-900 p-3 sm:p-4 rounded-3xl text-white shadow-xl shadow-slate-900/10">
-                      <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-2">
+                      <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-2">
                         Payment Status
                       </h4>
                       <div className="flex items-center gap-2">
@@ -616,7 +616,7 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <h4 className="text-xs font-black text-slate-600 uppercase tracking-widest mb-3 sm:mb-4">
+                <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-3 sm:mb-4">
                   Items Ordered ({selectedOrder.items.length})
                 </h4>
                 <div className="space-y-3 max-h-52 sm:max-h-64 overflow-y-auto pr-1">
@@ -649,7 +649,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs font-black text-slate-900">
+                        <p className="text-xs font-semibold text-slate-900">
                           ₹{(item.price * item.qty).toFixed(2)}
                         </p>
                       </div>
@@ -674,7 +674,7 @@ const Dashboard = () => {
                         handleStatusUpdate(selectedOrder.id, e.target.value)
                       }
                       className={cn(
-                        "w-full text-[10px] pl-3 pr-8 py-2 rounded-xl font-black uppercase tracking-wider border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
+                        "w-full text-[10px] pl-3 pr-8 py-2 rounded-xl font-semibold uppercase tracking-wider border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
                         getStatusColor(selectedOrder.status) === "warning"
                           ? "bg-amber-100 text-amber-700 focus:ring-amber-200"
                           : getStatusColor(selectedOrder.status) === "info"

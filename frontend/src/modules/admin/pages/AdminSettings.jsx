@@ -221,7 +221,7 @@ const AdminSettings = () => {
                         onClick={handleSave}
                         disabled={isSaving}
                         className={cn(
-                            "flex items-center gap-2 px-8 py-4 bg-black text-primary-foreground rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-xl shadow-brand-200 hover:shadow-brand-300 active:scale-95 active:shadow-inner",
+                            "flex items-center gap-2 px-8 py-4 bg-black text-primary-foreground rounded-2xl text-xs font-semibold uppercase tracking-widest transition-all shadow-xl shadow-brand-200 hover:shadow-brand-300 active:scale-95 active:shadow-inner",
                             isSaving ? "opacity-70 cursor-wait" : "hover:bg-brand-700"
                         )}
                     >
@@ -270,13 +270,13 @@ const AdminSettings = () => {
                     {activeTab === 'general' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     General Information
                                 </h3>
                             </div>
                             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">App Name</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">App Name</label>
                                     <input
                                         type="text"
                                         value={settings.appName}
@@ -285,7 +285,7 @@ const AdminSettings = () => {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Support Email</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Support Email</label>
                                     <div className="relative group">
                                         <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                         <input
@@ -297,7 +297,7 @@ const AdminSettings = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Support Phone</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Support Phone</label>
                                     <div className="relative group">
                                         <Phone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                         <input
@@ -315,7 +315,7 @@ const AdminSettings = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Currency Symbol</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Currency Symbol</label>
                                     <input
                                         type="text"
                                         value={settings.currencySymbol}
@@ -325,7 +325,7 @@ const AdminSettings = () => {
                                 </div>
                                 <div className="md:col-span-2 rounded-2xl bg-slate-50 border border-slate-200 px-5 py-4 flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="text-sm font-black text-slate-900">Auto Low Stock Alerts</p>
+                                        <p className="text-sm font-semibold text-slate-900">Auto Low Stock Alerts</p>
                                         <p className="text-xs font-bold text-slate-500 mt-1">
                                             Automatically notify sellers when any product stock drops to its low-stock threshold.
                                         </p>
@@ -350,7 +350,7 @@ const AdminSettings = () => {
                                 </div>
                                 <div className="md:col-span-2 rounded-2xl bg-slate-50 border border-slate-200 px-5 py-4 flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="text-sm font-black text-slate-900">Require approval for new seller products</p>
+                                        <p className="text-sm font-semibold text-slate-900">Require approval for new seller products</p>
                                         <p className="text-xs font-bold text-slate-500 mt-1">
                                             When enabled, newly added seller products remain hidden until approved by admin.
                                         </p>
@@ -375,7 +375,7 @@ const AdminSettings = () => {
                                 </div>
                                 <div className="md:col-span-2 rounded-2xl bg-slate-50 border border-slate-200 px-5 py-4 flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="text-sm font-black text-slate-900">Require approval for seller product edits</p>
+                                        <p className="text-sm font-semibold text-slate-900">Require approval for seller product edits</p>
                                         <p className="text-xs font-bold text-slate-500 mt-1">
                                             When enabled, seller changes to existing products remain hidden until approved by admin.
                                         </p>
@@ -406,7 +406,7 @@ const AdminSettings = () => {
                     {activeTab === 'branding' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     Visual Identity
                                 </h3>
                             </div>
@@ -415,7 +415,7 @@ const AdminSettings = () => {
                                 <input type="file" ref={faviconInputRef} accept="image/*" className="hidden" onChange={handleFaviconUpload} />
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">App Logo</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">App Logo</label>
                                         <div
                                             role="button"
                                             tabIndex={0}
@@ -448,7 +448,7 @@ const AdminSettings = () => {
                                         <input type="url" value={settings.logoUrl} onChange={(e) => handleInputChange('logoUrl', e.target.value)} placeholder="Or paste logo URL" className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500/20" />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Favicon</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Favicon</label>
                                         <div
                                             role="button"
                                             tabIndex={0}
@@ -482,7 +482,7 @@ const AdminSettings = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Primary Brand Color</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Primary Brand Color</label>
                                     <div className="flex items-center gap-4">
                                         <input
                                             type="color"
@@ -499,7 +499,7 @@ const AdminSettings = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Secondary Brand Color</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Secondary Brand Color</label>
                                     <div className="flex items-center gap-4">
                                         <input
                                             type="color"
@@ -523,14 +523,14 @@ const AdminSettings = () => {
                     {activeTab === 'legal' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     Legal Entity & Contact
                                 </h3>
                             </div>
                             <div className="p-8 grid grid-cols-1 gap-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Company Legal Name</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Company Legal Name</label>
                                         <input
                                             type="text"
                                             value={settings.companyName}
@@ -539,7 +539,7 @@ const AdminSettings = () => {
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tax ID / GSTIN / VAT</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Tax ID / GSTIN / VAT</label>
                                         <div className="relative group">
                                             <CreditCard className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                                             <input
@@ -552,7 +552,7 @@ const AdminSettings = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Registered Office Address</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Registered Office Address</label>
                                     <div className="relative group">
                                         <MapPin className="absolute left-5 top-6 h-4 w-4 text-slate-400" />
                                         <textarea
@@ -573,14 +573,14 @@ const AdminSettings = () => {
                     {activeTab === 'social' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     Social Media & App Links
                                 </h3>
                             </div>
                             <div className="p-8 space-y-8">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Facebook URL</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Facebook URL</label>
                                         <div className="relative group">
                                             <Facebook className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-600" />
                                             <input
@@ -592,7 +592,7 @@ const AdminSettings = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Twitter / X URL</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Twitter / X URL</label>
                                         <div className="relative group">
                                             <Twitter className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500" />
                                             <input
@@ -604,7 +604,7 @@ const AdminSettings = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Instagram URL</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Instagram URL</label>
                                         <div className="relative group">
                                             <Instagram className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-pink-600" />
                                             <input
@@ -616,7 +616,7 @@ const AdminSettings = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">YouTube URL</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">YouTube URL</label>
                                         <div className="relative group">
                                             <Youtube className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-red-600" />
                                             <input
@@ -630,7 +630,7 @@ const AdminSettings = () => {
                                 </div>
                                 <div className="pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Play Store Link (Android)</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Play Store Link (Android)</label>
                                         <div className="relative group">
                                             <Smartphone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-600" />
                                             <input
@@ -642,7 +642,7 @@ const AdminSettings = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">App Store Link (iOS)</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">App Store Link (iOS)</label>
                                         <div className="relative group">
                                             <Smartphone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-800" />
                                             <input
@@ -662,13 +662,13 @@ const AdminSettings = () => {
                     {activeTab === 'seo' && (
                         <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                             <div className="p-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                                <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                     SEO & Meta Information
                                 </h3>
                             </div>
                             <div className="p-8 space-y-6">
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Default Meta Title</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Default Meta Title</label>
                                     <input
                                         type="text"
                                         value={settings.metaTitle}
@@ -677,7 +677,7 @@ const AdminSettings = () => {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Default Meta Description</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Default Meta Description</label>
                                     <textarea
                                         rows={3}
                                         value={settings.metaDescription}
@@ -687,7 +687,7 @@ const AdminSettings = () => {
                                     <p className="text-[10px] font-bold text-slate-400 italic text-right">Recommended length: 150-160 characters</p>
                                 </div>
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Meta Keywords</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Meta Keywords</label>
                                     <input
                                         type="text"
                                         value={settings.metaKeywords}

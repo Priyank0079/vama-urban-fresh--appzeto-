@@ -378,7 +378,7 @@ const ContentManager = () => {
                 <div className="flex items-center gap-3">
                     <button
                         onClick={openCreateModal}
-                        className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 transition-all"
+                        className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl hover:scale-105 transition-all"
                     >
                         <HiOutlinePlus className="h-5 w-5" />
                         ADD COMPONENT
@@ -401,7 +401,7 @@ const ContentManager = () => {
                             key={opt.id}
                             onClick={() => setPageType(opt.id)}
                             className={cn(
-                                "px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                "px-4 py-2 rounded-2xl text-[10px] font-semibold uppercase tracking-widest transition-all",
                                 pageType === opt.id ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
                             )}
                         >
@@ -411,7 +411,7 @@ const ContentManager = () => {
                 </div>
                 {pageType === 'header' && (
                     <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Header Category</span>
+                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Header Category</span>
                         <select
                             value={selectedHeaderId}
                             onChange={(e) => setSelectedHeaderId(e.target.value)}
@@ -432,7 +432,7 @@ const ContentManager = () => {
                     {/* Section list */}
                     <div className="space-y-4">
                         <div className="flex items-center justify-between px-2">
-                            <h3 className="text-xs font-black text-slate-900 uppercase tracking-[0.2em]">
+                            <h3 className="text-xs font-semibold text-slate-900 uppercase tracking-[0.2em]">
                                 Configured Sections ({sections.length})
                             </h3>
                             {isLoading && (
@@ -466,17 +466,17 @@ const ContentManager = () => {
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center gap-2 mb-1">
-                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                                                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em]">
                                                         #{idx + 1} • {displayMeta?.label || section.displayType}
                                                     </span>
                                                     <Badge
                                                         variant={section.status === 'active' ? 'success' : 'secondary'}
-                                                        className="text-[8px] font-black uppercase"
+                                                        className="text-[8px] font-semibold uppercase"
                                                     >
                                                         {section.status}
                                                     </Badge>
                                                 </div>
-                                                <h4 className="text-sm font-black text-slate-900 mb-1">
+                                                <h4 className="text-sm font-semibold text-slate-900 mb-1">
                                                     {section.title || '(No heading)'}
                                                 </h4>
                                                 <p className="text-[11px] text-slate-500">
@@ -543,7 +543,7 @@ const ContentManager = () => {
                     {/* Display type & status */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Display Type</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Display Type</label>
                             <select
                                 value={formData.displayType}
                                 onChange={(e) => {
@@ -551,7 +551,7 @@ const ContentManager = () => {
                                     setFormData(prev => ({ ...prev, displayType: value }));
                                     setActiveTab(value);
                                 }}
-                                className="w-full p-3 bg-slate-50 rounded-2xl text-xs font-black outline-none"
+                                className="w-full p-3 bg-slate-50 rounded-2xl text-xs font-semibold outline-none"
                             >
                                 {DISPLAY_TYPES.map(dt => (
                                     <option key={dt.id} value={dt.id}>{dt.label}</option>
@@ -559,11 +559,11 @@ const ContentManager = () => {
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Status</label>
                             <select
                                 value={formData.status}
                                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
-                                className="w-full p-3 bg-slate-50 rounded-2xl text-xs font-black outline-none"
+                                className="w-full p-3 bg-slate-50 rounded-2xl text-xs font-semibold outline-none"
                             >
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -573,7 +573,7 @@ const ContentManager = () => {
 
                     {/* Heading - required for category/subcategory/product */}
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                             Section Heading {['categories', 'subcategories', 'products'].includes(formData.displayType) && <span className="text-rose-500">*</span>}
                         </label>
                         <input
@@ -588,13 +588,13 @@ const ContentManager = () => {
                     {formData.displayType === 'banners' && (
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Banner Items
                                 </span>
                                 <button
                                     type="button"
                                     onClick={addBannerItem}
-                                    className="flex items-center gap-1 text-[10px] font-black text-primary"
+                                    className="flex items-center gap-1 text-[10px] font-semibold text-primary"
                                 >
                                     <HiOutlinePlus className="h-3 w-3" />
                                     Add banner
@@ -663,7 +663,7 @@ const ContentManager = () => {
                                                     <select
                                                         value={item.linkType || 'none'}
                                                         onChange={(e) => updateBannerItem(idx, { linkType: e.target.value })}
-                                                        className="w-full p-2.5 bg-slate-50 rounded-xl text-xs font-black outline-none"
+                                                        className="w-full p-2.5 bg-slate-50 rounded-xl text-xs font-semibold outline-none"
                                                     >
                                                         <option value="none">No link</option>
                                                         <option value="header">Header</option>
@@ -700,7 +700,7 @@ const ContentManager = () => {
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                         Categories to show
                                     </label>
                                     <input
@@ -712,7 +712,7 @@ const ContentManager = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                         Rows (4 columns on mobile)
                                     </label>
                                     <input
@@ -725,7 +725,7 @@ const ContentManager = () => {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Choose categories to show
                                 </label>
                                 <div className="flex flex-wrap gap-2">
@@ -765,7 +765,7 @@ const ContentManager = () => {
                     {formData.displayType === 'subcategories' && (
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Parent categories
                                 </label>
                                 <div className="flex flex-wrap gap-2">
@@ -812,7 +812,7 @@ const ContentManager = () => {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Subcategories
                                 </label>
                                 <div className="flex flex-wrap gap-2">
@@ -850,7 +850,7 @@ const ContentManager = () => {
                                 </p>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Rows
                                 </label>
                                 <input
@@ -868,7 +868,7 @@ const ContentManager = () => {
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                         Rows
                                     </label>
                                     <input
@@ -881,7 +881,7 @@ const ContentManager = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                         Columns
                                     </label>
                                     <input
@@ -905,7 +905,7 @@ const ContentManager = () => {
                                 </label>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                     Filter by categories / subcategories (optional)
                                 </label>
                                 <div className="grid grid-cols-2 gap-3">
@@ -990,7 +990,7 @@ const ContentManager = () => {
                     )}
                     <button
                         onClick={handleSaveSection}
-                        className="w-full py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+                        className="w-full py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
                     >
                         {editingItem ? 'SAVE CHANGES' : 'PUBLISH SECTION'}
                     </button>

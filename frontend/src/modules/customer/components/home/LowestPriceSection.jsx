@@ -15,12 +15,12 @@ const LowestPriceSection = ({ products, onSeeAll }) => {
         <div className="container mx-auto px-4 md:px-8 lg:px-[50px] relative z-10">
           <div className="flex justify-between items-center mb-6 md:mb-10 px-1">
             <div className="flex flex-col">
-              <h3 className="text-base md:text-xl font-black text-[#1A1A1A] tracking-tight uppercase leading-none pt-[25px]">
-                Lowest Price <span className="text-primary">ever</span>
+              <h3 className="text-base md:text-xl font-bold text-primary tracking-tight uppercase leading-none pt-[25px]">
+                LOWEST PRICE EVER
               </h3>
               <div className="flex items-center gap-1.5 md:gap-2 mt-1.5 md:mt-3">
-                <div className="h-1 w-1 md:h-2 md:w-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_rgba(12,131,31,0.5)]" />
-                <span className="text-[10px] md:text-xs font-bold text-primary uppercase tracking-wide opacity-80">
+                <div className="h-1.5 w-1.5 md:h-2 md:w-2 bg-primary rounded-full animate-pulse shadow-sm" />
+                <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-wide opacity-80">
                   Unbeatable Savings • Updated hourly
                 </span>
               </div>

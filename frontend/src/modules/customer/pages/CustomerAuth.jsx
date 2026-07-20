@@ -225,12 +225,18 @@ const CustomerAuth = () => {
                         </AnimatePresence>
 
                         {/* Top Branding Bar */}
-                        <div className="absolute top-8 left-0 w-full px-6 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
+                        <div className="absolute top-8 left-0 w-full px-6 flex items-center justify-between z-10">
+                            <div className="flex items-center gap-3">
+                                <button 
+                                    onClick={() => navigate(-1)} 
+                                    className="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 text-white transition-transform active:scale-95"
+                                >
+                                    <ChevronLeft size={24} />
+                                </button>
                                 <div className="w-10 h-10 bg-white/20 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/30">
                                     <ShoppingBag size={20} className="text-white" />
                                 </div>
-                                <span className="text-white font-black tracking-tighter text-xl">{appName.toUpperCase()}</span>
+                                <span className="text-white font-semibold tracking-tighter text-xl">{appName.toUpperCase()}</span>
                             </div>
                         </div>
 
@@ -240,7 +246,7 @@ const CustomerAuth = () => {
                                 key={carouselIndex}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-2xl font-black tracking-tight leading-none mb-2"
+                                className="text-2xl font-semibold tracking-tight leading-none mb-2"
                             >
                                 {activeCategory.title.toUpperCase()} INSIDE
                             </motion.h2>
@@ -260,7 +266,7 @@ const CustomerAuth = () => {
 
                     {/* Circular Carousel Control */}
                     <div className="relative -mt-14 flex justify-center z-20">
-                        <div className="w-28 h-28 rounded-full bg-white border-4 border-white shadow-[0_15px_40px_rgba(97,218,251,0.2)] flex items-center justify-center overflow-hidden transition-shadow duration-1000" style={{ boxShadow: `0 15px 40px ${activeCategory.shadow}` }}>
+                        <div className="w-28 h-28 rounded-full bg-white border-2 border-white shadow-[0_15px_40px_rgba(97,218,251,0.2)] flex items-center justify-center overflow-hidden transition-shadow duration-1000" style={{ boxShadow: `0 15px 40px ${activeCategory.shadow}` }}>
                             <AnimatePresence mode="wait">
                                     <motion.div
                                         key={carouselIndex}
@@ -303,14 +309,14 @@ const CustomerAuth = () => {
                                     <div className="flex bg-gray-50 rounded-2xl p-1.5 border border-gray-100">
                                         <button
                                             onClick={() => setIsLogin(true)}
-                                            className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
+                                            className={`flex-1 py-3 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
                                             style={{ color: isLogin ? activeCategory.theme : undefined }}
                                         >
                                             Login
                                         </button>
                                         <button
                                             onClick={() => setIsLogin(false)}
-                                            className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
+                                            className={`flex-1 py-3 text-xs font-semibold uppercase tracking-widest rounded-xl transition-all ${!isLogin ? 'bg-white shadow-sm' : 'text-gray-400'}`}
                                             style={{ color: !isLogin ? activeCategory.theme : undefined }}
                                         >
                                             Sign Up
@@ -318,7 +324,7 @@ const CustomerAuth = () => {
                                     </div>
 
                                     <div className="space-y-2 text-center">
-                                        <h3 className="text-xl font-black text-gray-900 tracking-tight">
+                                        <h3 className="text-xl font-semibold text-gray-900 tracking-tight">
                                             {isLogin ? 'Welcome Back!' : 'Create Account'}
                                         </h3>
                                         <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
@@ -355,7 +361,7 @@ const CustomerAuth = () => {
                                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 transition-colors">
                                                 <Phone size={18} />
                                             </div>
-                                            <div className="absolute left-11 top-1/2 -translate-y-1/2 font-black text-sm text-gray-400 border-r border-gray-200 pr-2">
+                                            <div className="absolute left-11 top-1/2 -translate-y-1/2 font-semibold text-sm text-gray-400 border-r border-gray-200 pr-2">
                                                 +91
                                             </div>
                                             <input
@@ -382,7 +388,7 @@ const CustomerAuth = () => {
                                         <button
                                             type="submit"
                                             disabled={isLoading}
-                                            className="w-full text-white py-5 rounded-[24px] text-xs font-black tracking-[4px] flex items-center justify-center gap-3 active:scale-95 transition-all uppercase"
+                                            className="w-full text-white py-5 rounded-[24px] text-xs font-semibold tracking-[4px] flex items-center justify-center gap-3 active:scale-95 transition-all uppercase"
                                             style={{ backgroundColor: activeCategory.theme, boxShadow: `0 20px 40px ${activeCategory.shadow}` }}
                                         >
                                             {isLoading ? 'Verifying...' : 'Continue'}
@@ -398,7 +404,7 @@ const CustomerAuth = () => {
                                         <div className="flex items-center gap-1.5 underline decoration-gray-200 underline-offset-4">
                                             <button 
                                                 onClick={() => navigate('/terms')}
-                                                className="text-[10px] font-black uppercase tracking-widest hover:text-gray-900 transition-colors"
+                                                className="text-[10px] font-semibold uppercase tracking-widest hover:text-gray-900 transition-colors"
                                                 style={{ color: activeCategory.theme }}
                                             >
                                                 Terms & Condition
@@ -406,7 +412,7 @@ const CustomerAuth = () => {
                                             <span className="text-[8px] text-gray-300">•</span>
                                             <button 
                                                 onClick={() => navigate('/privacy-policy')}
-                                                className="text-[10px] font-black uppercase tracking-widest hover:text-gray-900 transition-colors"
+                                                className="text-[10px] font-semibold uppercase tracking-widest hover:text-gray-900 transition-colors"
                                                 style={{ color: activeCategory.theme }}
                                             >
                                                 Privacy Policy
@@ -429,8 +435,8 @@ const CustomerAuth = () => {
                                             <ChevronLeft size={20} />
                                         </button>
                                         <div>
-                                            <h3 className="text-xl font-black text-gray-900 tracking-tight">Verify Device</h3>
-                                            <p className="text-[10px] font-black tracking-widest text-gray-400 uppercase">+91 {formData.phone}</p>
+                                            <h3 className="text-xl font-semibold text-gray-900 tracking-tight">Verify Device</h3>
+                                            <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">+91 {formData.phone}</p>
                                         </div>
                                     </div>
 
@@ -441,7 +447,7 @@ const CustomerAuth = () => {
                                                     key={i}
                                                     type="tel"
                                                     maxLength={1}
-                                                    className="w-14 h-16 bg-white border-2 border-gray-200 rounded-3xl text-center text-2xl font-black outline-none shadow-[0_18px_45px_rgba(15,23,42,0.35)] focus:bg-white focus:border-[var(--theme-color)] focus:shadow-[0_24px_65px_rgba(15,23,42,0.55)] transition-all"
+                                                    className="w-14 h-16 bg-white border-2 border-gray-200 rounded-3xl text-center text-2xl font-semibold outline-none shadow-[0_18px_45px_rgba(15,23,42,0.35)] focus:bg-white focus:border-[var(--theme-color)] focus:shadow-[0_24px_65px_rgba(15,23,42,0.55)] transition-all"
                                                     style={{ color: activeCategory.theme }}
                                                     onKeyDown={(e) => {
                                                         if (e.key === 'Backspace' && !e.target.value && i > 0) {
@@ -469,7 +475,7 @@ const CustomerAuth = () => {
                                             <button
                                                 type="submit"
                                                 disabled={isLoading}
-                                                className="w-full bg-gray-900 text-white py-5 rounded-[24px] text-xs font-black tracking-[4px] shadow-2xl flex items-center justify-center gap-3 uppercase active:scale-95 transition-all"
+                                                className="w-full bg-gray-900 text-white py-5 rounded-[24px] text-xs font-semibold tracking-[4px] shadow-2xl flex items-center justify-center gap-3 uppercase active:scale-95 transition-all"
                                             >
                                                 {isLoading ? 'Authenticating...' : `Enter ${appName}`}
                                             </button>
@@ -478,7 +484,7 @@ const CustomerAuth = () => {
                                                     type="button"
                                                     disabled={timer > 0}
                                                     onClick={handleSendOtp}
-                                                    className={`text-[10px] font-black uppercase tracking-widest ${timer > 0 ? 'text-gray-300' : 'underline'}`}
+                                                    className={`text-[10px] font-semibold uppercase tracking-widest ${timer > 0 ? 'text-gray-300' : 'underline'}`}
                                                     style={{ color: timer > 0 ? undefined : activeCategory.theme }}
                                                 >
                                                     {timer > 0 ? `Resend Code in ${timer}s` : 'Resend Now'}

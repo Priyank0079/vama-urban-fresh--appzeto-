@@ -50,7 +50,7 @@ const OffersPage = () => {
         transition={{ duration: 0.5 }}
         className="mb-10 text-left"
       >
-        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-primary mb-3">
+        <h1 className="text-3xl md:text-5xl font-semibold tracking-tight text-primary mb-3">
           Best Offers for You
         </h1>
         <p className="text-gray-500 text-lg font-medium">
@@ -67,7 +67,7 @@ const OffersPage = () => {
       {/* Legacy offer cards (promo codes / first-order type) */}
       {!isLoading && sortedLegacyOffers.length > 0 && (
         <div className="mt-14">
-          <h3 className="text-xl font-black text-slate-800 mb-4">
+          <h3 className="text-xl font-semibold text-slate-800 mb-4">
             Coupon deals
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -84,7 +84,7 @@ const OffersPage = () => {
                     <div className="bg-white/20 p-3 rounded-2xl w-fit mb-6 backdrop-blur-md">
                       {iconFor(offer.icon)}
                     </div>
-                    <h2 className="text-3xl font-black mb-3 leading-tight">
+                    <h2 className="text-3xl font-semibold mb-3 leading-tight">
                       {offer.title}
                     </h2>
                     <p className="text-white/80 font-medium mb-8 leading-relaxed">

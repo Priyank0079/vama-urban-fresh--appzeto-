@@ -150,8 +150,8 @@ const OrderDetail = () => {
     if (isLoading) {
         return (
             <div className="min-h-[400px] flex flex-col items-center justify-center gap-4">
-                <div className="h-12 w-12 border-4 border-fuchsia-600 border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-xs font-black text-slate-400 uppercase tracking-[4px]">Accessing Intelligence...</p>
+                <div className="h-12 w-12 border-2 border-fuchsia-600 border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-[4px]">Accessing Intelligence...</p>
             </div>
         );
     }
@@ -160,7 +160,7 @@ const OrderDetail = () => {
         return (
             <div className="min-h-[400px] flex flex-col items-center justify-center gap-4 text-center p-8">
                 <AlertCircle className="h-16 w-16 text-rose-200" />
-                <h2 className="text-xl font-black text-slate-900 uppercase">Order Node Not Found</h2>
+                <h2 className="text-xl font-semibold text-slate-900 uppercase">Order Node Not Found</h2>
                 <button onClick={() => navigate(-1)} className="ds-btn ds-btn-md bg-slate-900 text-white mt-4">Return to List</button>
             </div>
         );
@@ -179,13 +179,13 @@ const OrderDetail = () => {
                     </button>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-2xl font-black text-slate-900 uppercase tracking-tight">Order #{order.orderId}</h1>
+                            <h1 className="text-2xl font-semibold text-slate-900 uppercase tracking-tight">Order #{order.orderId}</h1>
                             <div className="relative inline-block w-44">
                                 <select
                                     value={order.status}
                                     onChange={(e) => handleStatusUpdate(e.target.value)}
                                     className={cn(
-                                        "w-full text-[10px] pl-3 pr-8 py-1.5 rounded-xl font-black uppercase tracking-widest border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
+                                        "w-full text-[10px] pl-3 pr-8 py-1.5 rounded-xl font-semibold uppercase tracking-widest border appearance-none cursor-pointer focus:ring-2 focus:ring-offset-1 transition-all outline-none shadow-sm",
                                         getStatusStyles(order.status)
                                     )}
                                 >
@@ -208,7 +208,7 @@ const OrderDetail = () => {
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={handlePrintInvoice}
-                        className="flex items-center gap-2 px-5 py-3 bg-white ring-1 ring-slate-200 text-slate-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm"
+                        className="flex items-center gap-2 px-5 py-3 bg-white ring-1 ring-slate-200 text-slate-700 rounded-2xl text-[10px] font-semibold uppercase tracking-widest hover:bg-slate-50 transition-all shadow-sm"
                     >
                         <Printer className="h-4 w-4 text-slate-400" />
                         Print Invoice
@@ -223,20 +223,20 @@ const OrderDetail = () => {
                     {/* Items Section */}
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl overflow-hidden">
                         <div className="p-6 border-b border-slate-50 bg-slate-50/30 flex items-center justify-between">
-                            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-3">
+                            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest flex items-center gap-3">
                                 <Box className="h-4 w-4 text-brand-500" />
                                 Items in Order
                             </h3>
-                            <Badge className="bg-brand-50 text-brand-700 border-none text-[9px] font-black">{order.items.length} ITEMS</Badge>
+                            <Badge className="bg-brand-50 text-brand-700 border-none text-[9px] font-semibold">{order.items.length} ITEMS</Badge>
                         </div>
                         <div className="p-0 overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
                                     <tr className="bg-slate-50/50">
-                                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Node</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Unit Price</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Qty</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Aggregate</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Product Node</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Unit Price</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Qty</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-right">Aggregate</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
@@ -252,16 +252,16 @@ const OrderDetail = () => {
                                                         )}
                                                     </div>
                                                     <div>
-                                                        <h4 className="text-sm font-black text-slate-900">{item.name}</h4>
+                                                        <h4 className="text-sm font-semibold text-slate-900">{item.name}</h4>
                                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">ID: {item.product?._id || item.product}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-5 text-center text-sm font-bold text-slate-600">₹{item.price}</td>
                                             <td className="px-6 py-5 text-center">
-                                                <span className="bg-slate-100 px-3 py-1 rounded-lg text-xs font-black text-slate-700">x{item.quantity}</span>
+                                                <span className="bg-slate-100 px-3 py-1 rounded-lg text-xs font-semibold text-slate-700">x{item.quantity}</span>
                                             </td>
-                                            <td className="px-6 py-5 text-right text-sm font-black text-slate-900">₹{item.price * item.quantity}</td>
+                                            <td className="px-6 py-5 text-right text-sm font-semibold text-slate-900">₹{item.price * item.quantity}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -270,17 +270,17 @@ const OrderDetail = () => {
                         <div className="p-6 bg-slate-50/50 flex flex-col items-end border-t border-slate-100">
                             <div className="w-full sm:w-80 space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Subtotal</span>
-                                    <span className="text-sm font-black text-slate-700">₹{order.pricing?.subtotal || 0}</span>
+                                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Subtotal</span>
+                                    <span className="text-sm font-semibold text-slate-700">₹{order.pricing?.subtotal || 0}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Delivery Fee</span>
+                                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Delivery Fee</span>
                                     <span className="text-sm font-bold text-brand-600">₹{order.pricing?.deliveryFee || 0}</span>
                                 </div>
                                 <div className="h-px w-full bg-slate-200" />
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm font-black text-slate-900 uppercase tracking-tight">Total Payable</span>
-                                    <span className="text-2xl font-black text-fuchsia-600">₹{order.pricing?.total || 0}</span>
+                                    <span className="text-sm font-semibold text-slate-900 uppercase tracking-tight">Total Payable</span>
+                                    <span className="text-2xl font-semibold text-fuchsia-600">₹{order.pricing?.total || 0}</span>
                                 </div>
                             </div>
                         </div>
@@ -288,16 +288,16 @@ const OrderDetail = () => {
 
                     {/* Shop Details */}
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-2xl p-6">
-                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
                             <Store className="h-4 w-4" />
                             Shop Node Information
                         </h4>
                         <div className="flex items-center gap-4">
-                            <div className="h-16 w-16 bg-orange-50 rounded-2xl flex items-center justify-center ds-h2 font-black text-orange-600 uppercase">
+                            <div className="h-16 w-16 bg-orange-50 rounded-2xl flex items-center justify-center ds-h2 font-semibold text-orange-600 uppercase">
                                 {order.seller?.shopName?.[0] || 'S'}
                             </div>
                             <div className="text-left">
-                                <h3 className="text-lg font-black text-slate-900 leading-tight">{order.seller?.shopName || 'Unknown Shop'}</h3>
+                                <h3 className="text-lg font-semibold text-slate-900 leading-tight">{order.seller?.shopName || 'Unknown Shop'}</h3>
                                 <p className="text-xs font-bold text-brand-600 uppercase tracking-tighter">Verified Anchor Partner</p>
                                 <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">OWNER: {order.seller?.name}</p>
                             </div>
@@ -306,7 +306,7 @@ const OrderDetail = () => {
 
                     {/* Logistical Nodes */}
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl p-6">
-                        <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-3">
+                        <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-3">
                             <Navigation className="h-4 w-4 text-brand-500" />
                             Logistical Real-time State
                         </h3>
@@ -316,7 +316,7 @@ const OrderDetail = () => {
                                 <div className="h-4 w-4 rounded-full ring-4 ring-white z-10 mt-1 bg-brand-500 shadow-lg shadow-brand-200" />
                                 <div className="flex-1 pb-4">
                                     <div className="flex items-center justify-between mb-1">
-                                        <h4 className="text-xs font-black uppercase tracking-tight text-slate-900">
+                                        <h4 className="text-xs font-semibold uppercase tracking-tight text-slate-900">
                                             Status: {order.status.replace(/_/g, ' ')}
                                         </h4>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase">{new Date(order.updatedAt).toLocaleTimeString()}</span>
@@ -332,7 +332,7 @@ const OrderDetail = () => {
                 <div className="space-y-6">
                     {/* Customer Node */}
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-2xl p-6">
-                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
                             <User className="h-4 w-4" />
                             Customer Node Information
                         </h4>
@@ -343,7 +343,7 @@ const OrderDetail = () => {
                                 className="h-16 w-16 rounded-2xl bg-slate-50 ring-2 ring-white shadow-sm object-cover" 
                             />
                             <div className="text-left">
-                                <h3 className="text-lg font-black text-slate-900 leading-tight">
+                                <h3 className="text-lg font-semibold text-slate-900 leading-tight">
                                     {order.customer?.name}
                                 </h3>
                                 <p className="text-xs font-bold text-slate-400">
@@ -362,7 +362,7 @@ const OrderDetail = () => {
                             </div>
                             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                 <div className="flex items-center justify-between gap-2 mb-1">
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                         Destination Protocol
                                     </span>
                                     {order?.address?.location &&
@@ -392,11 +392,11 @@ const OrderDetail = () => {
                                 (order.address?.name || order.address?.phone) && (
                                     <div className="p-4 bg-brand-50 rounded-2xl border border-brand-100 space-y-2">
                                         <div className="flex items-center justify-between gap-2 mb-1">
-                                            <span className="text-[10px] font-black text-brand-700 uppercase tracking-widest">
+                                            <span className="text-[10px] font-semibold text-brand-700 uppercase tracking-widest">
                                                 Recipient (Order For Someone Else)
                                             </span>
                                         </div>
-                                        <p className="text-xs font-black text-slate-800">
+                                        <p className="text-xs font-semibold text-slate-800">
                                             {order.address?.name}
                                         </p>
                                         {order.address?.phone && (
@@ -414,23 +414,23 @@ const OrderDetail = () => {
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-xl p-6 text-left">
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center justify-between">
-                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                     <Truck className="h-3.5 w-3.5" /> Logistical Agent
                                 </h4>
-                                <Badge variant={order.deliveryBoy ? "success" : "secondary"} className="text-[8px] font-black uppercase tracking-widest">
+                                <Badge variant={order.deliveryBoy ? "success" : "secondary"} className="text-[8px] font-semibold uppercase tracking-widest">
                                     {order.deliveryBoy ? "ASSIGNED" : "UNASSIGNED"}
                                 </Badge>
                             </div>
                             <div className="flex items-center gap-3 mt-2">
                                 <div className="h-10 w-10 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-300 overflow-hidden">
                                     {order.deliveryBoy ? (
-                                        <div className="h-full w-full flex items-center justify-center font-black text-slate-400 bg-brand-50 ds-h3">{order.deliveryBoy.name.charAt(0)}</div>
+                                        <div className="h-full w-full flex items-center justify-center font-semibold text-slate-400 bg-brand-50 ds-h3">{order.deliveryBoy.name.charAt(0)}</div>
                                     ) : (
                                         <User className="h-5 w-5" />
                                     )}
                                 </div>
                                 <div>
-                                    <h5 className="text-sm font-black text-slate-900">{order.deliveryBoy?.name || "Pending Rider Assignment"}</h5>
+                                    <h5 className="text-sm font-semibold text-slate-900">{order.deliveryBoy?.name || "Pending Rider Assignment"}</h5>
                                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">CONTACT: {order.deliveryBoy?.phone || "N/A"}</p>
                                 </div>
                             </div>
@@ -440,35 +440,35 @@ const OrderDetail = () => {
                     {/* Payment Vector */}
                     <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-2xl overflow-hidden text-left">
                         <div className="p-6 bg-slate-900 text-white">
-                            <h4 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2 text-white">
+                            <h4 className="text-[10px] font-semibold uppercase tracking-widest flex items-center gap-2 text-white">
                                 <CreditCard className="h-4 w-4 text-brand-400" />
                                 Payment Vector
                             </h4>
                         </div>
                         <div className="p-4 space-y-6">
                             <div className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Protocol Summary</span>
-                                <Badge className={cn("border-none text-[8px] font-black uppercase", order.payment?.status === 'completed' ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700')}>
+                                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Protocol Summary</span>
+                                <Badge className={cn("border-none text-[8px] font-semibold uppercase", order.payment?.status === 'completed' ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700')}>
                                     {order.payment?.status || 'PENDING'}
                                 </Badge>
                             </div>
                             <div className="flex items-center justify-between px-2">
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">TXN Hash</span>
                                 <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-black text-slate-700 truncate max-w-[100px]">{order.payment?.transactionId || 'N/A'}</span>
+                                    <span className="text-[10px] font-semibold text-slate-700 truncate max-w-[100px]">{order.payment?.transactionId || 'N/A'}</span>
                                     <button onClick={() => copyToClipboard(order.payment?.transactionId, 'Transaction ID')} className="p-1.5 hover:bg-slate-50 rounded-md text-slate-300"><Copy className="h-3 w-3" /></button>
                                 </div>
                             </div>
                             <div className="flex items-center justify-between px-2">
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gateway Method</span>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">{order.payment?.method || 'CASH'}</span>
+                                <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-900">{order.payment?.method || 'CASH'}</span>
                             </div>
                         </div>
                     </Card>
 
                     {/* Intelligence Notes */}
                     <Card className="border-none shadow-xl ring-1 ring-amber-100 bg-amber-50/30 rounded-xl p-6 text-left">
-                        <h4 className="text-[10px] font-black text-amber-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <h4 className="text-[10px] font-semibold text-amber-900 uppercase tracking-widest mb-4 flex items-center gap-2">
                             <Info className="h-4 w-4" />
                             Intelligence Notes
                         </h4>

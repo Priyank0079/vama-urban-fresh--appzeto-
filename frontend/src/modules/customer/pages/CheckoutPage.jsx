@@ -912,7 +912,7 @@ const CheckoutPage = () => {
               className="absolute inset-0 border-2 border-dashed border-slate-200 rounded-full"
             />
           </div>
-          <h2 className="text-3xl font-black text-slate-800 mb-3 tracking-tight">Your Cart is Empty</h2>
+          <h2 className="text-3xl font-semibold text-slate-800 mb-3 tracking-tight">Your Cart is Empty</h2>
           <p className="text-slate-500 mb-8 leading-relaxed font-medium">
             It feels lighter than air! <br />
             Explore our aisles and fill it with goodies.
@@ -965,7 +965,7 @@ const CheckoutPage = () => {
               <h1 className="text-xl md:text-3xl font-[1000] text-white tracking-tight uppercase">Checkout</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="h-1.5 w-1.5 bg-brand-400 rounded-full animate-pulse" />
-                <p className="text-brand-100/90 text-[10px] md:text-xs font-black tracking-[0.2em] uppercase">
+                <p className="text-brand-100/90 text-[10px] md:text-xs font-semibold tracking-[0.2em] uppercase">
                   {cartCount} {cartCount === 1 ? "Item" : "Items"} in cart
                 </p>
               </div>
@@ -974,7 +974,7 @@ const CheckoutPage = () => {
               onClick={handleShare}
               className="h-12 px-4 flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl transition-all active:scale-95">
               <Share2 size={20} className="text-white" />
-              <span className="text-xs font-black text-white uppercase tracking-widest hidden sm:block">Share</span>
+              <span className="text-xs font-semibold text-white uppercase tracking-widest hidden sm:block">Share</span>
             </button>
           </div>
         </div>
@@ -992,7 +992,7 @@ const CheckoutPage = () => {
                   <Clock size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-black text-slate-800 text-lg">Delivery in 12-15 mins</h3>
+                  <h3 className="font-semibold text-slate-800 text-lg">Delivery in 12-15 mins</h3>
                   <p className="text-sm text-slate-500">Shipment of {cartCount} items</p>
                 </div>
               </div>
@@ -1133,7 +1133,7 @@ const CheckoutPage = () => {
                   <div className={`p-2 rounded-full ${currentAddress.id === addr.id ? "bg-primary text-primary-foreground" : "bg-slate-100 text-slate-500"}`}>
                     <MapPin size={16} />
                   </div>
-                  <span className="font-black text-slate-800 uppercase tracking-widest text-[10px]">{addr.label}</span>
+                  <span className="font-semibold text-slate-800 uppercase tracking-widest text-[10px]">{addr.label}</span>
                 </div>
                 <p className="text-sm font-bold text-slate-800">{user?.name || currentAddress.name}</p>
                 <p className="text-xs text-slate-500 leading-relaxed mb-1">{addr.address}</p>

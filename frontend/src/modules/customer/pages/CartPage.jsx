@@ -48,7 +48,7 @@ const CartPage = () => {
                     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_26rem]">
                         <section className="space-y-4">
                             <div className="flex items-center justify-between px-1">
-                                <h2 className="text-lg md:text-xl font-black text-slate-900 tracking-tight">
+                                <h2 className="text-lg md:text-xl font-semibold text-slate-900 tracking-tight">
                                     Your items
                                 </h2>
                                 <span className="rounded-full bg-white/85 px-3 py-1 text-xs font-bold text-slate-500 border border-slate-200">
@@ -75,10 +75,10 @@ const CartPage = () => {
                                             <div className="min-w-0 flex-1">
                                                 <div className="flex items-start justify-between gap-3">
                                                     <div className="min-w-0">
-                                                        <span className="inline-flex rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-brand-700">
+                                                        <span className="inline-flex rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-700">
                                                             {item.category}
                                                         </span>
-                                                        <h3 className="mt-2 truncate text-lg md:text-xl font-black tracking-tight text-slate-900">
+                                                        <h3 className="mt-2 truncate text-lg md:text-xl font-semibold tracking-tight text-slate-900">
                                                             {item.name}
                                                         </h3>
                                                         <p className="mt-1 text-sm font-medium text-slate-500">
@@ -97,7 +97,7 @@ const CartPage = () => {
 
                                                 <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                                                     <div className="flex items-end gap-2">
-                                                        <div className="text-2xl font-black tracking-tight text-slate-900">
+                                                        <div className="text-2xl font-semibold tracking-tight text-slate-900">
                                                             ₹{(() => {
                                                                 const mrp = Number(item.price || 0);
                                                                 const sale = Number(item.salePrice || 0);
@@ -118,7 +118,7 @@ const CartPage = () => {
                                                         >
                                                             <Minus size={15} strokeWidth={3} />
                                                         </button>
-                                                        <span className="min-w-[24px] text-center text-sm font-black text-slate-900">
+                                                        <span className="min-w-[24px] text-center text-sm font-semibold text-slate-900">
                                                             {item.quantity}
                                                         </span>
                                                         <button
@@ -138,7 +138,7 @@ const CartPage = () => {
                             <div className="flex flex-col gap-3 rounded-[1.5rem] border border-white/80 bg-white/80 p-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:flex-row sm:items-center sm:justify-between">
                                 <Link
                                     to="/categories"
-                                    className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-black text-brand-700 transition-colors hover:bg-brand-100"
+                                    className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-100"
                                 >
                                     Continue Shopping
                                     <ArrowRight size={16} />
@@ -155,11 +155,11 @@ const CartPage = () => {
                         <aside className="lg:sticky lg:top-28 h-fit">
                             <div className="overflow-hidden rounded-[2rem] border border-slate-100 bg-slate-900 text-white shadow-[0_24px_60px_rgba(15,23,42,0.18)]">
                                 <div className="bg-[radial-gradient(circle_at_top_right,_rgba(34,197,94,0.35),_transparent_38%),linear-gradient(180deg,_rgba(255,255,255,0.08),_transparent)] px-6 py-6">
-                                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.22em] text-brand-300">
+                                    <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-300">
                                         <ShieldCheck size={13} />
                                         Secure summary
                                     </div>
-                                    <h2 className="mt-3 text-2xl font-black tracking-tight">
+                                    <h2 className="mt-3 text-2xl font-semibold tracking-tight">
                                         Order Summary
                                     </h2>
                                     <p className="mt-2 text-sm leading-relaxed text-white/70">
@@ -179,12 +179,12 @@ const CartPage = () => {
                                         </div>
                                         <div className="border-t border-white/10 pt-4 flex items-center justify-between">
                                             <span className="text-base font-bold text-white/85">Total Amount</span>
-                                            <span className="text-3xl font-black tracking-tight text-brand-300">₹{cartTotal}</span>
+                                            <span className="text-3xl font-semibold tracking-tight text-brand-300">₹{cartTotal}</span>
                                         </div>
                                     </div>
 
                                     <Link to="/checkout" className="block">
-                                        <Button className="h-14 w-full rounded-full bg-brand-400 text-slate-950 hover:bg-brand-300 text-base font-black flex items-center justify-center gap-2 shadow-[0_18px_35px_rgba(16,185,129,0.3)] transition-all">
+                                        <Button className="h-14 w-full rounded-full bg-brand-400 text-slate-950 hover:bg-brand-300 text-base font-semibold flex items-center justify-center gap-2 shadow-[0_18px_35px_rgba(16,185,129,0.3)] transition-all">
                                             Place Order <ArrowRight size={18} />
                                         </Button>
                                     </Link>
@@ -212,7 +212,7 @@ const CartPage = () => {
                             </div>
 
                             <div className="relative text-center">
-                                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-brand-700">
+                                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-700">
                                     <Sparkles size={12} />
                                     Empty cart
                                 </div>
@@ -229,7 +229,7 @@ const CartPage = () => {
                                     )}
                                 </div>
 
-                                <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 leading-[0.96]">
+                                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 leading-[0.96]">
                                     Your cart is empty
                                 </h2>
                                 <p className="mx-auto mt-4 max-w-xl text-base md:text-lg leading-relaxed text-slate-600">
@@ -239,14 +239,14 @@ const CartPage = () => {
                                 <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:justify-center">
                                     <Link
                                         to="/categories"
-                                        className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-3.5 text-sm font-black text-white transition-transform hover:-translate-y-0.5"
+                                        className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-3.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
                                     >
                                         Start Shopping
                                         <ArrowRight size={16} />
                                     </Link>
                                     <Link
                                         to="/offers"
-                                        className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-sm font-black text-slate-800 transition-colors hover:bg-slate-50"
+                                        className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50"
                                     >
                                         Browse Offers
                                     </Link>

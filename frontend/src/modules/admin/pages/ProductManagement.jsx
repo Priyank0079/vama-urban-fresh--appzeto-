@@ -1125,7 +1125,7 @@ const ProductManagement = () => {
             >
                 <div className="space-y-5 py-2">
                     <div className="rounded-2xl bg-rose-50 border border-rose-100 px-4 py-3">
-                        <p className="text-xs font-black text-slate-900 line-clamp-2">
+                        <p className="text-xs font-semibold text-slate-900 line-clamp-2">
                             {itemToReject?.name || 'Selected product'}
                         </p>
                         <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-rose-500">
@@ -1133,7 +1133,7 @@ const ProductManagement = () => {
                         </p>
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                             Reason for seller
                         </label>
                         <textarea
@@ -1175,7 +1175,7 @@ const ProductManagement = () => {
                     <div className="h-16 w-16 bg-rose-50 rounded-full flex items-center justify-center mb-4">
                         <HiOutlineExclamationCircle className="h-10 w-10 text-rose-500" />
                     </div>
-                    <h3 className="text-lg font-black text-slate-900 mb-2 uppercase tracking-tight">Delete Product?</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2 uppercase tracking-tight">Delete Product?</h3>
                     <p className="text-sm text-slate-500 font-medium">
                         Are you sure you want to delete <span className="font-bold text-slate-900">"{itemToDelete?.name}"</span>?
                         This action cannot be undone.
@@ -1200,7 +1200,7 @@ const ProductManagement = () => {
                             )}
                         </div>
                         <div>
-                            <h3 className="text-lg font-black text-slate-900 leading-tight">{viewingVariants?.name}</h3>
+                            <h3 className="text-lg font-semibold text-slate-900 leading-tight">{viewingVariants?.name}</h3>
                             <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="primary" className="text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5">{viewingVariants?.categoryId?.name || 'Category'}</Badge>
                                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Master SKU: {viewingVariants?.sku || viewingVariants?._id?.slice(-6).toUpperCase() || 'N/A'}</span>
@@ -1212,10 +1212,10 @@ const ProductManagement = () => {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Variant Specification</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Unit Price</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Available Stock</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Variant SKU</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Variant Specification</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Unit Price</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Available Stock</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-right">Variant SKU</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -1223,7 +1223,7 @@ const ProductManagement = () => {
                                     <tr key={idx} className="hover:bg-slate-50/30 transition-all cursor-default">
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col">
-                                                <span className="text-xs font-black text-slate-700 group-hover:text-primary transition-colors">{v.name}</span>
+                                                <span className="text-xs font-semibold text-slate-700 group-hover:text-primary transition-colors">{v.name}</span>
                                                 <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Variation {idx + 1}</span>
                                             </div>
                                         </td>
@@ -1234,7 +1234,7 @@ const ProductManagement = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-center">
-                                            <Badge variant={v.stock === 0 ? "rose" : v.stock <= 10 ? "amber" : "emerald"} className="text-[10px] font-black uppercase tracking-widest px-2 shadow-sm">
+                                            <Badge variant={v.stock === 0 ? "rose" : v.stock <= 10 ? "amber" : "emerald"} className="text-[10px] font-semibold uppercase tracking-widest px-2 shadow-sm">
                                                 {v.stock === 0 ? 'OUT OF STOCK' : `${v.stock} UNITS`}
                                             </Badge>
                                         </td>
@@ -1252,7 +1252,7 @@ const ProductManagement = () => {
                     <div className="mt-8 flex justify-end">
                         <button
                             onClick={() => setIsVariantsViewModalOpen(false)}
-                            className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
+                            className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl hover:-translate-y-0.5 transition-all active:scale-95"
                         >
                             CLOSE VIEWER
                         </button>

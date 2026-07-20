@@ -185,13 +185,13 @@ const CouponManagement = () => {
                 <div>
                     <h1 className="ds-h1 flex items-center gap-3">
                         Promo Engine
-                        <Badge variant="primary" className="text-[10px] font-black uppercase tracking-widest">v4.2 PRO</Badge>
+                        <Badge variant="primary" className="text-[10px] font-semibold uppercase tracking-widest">v4.2 PRO</Badge>
                     </h1>
                     <p className="ds-description mt-1">Design, deploy, and track high-conversion discount campaigns.</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
                 >
                     <HiOutlinePlus className="h-5 w-5" />
                     CREATE NEW PROMO
@@ -217,8 +217,8 @@ const CouponManagement = () => {
                                 <s.icon className="h-6 w-6" />
                             </div>
                         </div>
-                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{s.label}</h4>
-                        <h3 className="text-2xl font-black text-slate-900">{s.value}</h3>
+                        <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1">{s.label}</h4>
+                        <h3 className="text-2xl font-semibold text-slate-900">{s.value}</h3>
                     </Card>
                 ))}
             </div>
@@ -244,7 +244,7 @@ const CouponManagement = () => {
                                     key={filter}
                                     onClick={() => setStatusFilter(filter)}
                                     className={cn(
-                                        "px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                        "px-5 py-2 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all",
                                         statusFilter === filter ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
                                     )}
                                 >
@@ -260,12 +260,12 @@ const CouponManagement = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-slate-50/50 border-b border-slate-50">
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Coupon Code</th>
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Offerings</th>
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Performance</th>
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Validity</th>
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-                                <th className="px-4 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Coupon Code</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Offerings</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Performance</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Validity</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Status</th>
+                                <th className="px-4 py-5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -284,7 +284,7 @@ const CouponManagement = () => {
                                                 <HiOutlineTicket className="h-6 w-6" />
                                             </div>
                                             <div>
-                                                <span className="text-sm font-black text-slate-900 tracking-wider bg-slate-100 px-2 py-1 rounded-lg border-2 border-dashed border-slate-300">{c.code}</span>
+                                                <span className="text-sm font-semibold text-slate-900 tracking-wider bg-slate-100 px-2 py-1 rounded-lg border-2 border-dashed border-slate-300">{c.code}</span>
                                                 <p className="text-[10px] font-bold text-slate-400 mt-1">{c.title}</p>
                                                 <p className="text-[10px] font-medium text-slate-400 mt-0.5 line-clamp-2">{c.description}</p>
                                             </div>
@@ -292,7 +292,7 @@ const CouponManagement = () => {
                                     </td>
                                     <td className="px-4 py-6">
                                         <div className="space-y-1">
-                                            <p className="text-xs font-black text-slate-900">
+                                            <p className="text-xs font-semibold text-slate-900">
                                                 {c.discountType === 'percentage' ? `${c.discountValue}% OFF` : c.discountType === 'free_delivery' ? 'Free Delivery' : `₹${c.discountValue} OFF`}
                                             </p>
                                             {c.minOrderValue > 0 && (
@@ -304,8 +304,8 @@ const CouponManagement = () => {
                                     <td className="px-4 py-6">
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-end">
-                                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Redeemed</span>
-                                                <span className="text-xs font-black text-slate-900">{c.usedCount || 0}{c.usageLimit ? `/${c.usageLimit}` : ''}</span>
+                                                <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest">Redeemed</span>
+                                                <span className="text-xs font-semibold text-slate-900">{c.usedCount || 0}{c.usageLimit ? `/${c.usageLimit}` : ''}</span>
                                             </div>
                                             <div className="h-1.5 w-32 bg-slate-100 rounded-full overflow-hidden">
                                                 <div
@@ -350,7 +350,7 @@ const CouponManagement = () => {
                                             }
                                             
                                             return (
-                                                <Badge variant={variant} className="text-[9px] font-black uppercase">
+                                                <Badge variant={variant} className="text-[9px] font-semibold uppercase">
                                                     {status}
                                                 </Badge>
                                             );
@@ -383,7 +383,7 @@ const CouponManagement = () => {
                         <div className="h-20 w-20 bg-slate-50 rounded-xl flex items-center justify-center mx-auto mb-6">
                             <HiOutlineTicket className="h-10 w-10 text-slate-200" />
                         </div>
-                        <h3 className="text-lg font-black text-slate-900">No codes found</h3>
+                        <h3 className="text-lg font-semibold text-slate-900">No codes found</h3>
                         <p className="text-sm font-bold text-slate-400 mt-2">Try adjusting your filters or create a new promotion.</p>
                     </div>
                 )}
@@ -437,17 +437,17 @@ const CouponManagement = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Promo Code</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Promo Code</label>
                             <input
                                 required
                                 value={formData.code}
                                 onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
                                 placeholder="E.G. SUMMER50"
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black uppercase tracking-widest outline-none ring-1 ring-transparent focus:ring-primary/20"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold uppercase tracking-widest outline-none ring-1 ring-transparent focus:ring-primary/20"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Discount Kind</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Discount Kind</label>
                             <select
                                 value={formData.discountType}
                                 onChange={(e) => {
@@ -458,7 +458,7 @@ const CouponManagement = () => {
                                     }
                                     setFormData({ ...formData, discountType: newType, discountValue: currentVal });
                                 }}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             >
                                 <option value="percentage">Percentage (%)</option>
                                 <option value="fixed">Fixed Amount (₹)</option>
@@ -468,11 +468,11 @@ const CouponManagement = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Coupon Strategy</label>
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Coupon Strategy</label>
                         <select
                             value={formData.couponType}
                             onChange={(e) => setFormData({ ...formData, couponType: e.target.value })}
-                            className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                            className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                         >
                             <option value="generic">Generic Discount</option>
                             <option value="bulk_order">Bulk Order Discount</option>
@@ -488,7 +488,7 @@ const CouponManagement = () => {
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Discount Value</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Discount Value</label>
                             <input
                                 required
                                 type="number"
@@ -504,11 +504,11 @@ const CouponManagement = () => {
                                     }
                                     setFormData({ ...formData, discountValue: val });
                                 }}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Min Order Requirement</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Min Order Requirement</label>
                             <input
                                 required
                                 type="number"
@@ -517,14 +517,14 @@ const CouponManagement = () => {
                                 onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
                                 value={formData.minOrderValue}
                                 onChange={(e) => setFormData({ ...formData, minOrderValue: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Max Discount (optional)</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Max Discount (optional)</label>
                             <input
                                 type="number"
                                 min={0}
@@ -532,11 +532,11 @@ const CouponManagement = () => {
                                 onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
                                 value={formData.maxDiscount}
                                 onChange={(e) => setFormData({ ...formData, maxDiscount: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Uses (optional)</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Total Uses (optional)</label>
                             <input
                                 type="number"
                                 min={0}
@@ -544,14 +544,14 @@ const CouponManagement = () => {
                                 onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
                                 value={formData.usageLimit}
                                 onChange={(e) => setFormData({ ...formData, usageLimit: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Per User Limit</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Per User Limit</label>
                             <input
                                 type="number"
                                 min={1}
@@ -559,45 +559,45 @@ const CouponManagement = () => {
                                 onKeyDown={(e) => { if (['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault(); }}
                                 value={formData.perUserLimit}
                                 onChange={(e) => setFormData({ ...formData, perUserLimit: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Start Date</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Start Date</label>
                             <input
                                 required
                                 type="date"
                                 min={today}
                                 value={formData.validFrom}
                                 onChange={(e) => setFormData({ ...formData, validFrom: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">End Date</label>
+                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">End Date</label>
                             <input
                                 required
                                 type="date"
                                 min={formData.validFrom || today}
                                 value={formData.validTill}
                                 onChange={(e) => setFormData({ ...formData, validTill: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none"
+                                className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Campaign Description</label>
+                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Campaign Description</label>
                         <textarea
                             required
                             rows={3}
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             placeholder="Briefly describe the campaign..."
-                            className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-black outline-none resize-none"
+                            className="w-full px-4 py-3 bg-slate-50 border-none rounded-2xl text-xs font-semibold outline-none resize-none"
                         />
                     </div>
 
@@ -605,13 +605,13 @@ const CouponManagement = () => {
                         <button
                             type="button"
                             onClick={() => setIsModalOpen(false)}
-                            className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-black uppercase tracking-widest"
+                            className="flex-1 py-4 bg-slate-100 text-slate-400 rounded-2xl text-[10px] font-semibold uppercase tracking-widest"
                         >
                             CANCEL
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-primary/20"
+                            className="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl shadow-primary/20"
                         >
                             {editingCoupon ? 'SAVE CHANGES' : 'LAUNCH CAMPAIGN'}
                         </button>

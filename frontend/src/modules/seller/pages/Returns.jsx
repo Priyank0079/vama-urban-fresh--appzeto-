@@ -214,7 +214,7 @@ const Returns = () => {
             <BlurFade delay={0.1}>
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4">
                     <div className="min-w-0">
-                        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex flex-wrap items-center gap-2">
+                        <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 flex flex-wrap items-center gap-2">
                             Return Requests
                             <Badge
                                 variant="secondary"
@@ -269,7 +269,7 @@ const Returns = () => {
                                                     <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-widest truncate">
                                                         {label}
                                                     </p>
-                                                    <h4 className="text-lg sm:text-2xl font-black text-slate-900 tracking-tight">
+                                                    <h4 className="text-lg sm:text-2xl font-semibold text-slate-900 tracking-tight">
                                                         {count}
                                                     </h4>
                                                 </div>
@@ -332,7 +332,7 @@ const Returns = () => {
                                                     className="min-w-0 flex-1 cursor-pointer"
                                                     onClick={() => openDetails(ret)}
                                                 >
-                                                    <p className="text-xs font-black text-slate-900 truncate">
+                                                    <p className="text-xs font-semibold text-slate-900 truncate">
                                                         #{ret.orderId}
                                                     </p>
                                                     <p className="text-xs font-semibold text-slate-600 mt-0.5 flex items-center gap-1">
@@ -375,11 +375,11 @@ const Returns = () => {
                                                         variant={getStatusVariant(
                                                             ret.returnStatus
                                                         )}
-                                                        className="text-[10px] font-black uppercase px-2 py-0"
+                                                        className="text-[10px] font-semibold uppercase px-2 py-0"
                                                     >
                                                         {mapReturnStatusLabel(ret.returnStatus)}
                                                     </Badge>
-                                                    <p className="text-xs font-black text-slate-900">
+                                                    <p className="text-xs font-semibold text-slate-900">
                                                         {"\u20B9"}
                                                         {ret.returnRefundAmount ||
                                                             ret.pricing?.subtotal ||
@@ -421,7 +421,7 @@ const Returns = () => {
                         >
                             <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 shrink-0">
                                 <div>
-                                    <h3 className="text-base font-black text-slate-900">
+                                    <h3 className="text-base font-semibold text-slate-900">
                                         Return for Order #{selectedReturn.orderId}
                                     </h3>
                                     <div className="flex items-center space-x-2 mt-0.5">
@@ -429,7 +429,7 @@ const Returns = () => {
                                             variant={getStatusVariant(
                                                 selectedReturn.returnStatus
                                             )}
-                                            className="text-[10px] font-black uppercase tracking-widest px-1.5 py-0"
+                                            className="text-[10px] font-semibold uppercase tracking-widest px-1.5 py-0"
                                         >
                                             {mapReturnStatusLabel(
                                                 selectedReturn.returnStatus
@@ -513,7 +513,7 @@ const Returns = () => {
                                                     <HiOutlineTruck className="h-5 w-5" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest leading-none mb-1">Rider Assigned</p>
+                                                    <p className="text-[10px] font-semibold text-brand-600 uppercase tracking-widest leading-none mb-1">Rider Assigned</p>
                                                     <p className="text-sm font-bold text-slate-900 leading-none">{selectedReturn.returnDeliveryBoy.name}</p>
                                                 </div>
                                             </div>
@@ -543,7 +543,7 @@ const Returns = () => {
                                                 <HiOutlineInboxStack className="h-5 w-5" />
                                             </div>
                                             <div>
-                                                <p className={`text-[10px] font-black uppercase tracking-widest leading-none mb-1 ${selectedReturn.returnStatus === "qc_passed" ? "text-emerald-600" : "text-rose-600"
+                                                <p className={`text-[10px] font-semibold uppercase tracking-widest leading-none mb-1 ${selectedReturn.returnStatus === "qc_passed" ? "text-emerald-600" : "text-rose-600"
                                                     }`}>Quality Check Results</p>
                                                 <p className="text-sm font-bold text-slate-900 leading-none">
                                                     {selectedReturn.returnStatus === "qc_passed" ? "QC Passed" : "QC Failed"}
@@ -568,7 +568,7 @@ const Returns = () => {
 
                                 {/* Quality Check Comparison (2-Way) */}
                                 <div className="space-y-3 pt-2">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.2em] mb-1">
                                         Product Comparison (QC)
                                     </p>
                                     <div className="grid grid-cols-2 gap-3">
@@ -581,7 +581,7 @@ const Returns = () => {
                                                     className="h-full w-full object-cover"
                                                 />
                                                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-900/60 to-transparent p-2">
-                                                    <p className="text-[9px] font-black text-white uppercase leading-none">Listing</p>
+                                                    <p className="text-[9px] font-semibold text-white uppercase leading-none">Listing</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -603,7 +603,7 @@ const Returns = () => {
                                                     </div>
                                                 )}
                                                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-emerald-900/60 to-transparent p-2">
-                                                    <p className="text-[9px] font-black text-white uppercase leading-none">Return</p>
+                                                    <p className="text-[9px] font-semibold text-white uppercase leading-none">Return</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -639,7 +639,7 @@ const Returns = () => {
                                                             Qty: {item.quantity}
                                                         </p>
                                                     </div>
-                                                    <p className="text-xs font-black text-slate-900">
+                                                    <p className="text-xs font-semibold text-slate-900">
                                                         ₹{item.price * item.quantity}
                                                     </p>
                                                 </div>
@@ -654,7 +654,7 @@ const Returns = () => {
                                     </p>
                                     <p className="text-xs text-slate-700">
                                         Product refund:{" "}
-                                        <span className="font-black">
+                                        <span className="font-semibold">
                                             {"\u20B9"}
                                             {selectedReturn.returnRefundAmount ||
                                                 selectedReturn.pricing?.subtotal ||
@@ -663,7 +663,7 @@ const Returns = () => {
                                     </p>
                                     <p className="text-xs text-slate-700">
                                         Return delivery commission:{" "}
-                                        <span className="font-black">
+                                        <span className="font-semibold">
                                             {"\u20B9"}
                                             {selectedReturn.returnDeliveryCommission ||
                                                 0}
@@ -674,12 +674,12 @@ const Returns = () => {
                                 {/* Active OTP Display */}
                                 {activeOtps[selectedReturn.orderId] && (
                                     <div className="bg-brand-50 border-2 border-dashed border-brand-200 rounded-3xl p-6 text-center space-y-3 animate-in fade-in zoom-in duration-500">
-                                        <p className="text-[10px] font-black text-brand-600 uppercase tracking-[0.2em]">
+                                        <p className="text-[10px] font-semibold text-brand-600 uppercase tracking-[0.2em]">
                                             Rider Arrived - Share OTP
                                         </p>
                                         <div className="flex items-center justify-center gap-3">
                                             {activeOtps[selectedReturn.orderId].otp.split('').map((char, i) => (
-                                                <div key={i} className="h-14 w-12 bg-white rounded-xl shadow-sm border border-brand-100 flex items-center justify-center text-3xl font-black text-slate-900 border-b-4 border-b-brand-500">
+                                                <div key={i} className="h-14 w-12 bg-white rounded-xl shadow-sm border border-brand-100 flex items-center justify-center text-3xl font-semibold text-slate-900 border-b-2 border-b-brand-500">
                                                     {char}
                                                 </div>
                                             ))}
@@ -756,7 +756,7 @@ const Returns = () => {
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             className="w-full max-w-md relative z-10 bg-white rounded-3xl shadow-2xl p-6 space-y-4"
                         >
-                            <h3 className="text-xl font-black text-slate-900">Reject Return</h3>
+                            <h3 className="text-xl font-semibold text-slate-900">Reject Return</h3>
                             <p className="text-sm text-slate-600 font-medium">Please provide a reason for rejecting this return request. This will be shared with the customer.</p>
 
                             <div className="space-y-2">

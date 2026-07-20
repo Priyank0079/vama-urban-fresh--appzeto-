@@ -186,7 +186,7 @@ const PaymentStatusPage = () => {
                     <AnimatePresence mode="wait">
                         {status === "verifying" && (
                             <motion.div key="text-verifying" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                                <h1 className="text-2xl font-black text-slate-800 mb-2 uppercase tracking-tight">Verifying Payment</h1>
+                                <h1 className="text-2xl font-semibold text-slate-800 mb-2 uppercase tracking-tight">Verifying Payment</h1>
                                 <p className="text-slate-500 text-sm font-medium">Please wait while we confirm your transaction with PhonePe. Do not refresh or go back.</p>
                                 <div className="mt-6 flex justify-center gap-1">
                                     {[0, 1, 2].map((i) => (
@@ -204,11 +204,11 @@ const PaymentStatusPage = () => {
                         {status === "success" && (
                             <motion.div key="text-success" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <h1 className="text-2xl font-[1000] text-slate-800 mb-2 uppercase tracking-tight">Order Confirmed!</h1>
-                                <p className="text-emerald-600 text-sm font-black mb-6 uppercase tracking-wider">Payment Successful</p>
+                                <p className="text-emerald-600 text-sm font-semibold mb-6 uppercase tracking-wider">Payment Successful</p>
                                 <div className="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-100">
                                     <div className="flex justify-between items-center mb-2">
                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Order ID</span>
-                                        <span className="text-xs font-black text-slate-700">#{merchantOrderId?.slice(-8).toUpperCase()}</span>
+                                        <span className="text-xs font-semibold text-slate-700">#{merchantOrderId?.slice(-8).toUpperCase()}</span>
                                     </div>
                                     <div className="h-px bg-slate-200 my-2" />
                                     <p className="text-[11px] text-slate-500 font-medium">Redirecting to your order details in 4 seconds...</p>
@@ -225,7 +225,7 @@ const PaymentStatusPage = () => {
                         {status === "failure" && (
                             <motion.div key="text-failure" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <h1 className="text-2xl font-[1000] text-slate-800 mb-2 uppercase tracking-tight">Payment Failed</h1>
-                                <p className="text-rose-600 text-sm font-black mb-6 uppercase tracking-wider">{error || "Transaction Rejected"}</p>
+                                <p className="text-rose-600 text-sm font-semibold mb-6 uppercase tracking-wider">{error || "Transaction Rejected"}</p>
                                 <p className="text-slate-500 text-sm font-medium mb-8">Oops! Something went wrong with the transaction. Your money (if debited) will be refunded automatically by PhonePe.</p>
                                 <div className="flex flex-col gap-3">
                                     <Button 
@@ -248,7 +248,7 @@ const PaymentStatusPage = () => {
                         {status === "timeout" && (
                             <motion.div key="text-timeout" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <h1 className="text-2xl font-[1000] text-slate-800 mb-2 uppercase tracking-tight">Payment Pending</h1>
-                                <p className="text-amber-600 text-sm font-black mb-6 uppercase tracking-wider">Awaiting Confirmation</p>
+                                <p className="text-amber-600 text-sm font-semibold mb-6 uppercase tracking-wider">Awaiting Confirmation</p>
                                 <div className="bg-amber-50 rounded-2xl p-4 mb-8 border border-amber-100 flex items-start gap-3 text-left">
                                     <AlertTriangle className="text-amber-600 shrink-0 mt-0.5" size={18} />
                                     <p className="text-xs text-amber-800 font-medium leading-relaxed">

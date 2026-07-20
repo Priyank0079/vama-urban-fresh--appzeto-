@@ -33,10 +33,26 @@ const matchesOrderIdentifier = (payloadOrderId, identifiers = []) => {
     .includes(normalizedPayloadId);
 };
 
-const DeliveryOtpDisplay = ({ orderId, checkoutGroupId = null }) => {
-  const [otpData, setOtpData] = useState(null);
+const DeliveryOtpDisplay = ({ orderId, checkoutGroupId = null, initialOtpData = null }) => {
+  const [otpData, setOtpData] = useState(() => {
+    if (initialOtpData?.otp) {
+      return {
+        otp: initialOtpData.otp,
+        expiresAt: initialOtpData.expiresAt,
+        deliveryPersonNearby: initialOtpData.deliveryPersonNearby ?? true,
+      };
+    }
+    return null;
+  });
   const [isDelivered, setIsDelivered] = useState(false);
-  const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [remainingSeconds, setRemainingSeconds] = useState(() => {
+    if (initialOtpData?.expiresAt) {
+      const now = new Date().getTime();
+      const expiry = new Date(initialOtpData.expiresAt).getTime();
+      return Math.max(0, Math.floor((expiry - now) / 1000));
+    }
+    return 0;
+  });
   const [isVisible, setIsVisible] = useState(true);
   const timerRef = useRef(null);
 
@@ -67,6 +83,21 @@ const DeliveryOtpDisplay = ({ orderId, checkoutGroupId = null }) => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
+
+  // Update state when initialOtpData updates (e.g. from page polling/load)
+  useEffect(() => {
+    if (initialOtpData?.otp) {
+      setOtpData({
+        otp: initialOtpData.otp,
+        expiresAt: initialOtpData.expiresAt,
+        deliveryPersonNearby: initialOtpData.deliveryPersonNearby ?? true,
+      });
+      const now = new Date().getTime();
+      const expiry = new Date(initialOtpData.expiresAt).getTime();
+      setRemainingSeconds(Math.max(0, Math.floor((expiry - now) / 1000)));
+      setIsDelivered(false);
+    }
+  }, [initialOtpData]);
 
   // Set up Socket.IO listeners for OTP events
   useEffect(() => {
@@ -225,7 +256,7 @@ const DeliveryOtpDisplay = ({ orderId, checkoutGroupId = null }) => {
           {/* OTP Value - Minimum 24pt font (32px = 24pt) */}
           {/* Requirement 4.3: Font size at least 24 points */}
           <div
-            className={`text-5xl font-black font-mono tracking-[0.3em] mb-3 ${
+            className={`text-5xl font-semibold font-mono tracking-[0.3em] mb-3 ${
               isExpiringSoon ? "text-amber-950" : "text-purple-950"
             }`}
             style={{ fontSize: "48px" }} // 36pt = 48px (exceeds 24pt requirement)

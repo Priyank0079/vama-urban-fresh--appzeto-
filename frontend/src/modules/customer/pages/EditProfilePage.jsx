@@ -47,7 +47,7 @@ const EditProfilePage = () => {
                 <Link to="/profile" className="p-2 -ml-2 rounded-full hover:bg-slate-100 transition-colors">
                     <ArrowLeft size={24} className="text-slate-600" />
                 </Link>
-                <h1 className="text-lg font-black text-slate-800">Edit Profile</h1>
+                <h1 className="text-lg font-semibold text-slate-800">Edit Profile</h1>
             </div>
 
             <div className="max-w-xl mx-auto p-5">
@@ -55,7 +55,7 @@ const EditProfilePage = () => {
                 {/* Profile Picture Upload */}
                 <div className="flex flex-col items-center mb-8">
                     <div className="relative">
-                        <div className="h-28 w-28 rounded-full bg-slate-200 border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
+                        <div className="h-28 w-28 rounded-full bg-slate-200 border-2 border-white shadow-md flex items-center justify-center overflow-hidden">
                             <User size={48} className="text-slate-400" />
                         </div>
                         <button className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full border-2 border-white shadow-sm hover:bg-[#0a701a] transition-colors">

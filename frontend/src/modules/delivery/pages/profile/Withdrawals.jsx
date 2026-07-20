@@ -108,7 +108,7 @@ const Withdrawals = () => {
 
                     <div className="relative z-10">
                         <p className="text-brand-100 text-xs font-bold uppercase tracking-wider mb-2 opacity-90">Available for Withdrawal</p>
-                        <h2 className="text-4xl font-extrabold flex items-baseline leading-none tracking-tight">
+                        <h2 className="text-4xl font-semibold flex items-baseline leading-none tracking-tight">
                             <span className="text-2xl mr-1 font-bold">₹</span>
                             {stats.availableBalance.toLocaleString()}
                         </h2>

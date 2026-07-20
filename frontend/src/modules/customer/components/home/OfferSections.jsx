@@ -134,7 +134,7 @@ const OfferSections = ({ sections, noServiceData }) => {
                             )}
                           </div>
                           <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-tight px-1">{seller.name}</h4>
-                          <p className="text-[9px] text-brand-600 mt-1 font-extrabold uppercase tracking-widest bg-brand-50 px-2 py-0.5 rounded-full">Store</p>
+                          <p className="text-[9px] text-brand-600 mt-1 font-semibold uppercase tracking-widest bg-brand-50 px-2 py-0.5 rounded-full">Store</p>
                         </div>
                       ))}
                       {sectionProducts.map((product) => (

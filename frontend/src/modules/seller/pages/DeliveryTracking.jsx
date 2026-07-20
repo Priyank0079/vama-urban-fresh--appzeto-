@@ -187,7 +187,7 @@ const DeliveryTracking = () => {
       <BlurFade delay={0.1}>
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
+            <h1 className="text-2xl font-semibold text-slate-900 flex items-center gap-2">
               Delivery Tracking
               <Badge
                 variant="primary"
@@ -232,10 +232,10 @@ const DeliveryTracking = () => {
                       <stat.icon className="h-5 w-5" />
                     </div>
                     <div className="flex flex-col">
-                      <p className="text-[9px] font-black text-slate-600 uppercase tracking-widest">
+                      <p className="text-[9px] font-semibold text-slate-600 uppercase tracking-widest">
                         {stat.label}
                       </p>
-                      <h4 className="text-xl font-black text-slate-900 tracking-tight leading-none mt-0.5">
+                      <h4 className="text-xl font-semibold text-slate-900 tracking-tight leading-none mt-0.5">
                         {stat.value}
                       </h4>
                     </div>
@@ -256,7 +256,7 @@ const DeliveryTracking = () => {
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={cn(
-                          "relative py-3.5 px-5 text-[9px] font-black uppercase tracking-widest transition-all duration-300",
+                          "relative py-3.5 px-5 text-[9px] font-semibold uppercase tracking-widest transition-all duration-300",
                           activeTab === tab
                             ? "text-primary bg-white/50"
                             : "text-slate-600 hover:text-slate-700",
@@ -309,15 +309,15 @@ const DeliveryTracking = () => {
                                   className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
                               </div>
-                              <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-brand-500 rounded-sm border-[1px] border-white flex items-center justify-center text-white text-[7px] font-black shadow-sm">
+                              <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 bg-brand-500 rounded-sm border-[1px] border-white flex items-center justify-center text-white text-[7px] font-semibold shadow-sm">
                                 {dlv.deliveryBoy.rating}
                               </div>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[8px] font-black text-primary uppercase tracking-[0.1em] mb-0.5">
+                              <p className="text-[8px] font-semibold text-primary uppercase tracking-[0.1em] mb-0.5">
                                 Partner
                               </p>
-                              <h3 className="text-xs font-black text-slate-900 leading-none truncate">
+                              <h3 className="text-xs font-semibold text-slate-900 leading-none truncate">
                                 {dlv.deliveryBoy.name}
                               </h3>
                               <a
@@ -336,26 +336,26 @@ const DeliveryTracking = () => {
                           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                             <div className="min-w-0">
                               <div className="flex flex-wrap items-center gap-2 mb-0.5">
-                                <span className="text-[10px] font-black text-slate-900 tracking-tight">
+                                <span className="text-[10px] font-semibold text-slate-900 tracking-tight">
                                   #{dlv.orderId}
                                 </span>
                                 <Badge
                                   variant={getStatusVariant(dlv.status)}
-                                  className="text-[7px] font-black px-1.5 py-0 rounded-full uppercase tracking-widest shrink-0"
+                                  className="text-[7px] font-semibold px-1.5 py-0 rounded-full uppercase tracking-widest shrink-0"
                                 >
                                   {dlv.status}
                                 </Badge>
                               </div>
                               <h4 className="text-[10px] font-bold text-slate-500 flex items-center gap-1 flex-wrap">
                                 <HiOutlineUser className="h-3 w-3 text-slate-400 shrink-0" />
-                                <span className="text-slate-900 capitalize font-black">{dlv.customerName}</span>
+                                <span className="text-slate-900 capitalize font-semibold">{dlv.customerName}</span>
                               </h4>
                             </div>
                             <div className="sm:text-right shrink-0">
-                              <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                              <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest leading-none">
                                 Timing
                               </p>
-                              <p className="text-[10px] font-black text-primary tracking-tight mt-0.5">
+                              <p className="text-[10px] font-semibold text-primary tracking-tight mt-0.5">
                                 {dlv.startTime || "—"}
                               </p>
                             </div>
@@ -385,7 +385,7 @@ const DeliveryTracking = () => {
                     <div className="h-20 w-20 bg-white rounded-lg flex items-center justify-center shadow-sm mb-4">
                       <HiOutlineTruck className="h-10 w-10 text-slate-200" />
                     </div>
-                    <h3 className="text-base font-black text-slate-900">
+                    <h3 className="text-base font-semibold text-slate-900">
                       No active tracking found
                     </h3>
                     <p className="text-sm text-slate-600 font-bold uppercase tracking-widest mt-2">

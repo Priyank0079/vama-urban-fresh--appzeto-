@@ -790,7 +790,7 @@ const DeliveryLayout = () => {
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.96, opacity: 0, y: 16 }}
                   transition={{ type: "spring", stiffness: 380, damping: 28 }}
-                  className="bg-white rounded-[32px] p-6 w-full max-w-[340px] shadow-2xl border-4 border-primary/20"
+                  className="bg-white rounded-[32px] p-6 w-full max-w-[340px] shadow-2xl border-2 border-primary/20"
                 >
                   <div className="flex flex-col items-center">
                     <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 animate-bounce">
@@ -799,7 +799,7 @@ const DeliveryLayout = () => {
 
                     <h2
                       id="delivery-order-alert-title"
-                      className="text-xl font-black text-slate-900 mb-1"
+                      className="text-xl font-semibold text-slate-900 mb-1"
                     >
                       {activeOrder.isReturnPickup ? "Return pickup request" : "New order request"}
                     </h2>
@@ -807,7 +807,7 @@ const DeliveryLayout = () => {
                       {activeOrder.isReturnPickup ? "Collect return item" : "Accept or reject"}
                     </p>
                     <div className="flex items-center gap-2 mb-6">
-                      <span className="text-2xl font-black text-brand-600">₹{activeOrder.earnings}</span>
+                      <span className="text-2xl font-semibold text-brand-600">₹{activeOrder.earnings}</span>
                       <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-outfit">
                         Earnings
                       </span>
@@ -817,7 +817,7 @@ const DeliveryLayout = () => {
                       {/* Return Items "Small Cart" */}
                       {activeOrder.isReturnPickup && activeOrder.items?.length > 0 && (
                         <div className="bg-slate-50 p-2.5 rounded-2xl border border-slate-100 flex flex-col gap-2">
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">
+                          <p className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest px-1">
                             Return Items ({activeOrder.items.length})
                           </p>
                           <div className="flex gap-2 overflow-x-auto no-scrollbar">
@@ -836,7 +836,7 @@ const DeliveryLayout = () => {
                                   <p className="text-[10px] font-bold text-slate-900 truncate mb-0.5">
                                     {item.name}
                                   </p>
-                                  <p className="text-[10px] font-black text-primary">
+                                  <p className="text-[10px] font-semibold text-primary">
                                     {item.quantity} Unit{item.quantity > 1 ? 's' : ''}
                                   </p>
                                 </div>
@@ -889,7 +889,7 @@ const DeliveryLayout = () => {
                         type="button"
                         onClick={skipOrder}
                         disabled={isAcceptingOrder}
-                        className="py-4 rounded-2xl bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-wider hover:bg-slate-200/80 disabled:opacity-50 disabled:pointer-events-none"
+                        className="py-4 rounded-2xl bg-slate-100 text-slate-700 font-semibold text-xs uppercase tracking-wider hover:bg-slate-200/80 disabled:opacity-50 disabled:pointer-events-none"
                       >
                         Reject
                       </button>
@@ -897,7 +897,7 @@ const DeliveryLayout = () => {
                         type="button"
                         onClick={handleAcceptOrder}
                         disabled={isAcceptingOrder}
-                        className="py-4 rounded-2xl bg-primary text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/30 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
+                        className="py-4 rounded-2xl bg-primary text-primary-foreground font-semibold text-xs uppercase tracking-wider shadow-lg shadow-primary/30 active:scale-95 disabled:opacity-60 disabled:pointer-events-none"
                       >
                         {isAcceptingOrder ? "Accepting…" : "Accept"}
                       </button>

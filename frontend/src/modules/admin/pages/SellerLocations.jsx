@@ -173,7 +173,7 @@ const ActiveSellerMap = ({
       <div className="absolute inset-0 z-20 bg-slate-950/80 text-white flex items-center justify-center p-6 text-center">
         <div className="max-w-md space-y-3">
           <HiOutlineExclamationTriangle className="h-9 w-9 mx-auto text-amber-300" />
-          <p className="text-lg font-black">Google Maps is not available</p>
+          <p className="text-lg font-semibold">Google Maps is not available</p>
           <p className="text-sm text-slate-200">
             Set `VITE_GOOGLE_MAPS_API_KEY` with Maps JavaScript API enabled to
             render live coverage.
@@ -494,7 +494,7 @@ const SellerLocations = () => {
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Sellers
           </p>
-          <p className="text-2xl font-black text-slate-900 mt-1">
+          <p className="text-2xl font-semibold text-slate-900 mt-1">
             {stats.totalSellers.toLocaleString("en-IN")}
           </p>
         </Card>
@@ -502,7 +502,7 @@ const SellerLocations = () => {
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Mapped
           </p>
-          <p className="text-2xl font-black text-brand-600 mt-1">
+          <p className="text-2xl font-semibold text-brand-600 mt-1">
             {stats.mappedSellers.toLocaleString("en-IN")}
           </p>
         </Card>
@@ -510,7 +510,7 @@ const SellerLocations = () => {
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Avg Radius
           </p>
-          <p className="text-2xl font-black text-slate-900 mt-1">
+          <p className="text-2xl font-semibold text-slate-900 mt-1">
             {stats.averageRadiusKm} km
           </p>
         </Card>
@@ -518,7 +518,7 @@ const SellerLocations = () => {
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             Active Orders
           </p>
-          <p className="text-2xl font-black text-slate-900 mt-1">
+          <p className="text-2xl font-semibold text-slate-900 mt-1">
             {stats.totalActiveOrders.toLocaleString("en-IN")}
           </p>
         </Card>
@@ -618,7 +618,7 @@ const SellerLocations = () => {
                         <HiOutlineBuildingOffice2 className="h-5 w-5" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-xs font-black truncate flex items-center gap-2">
+                        <p className="text-xs font-semibold truncate flex items-center gap-2">
                           <span 
                             className="h-2 w-2 rounded-full shrink-0 shadow-sm"
                             style={{ backgroundColor: sellerColor }}
@@ -637,7 +637,7 @@ const SellerLocations = () => {
                       <div className="mt-2 flex items-center gap-2 flex-wrap">
                         <span
                           className={cn(
-                            "text-[9px] font-black px-2 py-0.5 rounded-full border uppercase tracking-wide",
+                            "text-[9px] font-semibold px-2 py-0.5 rounded-full border uppercase tracking-wide",
                             selectedSellerId === seller.id
                               ? "bg-white/10 border-white/20 text-white"
                               : lifecycleClassMap[seller.lifecycle] ||
@@ -710,7 +710,7 @@ const SellerLocations = () => {
                 <div className="mx-auto h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
                   <HiOutlineMap className="h-6 w-6" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900">
+                <h3 className="text-2xl font-semibold text-slate-900">
                   Map Is Locked To Save API Cost
                 </h3>
                 <p className="text-sm font-semibold text-slate-600 leading-relaxed">
@@ -719,7 +719,7 @@ const SellerLocations = () => {
                 </p>
                 <button
                   onClick={() => setMapUnlocked(true)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-black hover:bg-slate-800 transition-colors">
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-colors">
                   <HiOutlineMap className="h-4 w-4" />
                   Open Live Map
                 </button>

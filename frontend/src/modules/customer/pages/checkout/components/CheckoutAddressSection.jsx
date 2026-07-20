@@ -171,7 +171,7 @@ const CheckoutAddressSection = React.memo(function CheckoutAddressSection({
 
       {/* Delivery address heading */}
       <div className="mb-3">
-        <h3 className="font-black text-slate-800 text-base">Delivery Address</h3>
+        <h3 className="font-semibold text-slate-800 text-base">Delivery Address</h3>
         <p className="text-xs text-slate-500">Select or edit your saved address</p>
       </div>
 

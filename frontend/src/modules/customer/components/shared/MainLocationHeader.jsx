@@ -27,14 +27,6 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 
-/** Full-width bottom stroke + tab curve; l/r are 0–100% of column where the inner bump sits. */
-function buildActiveTabPath(l, r) {
-  const y = 20;
-  const mapX = (x) => l + ((x - 1.5) / (98.5 - 1.5)) * (r - l);
-  // Softer shoulders + flatter crown for a cleaner active tab curve.
-  return `M 0 ${y} L ${l} ${y} L ${l} 12 C ${mapX(2.6)} 7 ${mapX(8.2)} 1.55 ${mapX(15)} 1.55 L ${mapX(85)} 1.55 C ${mapX(91.8)} 1.55 ${mapX(97.4)} 7 ${mapX(98.5)} 12 V ${y} L 100 ${y}`;
-}
-
 function CategoryNavColumn({
   cat,
   isActive,
@@ -42,55 +34,47 @@ function CategoryNavColumn({
   onCategorySelect,
   headerFontColor,
   headerIconColor,
+  baseHeaderColor,
 }) {
-  const iconColor = headerIconColor || "#111111";
-  const colRef = useRef(null);
-  const labelRef = useRef(null);
-  const [lr, setLr] = useState({ l: 22, r: 78 });
-
-  const measure = () => {
-    if (!isActive || !colRef.current || !labelRef.current) return;
-    const col = colRef.current.getBoundingClientRect();
-    const lab = labelRef.current.getBoundingClientRect();
-    if (col.width < 4) return;
-    const pad = 5;
-    const l = Math.max(0, ((lab.left - col.left - pad) / col.width) * 100);
-    const r = Math.min(100, ((lab.right - col.left + pad) / col.width) * 100);
-    if (r - l > 6) setLr({ l, r });
-  };
-
-  useLayoutEffect(() => {
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (colRef.current) ro.observe(colRef.current);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [isActive, cat.name]);
-
-  const pathD = isActive ? buildActiveTabPath(lr.l, lr.r) : "";
+  const iconColor = isActive ? "#ffffff" : (headerIconColor || "#111111");
+  const activeBgColor = baseHeaderColor || "var(--primary)";
 
   return (
     <motion.div
-      ref={colRef}
       layout
       whileTap={{ scale: 0.96 }}
-      transition={{
-        layout: { type: "spring", stiffness: 520, damping: 38, mass: 0.55 },
-      }}
       onClick={() => onCategorySelect && onCategorySelect(cat)}
-      style={{
-        borderBottomColor: isActive ? "transparent" : categoryAccent,
-      }}
-      className="relative z-[2] flex min-w-[48px] shrink-0 cursor-pointer flex-col items-center gap-0.5 border-b-2 px-2 pb-0.5 pt-0.5 snap-start md:min-w-[58px]">
-      <div className="relative z-10 flex h-9 w-9 items-center justify-center md:h-11 md:w-11">
+      className="relative z-[2] flex min-w-[50px] shrink-0 cursor-pointer flex-col items-center gap-0.5 px-1 pb-1 pt-1 snap-start md:min-w-[60px] transition-colors duration-200"
+    >
+      {/* Animated bump SVG for active tab */}
+      {isActive && (
+        <motion.div 
+          layoutId="activeCategoryBump"
+          className="absolute bottom-full left-1/2 w-[70px] h-[16px] -translate-x-1/2 pointer-events-none z-0"
+        >
+          <svg viewBox="0 0 100 30" width="100%" height="100%" preserveAspectRatio="none">
+            {/* Flawless C1 continuous bell curve bump */}
+            <path d="M0,30 Q25,30 25,15 T50,0 T75,15 T100,30 Z" fill="#ffffff" />
+          </svg>
+        </motion.div>
+      )}
+
+      <motion.div
+        animate={{ 
+          y: isActive ? -12 : 0,
+        }}
+        transition={{ type: "spring", stiffness: 450, damping: 28 }}
+        className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full md:h-10 md:w-10"
+        style={{
+          backgroundColor: isActive ? activeBgColor : "transparent",
+          boxShadow: isActive ? `0 4px 12px ${activeBgColor}66` : "none",
+        }}
+      >
         {typeof cat.icon === "function" ||
         (typeof cat.icon === "object" && cat.icon.$$typeof) ? (
           <cat.icon
             sx={{
-              fontSize: { xs: 20, md: 24 },
+              fontSize: { xs: 18, md: 22 },
               color: iconColor,
               opacity: isActive ? 1 : 0.62,
               transition: "opacity 0.2s, transform 0.2s",
@@ -102,45 +86,29 @@ function CategoryNavColumn({
             alt={cat.name}
             loading="lazy"
             className="h-5 w-5 object-contain md:h-6 md:w-6"
-            style={{ opacity: isActive ? 1 : 0.62 }}
+            style={{ 
+              opacity: isActive ? 1 : 0.62,
+              filter: isActive ? "brightness(0) invert(1)" : "none" 
+            }}
           />
         )}
-      </div>
-      <div className="relative mt-px w-full">
+      </motion.div>
+      <motion.div 
+        animate={{ y: isActive ? -2 : 0 }}
+        className="relative mt-px w-full"
+      >
         <span
-          ref={labelRef}
           className={cn(
-            "relative z-10 mx-auto block max-w-[72px] truncate px-1 pb-0.5 text-center text-[8px] uppercase tracking-tight md:max-w-[88px] md:text-[10px]",
-            isActive ? "font-black" : "font-semibold",
+            "relative z-10 mx-auto block max-w-[72px] truncate px-1 text-center text-[9px] uppercase tracking-tight md:max-w-[88px] md:text-[10px]",
+            isActive ? "font-bold" : "font-semibold",
           )}
           style={{
-            color: isActive ? iconColor : (headerFontColor || "#111111"),
+            color: isActive ? activeBgColor : (headerFontColor || "#111111"),
             opacity: isActive ? 1 : 0.68,
           }}>
           {cat.name}
         </span>
-      </div>
-      {isActive && (
-        <motion.svg
-          layoutId="active-category-curve"
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 left-0 right-0 z-[6] h-[22px] w-full overflow-visible"
-          viewBox="0 0 100 20"
-          preserveAspectRatio="none"
-          shapeRendering="geometricPrecision"
-          transition={{
-            layout: { type: "spring", stiffness: 560, damping: 40, mass: 0.5 },
-          }}>
-          <path
-            d={pathD}
-            fill="none"
-            stroke={categoryAccent}
-            strokeWidth="2"
-            strokeLinecap="butt"
-            strokeLinejoin="round"
-          />
-        </motion.svg>
-      )}
+      </motion.div>
     </motion.div>
   );
 }
@@ -276,8 +244,8 @@ const MainLocationHeader = ({
   const displayCart = useTransform(scrollY, (value) => "block");
 
   const baseHeaderColor = activeCategory?.headerColor || "var(--primary)";
-  const headerFontColor = activeCategory?.headerFontColor || "#111827";
-  const headerIconColor = activeCategory?.headerIconColor || "#111111";
+  const headerFontColor = activeCategory?.headerFontColor || "#ffffff";
+  const headerIconColor = activeCategory?.headerIconColor || "#ffffff";
   
   const headerGradient = buildHeaderGradient(baseHeaderColor);
   const searchBarBg = buildSearchBarBackgroundColor(baseHeaderColor);
@@ -308,7 +276,7 @@ const MainLocationHeader = ({
             borderBottomLeftRadius: headerRoundness,
             borderBottomRightRadius: headerRoundness,
             opacity: bgOpacity,
-            backgroundImage: headerGradient,
+            backgroundColor: headerGradient,
           }}
           className="px-4 shadow-[0_4px_20px_rgba(0,0,0,0.15)] overflow-hidden transform-gpu will-change-transform">
           {/* Subtle Glow Overlay */}
@@ -453,7 +421,7 @@ const MainLocationHeader = ({
                 style={{ color: headerFontColor }}
               >
                 <ShoppingCartOutlinedIcon sx={{ fontSize: 24 }} />
-                <span className="absolute -top-1.5 -right-1.5 bg-yellow-400 text-brand-900 text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-brand-800 shadow-sm transition-transform group-hover:-translate-y-0.5">
+                <span className="absolute -top-1.5 -right-1.5 bg-yellow-400 text-brand-900 text-[9px] font-semibold w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-brand-800 shadow-sm transition-transform group-hover:-translate-y-0.5">
                   0
                 </span>
               </motion.button>
@@ -474,9 +442,9 @@ const MainLocationHeader = ({
           <div className="md:hidden">
             <motion.div
               className="relative z-10 mb-4">
-              <div className="mb-1">
+              <div className="mb-1.5">
                 <span 
-                  className="inline-flex items-center rounded-full border border-black/10 bg-white/18 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm"
+                  className="inline-flex items-center rounded-full bg-black/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm shadow-sm"
                   style={{ color: headerFontColor }}
                 >
                   {appName}
@@ -524,49 +492,48 @@ const MainLocationHeader = ({
             <motion.div
               onClick={handleSearchClick}
               whileTap={{ scale: 0.98 }}
-              style={{ backgroundColor: searchBarBg }}
-              className="flex-1 rounded-[10px] px-3 h-10 shadow-md flex items-center border border-white/50 transition-all duration-200 focus-within:ring-2 focus-within:ring-brand-400/60 cursor-pointer">
-              <SearchIcon sx={{ color: "#000000", fontSize: 18 }} />
+              className="flex-1 rounded-xl px-3 h-11 bg-[#f1f5f9] flex items-center border-none transition-all duration-200 cursor-pointer shadow-sm">
+              <SearchIcon sx={{ color: "#64748b", fontSize: 20 }} />
               <input
                 type="text"
-                placeholder={searchPlaceholder || "Search Products..."}
+                placeholder={searchPlaceholder || "Search \"chips\""}
                 readOnly
-                className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-semibold placeholder:text-black text-[14px] cursor-pointer"
+                className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-medium placeholder:text-slate-500 text-[15px] cursor-pointer"
               />
-              <div className="flex items-center gap-2 border-l border-slate-100 pl-2.5">
-                <MicIcon sx={{ color: "#000000", fontSize: 18 }} />
+              <div className="flex items-center gap-2 border-l border-slate-300 pl-2.5">
+                <MicIcon sx={{ color: "#64748b", fontSize: 20 }} />
               </div>
             </motion.div>
           </div>
 
           {/* Categories Navigation - Smooth Collapse */}
+          {/* Categories Navigation - Smooth Collapse */}
           {categories.length > 0 && (
-            <motion.div
-              layout
-              transition={{
-                layout: {
-                  type: "spring",
-                  stiffness: 420,
-                  damping: 34,
-                  mass: 0.6,
-                },
-              }}
-              className="relative flex items-end md:justify-center gap-0 overflow-x-auto no-scrollbar -mx-2 px-2 md:mx-0 md:px-0 z-10 snap-x pt-1 min-h-[68px] md:min-h-[76px] pb-0.5 mt-3">
-              {categories.map((cat) => {
-                const isActive = activeCategory?.id === cat.id;
-                return (
-                  <CategoryNavColumn
-                    key={cat.id}
-                    cat={cat}
-                    isActive={isActive}
-                    categoryAccent={categoryAccent}
-                    onCategorySelect={onCategorySelect}
-                    headerFontColor={headerFontColor}
-                    headerIconColor={headerIconColor}
-                  />
-                );
-              })}
-            </motion.div>
+            <div className="relative mt-4 -mx-4 md:mx-0 z-10">
+              {/* White background block that starts below the curve area */}
+              <div className="absolute top-[12px] inset-x-0 bottom-0 bg-white border-b border-gray-100 shadow-sm z-0" />
+              
+              <motion.div
+                layout
+                transition={{ duration: 0.1 }}
+                className="relative z-10 flex items-end md:justify-center gap-0 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x pt-[16px] min-h-[72px] md:min-h-[78px] pb-0.5">
+                {categories.map((cat) => {
+                  const isActive = activeCategory?.id === cat.id;
+                  return (
+                    <CategoryNavColumn
+                      key={cat.id}
+                      cat={cat}
+                      isActive={isActive}
+                      categoryAccent="#1e293b" // slate-800
+                      onCategorySelect={onCategorySelect}
+                      headerFontColor="#64748b" // slate-500 for inactive
+                      headerIconColor="#1e293b" // slate-800 for active
+                      baseHeaderColor={baseHeaderColor}
+                    />
+                  );
+                })}
+              </motion.div>
+            </div>
           )}
 
           {/* Background Decorative patterns */}

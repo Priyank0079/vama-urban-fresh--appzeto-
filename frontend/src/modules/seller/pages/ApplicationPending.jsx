@@ -56,7 +56,7 @@ const ApplicationPending = () => {
               <span className="text-sm font-bold text-white/90">{appName} Seller</span>
             </div>
             <div
-              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-black uppercase tracking-widest ${
+              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest ${
                 isRejected
                   ? "bg-rose-500/20 text-rose-200"
                   : "bg-amber-400/20 text-amber-100"
@@ -67,7 +67,7 @@ const ApplicationPending = () => {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black text-white leading-tight">
+          <h1 className="text-3xl md:text-4xl font-semibold text-white leading-tight">
             {isRejected
               ? "Your seller application needs action."
               : "Your seller application is under review."}
@@ -80,7 +80,7 @@ const ApplicationPending = () => {
 
           {rejectionReason ? (
             <div className="mt-6 rounded-2xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
-              <span className="font-black uppercase tracking-widest text-[11px]">Reason</span>
+              <span className="font-semibold uppercase tracking-widest text-[11px]">Reason</span>
               <p className="mt-1 font-medium">{rejectionReason}</p>
             </div>
           ) : null}
@@ -97,7 +97,7 @@ const ApplicationPending = () => {
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
               to="/seller/auth"
-              className="inline-flex items-center justify-center rounded-xl bg-white text-slate-900 px-5 py-3 text-sm font-black tracking-wide hover:bg-slate-100 transition-colors"
+              className="inline-flex items-center justify-center rounded-xl bg-white text-slate-900 px-5 py-3 text-sm font-semibold tracking-wide hover:bg-slate-100 transition-colors"
             >
               Back To Seller Login
             </Link>

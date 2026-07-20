@@ -84,7 +84,7 @@ const AdvancedAnalytics = () => {
                 <div>
                     <h1 className="admin-h1 flex items-center gap-2">
                         Business Intel Hub
-                        <Badge variant="blue" className="text-[10px] font-black uppercase tracking-tighter">Enterprise v2.0</Badge>
+                        <Badge variant="blue" className="text-[10px] font-semibold uppercase tracking-tighter">Enterprise v2.0</Badge>
                     </h1>
                     <p className="admin-description mt-1">Deep granular insights and real-time performance metrics.</p>
                 </div>
@@ -94,7 +94,7 @@ const AdvancedAnalytics = () => {
                             key={range}
                             onClick={() => setTimeRange(range)}
                             className={cn(
-                                "px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                "px-4 py-2 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all",
                                 timeRange === range ? "bg-slate-900 text-white shadow-lg" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
                             )}
                         >
@@ -107,7 +107,7 @@ const AdvancedAnalytics = () => {
                     </button>
                     <button
                         onClick={handleDownloadReport}
-                        className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-primary/20 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-xl text-[10px] font-semibold uppercase tracking-widest hover:bg-primary/20 transition-all"
                     >
                         <HiOutlineArrowDownTray className="h-4 w-4" />
                         REPORT
@@ -133,15 +133,15 @@ const AdvancedAnalytics = () => {
                             )}>
                                 <goal.icon className="h-6 w-6" />
                             </div>
-                            <div className={cn("flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-black",
+                            <div className={cn("flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold",
                                 goal.trend.startsWith('+') ? "bg-brand-50 text-brand-600" : "bg-rose-50 text-rose-600"
                             )}>
                                 {goal.trend.startsWith('+') ? <HiOutlineArrowTrendingUp className="h-3 w-3" /> : <HiOutlineArrowTrendingDown className="h-3 w-3" />}
                                 {goal.trend}
                             </div>
                         </div>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{goal.label}</p>
-                        <h3 className="text-2xl font-black text-slate-900 leading-none">{goal.value}</h3>
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1">{goal.label}</p>
+                        <h3 className="text-2xl font-semibold text-slate-900 leading-none">{goal.value}</h3>
                         <div className="mt-4 h-1 w-full bg-slate-50 rounded-full overflow-hidden">
                             <div className={cn("h-full rounded-full animate-progress",
                                 goal.color === 'indigo' && "bg-brand-500",
@@ -160,17 +160,17 @@ const AdvancedAnalytics = () => {
                 <Card className="lg:col-span-2 border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-[32px] p-8">
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Financial Performance Trend</h4>
+                            <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-tight">Financial Performance Trend</h4>
                             <p className="text-[10px] font-bold text-slate-400 mt-0.5">Revenue and order volume metrics over time.</p>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <div className="h-2.5 w-2.5 rounded-full bg-brand-500" />
-                                <span className="text-[10px] font-black text-slate-600">REVENUE</span>
+                                <span className="text-[10px] font-semibold text-slate-600">REVENUE</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="h-2.5 w-2.5 rounded-full bg-brand-100" />
-                                <span className="text-[10px] font-black text-slate-600">BENCHMARK</span>
+                                <span className="text-[10px] font-semibold text-slate-600">BENCHMARK</span>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,7 @@ const AdvancedAnalytics = () => {
 
                 {/* Category Mix */}
                 <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-[32px] p-8">
-                    <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight mb-8">Category Revenue Mix</h4>
+                    <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-tight mb-8">Category Revenue Mix</h4>
                     <div className="h-[250px] w-full relative">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
@@ -237,8 +237,8 @@ const AdvancedAnalytics = () => {
                             </PieChart>
                         </ResponsiveContainer>
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span className="text-[10px] font-black text-slate-400 uppercase">Top category</span>
-                            <span className="text-xl font-black text-slate-900">Grocery</span>
+                            <span className="text-[10px] font-semibold text-slate-400 uppercase">Top category</span>
+                            <span className="text-xl font-semibold text-slate-900">Grocery</span>
                         </div>
                     </div>
                     <div className="mt-8 space-y-4">
@@ -248,7 +248,7 @@ const AdvancedAnalytics = () => {
                                     <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: cat.color }} />
                                     <span className="text-[11px] font-bold text-slate-600 uppercase">{cat.name}</span>
                                 </div>
-                                <span className="text-[11px] font-black text-slate-900">{cat.value}%</span>
+                                <span className="text-[11px] font-semibold text-slate-900">{cat.value}%</span>
                             </div>
                         ))}
                     </div>
@@ -261,7 +261,7 @@ const AdvancedAnalytics = () => {
                 <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-[32px] p-8">
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Delivery Load Pulse</h4>
+                            <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-tight">Delivery Load Pulse</h4>
                             <p className="text-[10px] font-bold text-slate-400 mt-0.5">Peak traffic hours monitoring.</p>
                         </div>
                         <HiOutlineClock className="h-5 w-5 text-brand-500" />
@@ -270,8 +270,8 @@ const AdvancedAnalytics = () => {
                         {hourlyHeatmap.map((item, i) => (
                             <div key={i} className="space-y-1.5">
                                 <div className="flex justify-between items-end">
-                                    <span className="text-[10px] font-black text-slate-500">{item.hour}</span>
-                                    <span className="text-[10px] font-black text-slate-900">{item.load}% CAPACITY</span>
+                                    <span className="text-[10px] font-semibold text-slate-500">{item.hour}</span>
+                                    <span className="text-[10px] font-semibold text-slate-900">{item.load}% CAPACITY</span>
                                 </div>
                                 <div className="h-1.5 w-full bg-slate-50 rounded-full overflow-hidden">
                                     <div
@@ -289,30 +289,30 @@ const AdvancedAnalytics = () => {
                 {/* Customer Keeping Metrics */}
                 <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-slate-900 rounded-[32px] p-8 text-white overflow-hidden relative group">
                     <div className="relative z-10">
-                        <h4 className="text-sm font-black opacity-60 uppercase tracking-tight mb-8">Keeping Customers</h4>
+                        <h4 className="text-sm font-semibold opacity-60 uppercase tracking-tight mb-8">Keeping Customers</h4>
                         <div className="space-y-8">
                             <div>
                                 <div className="flex items-end justify-between mb-2">
-                                    <h5 className="text-3xl font-black">78.4%</h5>
+                                    <h5 className="text-3xl font-semibold">78.4%</h5>
                                     <Badge variant="success" className="bg-brand-500/20 text-brand-400 border-none">+4.2%</Badge>
                                 </div>
-                                <p className="text-[10px] font-black opacity-50 uppercase tracking-[0.2em]">Customers Who Return</p>
+                                <p className="text-[10px] font-semibold opacity-50 uppercase tracking-[0.2em]">Customers Who Return</p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-6">
                                 <div>
-                                    <h6 className="text-lg font-black">₹2.4k</h6>
-                                    <p className="text-[9px] font-black opacity-50 uppercase tracking-widest mt-1">Average Spent</p>
+                                    <h6 className="text-lg font-semibold">₹2.4k</h6>
+                                    <p className="text-[9px] font-semibold opacity-50 uppercase tracking-widest mt-1">Average Spent</p>
                                 </div>
                                 <div>
-                                    <h6 className="text-lg font-black">12m</h6>
-                                    <p className="text-[9px] font-black opacity-50 uppercase tracking-widest mt-1">Avg Life Span</p>
+                                    <h6 className="text-lg font-semibold">12m</h6>
+                                    <p className="text-[9px] font-semibold opacity-50 uppercase tracking-widest mt-1">Avg Life Span</p>
                                 </div>
                             </div>
 
                             <button
                                 onClick={handleViewSegmentation}
-                                className="w-full py-4 bg-white text-slate-900 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+                                className="w-full py-4 bg-white text-slate-900 rounded-2xl text-[10px] font-semibold uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
                             >
                                 VIEW SEGMENTATION
                             </button>
@@ -324,7 +324,7 @@ const AdvancedAnalytics = () => {
                 {/* Best Performing Zones */}
                 <Card className="border-none shadow-xl ring-1 ring-slate-100 bg-white rounded-[32px] p-8">
                     <div className="flex items-center justify-between mb-8">
-                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">Top Growth Regions</h4>
+                        <h4 className="text-sm font-semibold text-slate-900 uppercase tracking-tight">Top Growth Regions</h4>
                         <HiOutlineGlobeAsiaAustralia className="h-5 w-5 text-brand-500" />
                     </div>
                     <div className="space-y-3">
@@ -336,12 +336,12 @@ const AdvancedAnalytics = () => {
                         ].map((zone, i) => (
                             <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between group hover:bg-slate-900 hover:text-white transition-all">
                                 <div>
-                                    <p className="text-[11px] font-black uppercase">{zone.name}</p>
+                                    <p className="text-[11px] font-semibold uppercase">{zone.name}</p>
                                     <p className="text-[9px] font-bold text-slate-400 group-hover:text-white/50">{zone.sales} Total GMV</p>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-xs font-black text-brand-500 group-hover:text-brand-400">{zone.growth}</p>
-                                    <span className="text-[8px] font-black opacity-40 uppercase tracking-widest">{zone.status}</span>
+                                    <p className="text-xs font-semibold text-brand-500 group-hover:text-brand-400">{zone.growth}</p>
+                                    <span className="text-[8px] font-semibold opacity-40 uppercase tracking-widest">{zone.status}</span>
                                 </div>
                             </div>
                         ))}

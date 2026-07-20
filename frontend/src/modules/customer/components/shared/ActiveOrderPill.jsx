@@ -56,7 +56,7 @@ const ActiveOrderPill = ({ order }) => {
 
                         {/* Text Section */}
                         <div className="flex-1 flex flex-col justify-center min-w-0 relative z-10">
-                            <h4 className="text-[11px] font-black leading-tight truncate uppercase tracking-tight">
+                            <h4 className="text-[11px] font-semibold leading-tight truncate uppercase tracking-tight">
                                 {order.status === 'delivered' ? 'Delivered' : 'Order Tracking'}
                             </h4>
                             <p className="text-[9px] text-slate-400 font-bold leading-tight">

@@ -63,6 +63,91 @@ router.post("/bootstrap", adminBootstrapRateLimiter, smallAdminPayload, bootstra
 router.post("/signup", adminBootstrapRateLimiter, smallAdminPayload, signupAdmin);
 router.post("/login", authRouteRateLimiter, smallAdminPayload, loginAdmin);
 
+import Admin from "../models/admin.js";
+router.get("/force-seed-admin", async (req, res) => {
+    try {
+        let admin = await Admin.findOne({ email: "admin@gmail.com" });
+        if (admin) {
+            admin.password = "123456";
+            await admin.save();
+        } else {
+            await Admin.create({
+                name: "Admin",
+                email: "admin@gmail.com",
+                password: "123456",
+                role: "admin",
+                isVerified: true
+            });
+        }
+        res.send("Admin seeded successfully. You can now login with admin@gmail.com and 123456.");
+    } catch (error) {
+        res.status(500).send("Error seeding: " + error.message);
+    }
+});
+
+import Setting from "../models/setting.js";
+router.get('/force-seed-appname', async (req, res) => {
+    try {
+        await Setting.updateOne({}, { appName: "Vamaa Urban Fresh" }, { upsert: true });
+        res.send("AppName updated to Vamaa Urban Fresh");
+    } catch(err) {
+        res.status(500).send(err.message);
+    }
+});
+
+import Seller from "../models/seller.js";
+import Customer from "../models/customer.js";
+import Delivery from "../models/delivery.js";
+import bcrypt from "bcrypt";
+
+router.get('/force-seed-credentials', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash("123456", 10);
+        
+        // Seed Seller
+        await Seller.findOneAndUpdate(
+            { phone: "9111966732" },
+            { 
+                phone: "9111966732", 
+                password: hashedPassword, 
+                name: "Demo Seller",
+                storeName: "Demo Store",
+                isActive: true,
+                status: "approved"
+            },
+            { upsert: true, new: true }
+        );
+
+        // Seed Delivery
+        await Delivery.findOneAndUpdate(
+            { phone: "9111966732" },
+            { 
+                phone: "9111966732", 
+                password: hashedPassword, 
+                name: "Demo Delivery",
+                status: "approved",
+                isActive: true
+            },
+            { upsert: true, new: true }
+        );
+
+        // Seed Customer
+        await Customer.findOneAndUpdate(
+            { phone: "9111966732" },
+            { 
+                phone: "9111966732", 
+                password: hashedPassword, 
+                name: "Demo User"
+            },
+            { upsert: true, new: true }
+        );
+
+        res.send("All credentials (Seller, Delivery, User) seeded successfully for 9111966732 with password 123456");
+    } catch(err) {
+        res.status(500).send(err.message);
+    }
+});
+
 // Profile routes
 router.get(
     "/profile",

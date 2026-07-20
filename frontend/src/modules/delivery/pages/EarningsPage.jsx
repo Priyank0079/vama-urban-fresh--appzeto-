@@ -124,7 +124,7 @@ const EarningsPage = () => {
             </p>
             <div className="flex items-baseline mb-6 relative z-10">
               <span className="text-3xl font-bold mr-1">{RUPEE}</span>
-              <span className="text-5xl font-extrabold tracking-tight">
+              <span className="text-5xl font-semibold tracking-tight">
                 {Number(earningsData.totalEarnings || 0).toLocaleString()}
               </span>
             </div>

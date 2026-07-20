@@ -175,7 +175,7 @@ const ProfilePage = () => {
                     <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
                         <LogOut size={24} />
                     </div>
-                    <h3 className="text-xl font-black text-slate-900 text-center mb-2">Sign out?</h3>
+                    <h3 className="text-xl font-semibold text-slate-900 text-center mb-2">Sign out?</h3>
                     <p className="text-sm font-medium text-slate-500 text-center mb-6">
                         Are you sure you want to sign out from your account? You will need to login again to access your orders.
                     </p>

@@ -240,7 +240,7 @@ return (
                                 key={status}
                                 onClick={() => setStatusFilter(status)}
                                 className={cn(
-                                    "px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all",
+                                    "px-4 py-2.5 rounded-xl text-[10px] font-semibold uppercase tracking-wider transition-all",
                                     statusFilter === status
                                         ? "bg-white text-slate-900 shadow-sm"
                                         : "text-slate-400 hover:text-slate-600"
@@ -262,8 +262,8 @@ return (
             {isLoading && (
                 <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm rounded-3xl">
                     <div className="flex flex-col items-center gap-3">
-                        <div className="h-10 w-10 border-4 border-slate-200 border-t-primary rounded-full animate-spin" />
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fetching fleet...</p>
+                        <div className="h-10 w-10 border-2 border-slate-200 border-t-primary rounded-full animate-spin" />
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Fetching fleet...</p>
                     </div>
                 </div>
             )}
@@ -294,13 +294,13 @@ return (
                                                    className="h-14 w-14 rounded-lg bg-gray-100 ring-2 ring-white shadow-sm object-cover group-hover:scale-105 transition-transform" 
                                                 />
                                                 <div className={cn(
-                                                    "absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-4 border-white shadow-sm",
+                                                    "absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white shadow-sm",
                                                     rider.status === 'available' ? 'bg-brand-500' :
                                                         rider.status === 'busy' ? 'bg-amber-500' : 'bg-slate-300'
                                                 )} />
                                             </div>
                                             <div>
-                                                <h4 className="text-sm font-black text-slate-900 group-hover:text-primary transition-colors">{rider.name}</h4>
+                                                <h4 className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">{rider.name}</h4>
                                                 <div className="flex items-center gap-1.5 mt-1 text-slate-500">
                                                     <Phone className="h-3 w-3" />
                                                     <span className="text-[10px] font-bold">{rider.phone}</span>
@@ -309,24 +309,24 @@ return (
                                         </div>
                                         <div className="flex items-center gap-1 bg-amber-50 text-amber-600 px-2 py-1 rounded-lg">
                                             <Star className="h-3 w-3 fill-current" />
-                                            <span className="text-[10px] font-black">{rider.rating}</span>
+                                            <span className="text-[10px] font-semibold">{rider.rating}</span>
                                         </div>
                                     </div>
 
                                     {/* Metrics Row */}
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="bg-slate-50 p-3 rounded-2xl">
-                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Today Earnings</p>
+                                            <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1.5">Today Earnings</p>
                                             <div className="flex items-center gap-1.5">
                                                 <DollarSign className="h-3.5 w-3.5 text-brand-500" />
-                                                <span className="text-xs font-black text-slate-900">₹{rider.todayEarnings}</span>
+                                                <span className="text-xs font-semibold text-slate-900">₹{rider.todayEarnings}</span>
                                             </div>
                                         </div>
                                         <div className="bg-slate-50 p-3 rounded-2xl">
-                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Total Success</p>
+                                            <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest leading-none mb-1.5">Total Success</p>
                                             <div className="flex items-center gap-1.5">
                                                 <ShieldCheck className="h-3.5 w-3.5 text-brand-500" />
-                                                <span className="text-xs font-black text-slate-900">{rider.totalOrders} Deliv.</span>
+                                                <span className="text-xs font-semibold text-slate-900">{rider.totalOrders} Deliv.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -415,7 +415,7 @@ return (
                                     <div>
                                         <h2 className="ds-h1">{viewingRider.name}</h2>
                                         <div className="flex items-center gap-3 mt-2">
-                                            <Badge variant={viewingRider.status === 'available' ? 'success' : viewingRider.status === 'busy' ? 'warning' : 'neutral'} className="uppercase font-black text-[9px] px-3">
+                                            <Badge variant={viewingRider.status === 'available' ? 'success' : viewingRider.status === 'busy' ? 'warning' : 'neutral'} className="uppercase font-semibold text-[9px] px-3">
                                                 {viewingRider.status}
                                             </Badge>
                                             <span className="text-xs font-bold text-slate-400">Rider ID: RD-00{viewingRider.id.slice(1)}</span>
@@ -429,58 +429,58 @@ return (
 
                             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact Number</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Contact Number</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.phone}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Email Address</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.email}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fleet Partner Since</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Fleet Partner Since</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.joinDate}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vehicle Assigned</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Vehicle Assigned</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.vehicle}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Registration No.</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Registration No.</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.vehicleNum}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Last Synced Area</p>
+                                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Last Synced Area</p>
                                     <p className="text-sm font-bold text-slate-900">{viewingRider.location}</p>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-slate-50 rounded-xl">
                                 <div className="text-center">
-                                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Lifetime Rating</p>
+                                    <p className="text-[9px] font-semibold text-slate-400 uppercase mb-1">Lifetime Rating</p>
                                     <div className="flex justify-center items-center gap-1">
                                         <Star className="h-4 w-4 text-amber-500 fill-current" />
-                                        <span className="text-lg font-black text-slate-900">{viewingRider.rating}</span>
+                                        <span className="text-lg font-semibold text-slate-900">{viewingRider.rating}</span>
                                     </div>
                                 </div>
                                 <div className="text-center border-l border-slate-200">
-                                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Fleet Rank</p>
-                                    <span className="text-lg font-black text-slate-900">#42</span>
+                                    <p className="text-[9px] font-semibold text-slate-400 uppercase mb-1">Fleet Rank</p>
+                                    <span className="text-lg font-semibold text-slate-900">#42</span>
                                 </div>
                                 <div className="text-center border-l border-slate-200">
-                                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Total Deliveries</p>
-                                    <span className="text-lg font-black text-slate-900 text-brand-600">{viewingRider.totalOrders}</span>
+                                    <p className="text-[9px] font-semibold text-slate-400 uppercase mb-1">Total Deliveries</p>
+                                    <span className="text-lg font-semibold text-slate-900 text-brand-600">{viewingRider.totalOrders}</span>
                                 </div>
                                 <div className="text-center border-l border-slate-200">
-                                    <p className="text-[9px] font-black text-slate-400 uppercase mb-1">Wallet Creds</p>
-                                    <span className="text-lg font-black text-slate-900 text-brand-600">₹4,250</span>
+                                    <p className="text-[9px] font-semibold text-slate-400 uppercase mb-1">Wallet Creds</p>
+                                    <span className="text-lg font-semibold text-slate-900 text-brand-600">₹4,250</span>
                                 </div>
                             </div>
 
                             <div className="mt-8 flex gap-4">
-                                <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">
+                                <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-semibold text-xs uppercase tracking-widest shadow-xl active:scale-95 transition-all">
                                     Send Message
                                 </button>
-                                <button className="px-6 py-4 bg-rose-50 text-rose-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95">
+                                <button className="px-6 py-4 bg-rose-50 text-rose-600 rounded-2xl font-semibold text-xs uppercase tracking-widest hover:bg-rose-100 transition-all active:scale-95">
                                     DEACTIVATE
                                 </button>
                             </div>
@@ -520,7 +520,7 @@ return (
                         <form onSubmit={isEditModalOpen ? handleEditSubmit : handleOnboardSubmit} className="space-y-5">
                             <div className="grid grid-cols-1 gap-5">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Full Identity Name</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Full Identity Name</label>
                                     <input
                                         required
                                         type="text"
@@ -532,7 +532,7 @@ return (
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Secure Contact</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Secure Contact</label>
                                         <input
                                             required
                                             type="text"
@@ -543,7 +543,7 @@ return (
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Work Vehicle</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Work Vehicle</label>
                                         <select
                                             required
                                             value={formState.vehicle}
@@ -560,7 +560,7 @@ return (
                                 </div>
                                 {formState.vehicle !== 'Cycle' && (
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Registration Vehicle No.</label>
+                                        <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Registration Vehicle No.</label>
                                         <input
                                             required
                                             type="text"
@@ -572,7 +572,7 @@ return (
                                     </div>
                                 )}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Assigned Operational Area</label>
+                                    <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest ml-1">Assigned Operational Area</label>
                                     <input
                                         required
                                         type="text"
@@ -584,7 +584,7 @@ return (
                                 </div>
                             </div>
 
-                            <button type="submit" className="w-full py-4.5 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-2xl hover:bg-slate-800 transition-all transform active:scale-[0.98] mt-4">
+                            <button type="submit" className="w-full py-4.5 bg-slate-900 text-white rounded-2xl text-xs font-semibold uppercase tracking-widest shadow-2xl hover:bg-slate-800 transition-all transform active:scale-[0.98] mt-4">
                                 {isEditModalOpen ? 'SAVE CHANGES' : 'ADD RIDER'}
                             </button>
                         </form>

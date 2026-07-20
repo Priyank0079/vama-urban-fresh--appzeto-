@@ -11,21 +11,21 @@ import { cn } from '@/lib/utils';
 
 const Card = ({ children, title, subtitle, className, headerAction, footer, contentClassName, ...props }) => {
     return (
-        <ShadcnCard className={cn("glass-card border-none rounded-lg", className)} {...props}>
+        <ShadcnCard className={cn("enterprise-card !p-0 overflow-hidden", className)} {...props}>
             {(title || subtitle || headerAction) && (
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-gray-100/50 bg-gray-50/20 px-5 py-4">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-[#E8EDF5] bg-white px-6 py-5">
                     <div className="space-y-1">
-                        {title && <CardTitle className="text-base font-semibold text-gray-900 tracking-tight">{title}</CardTitle>}
-                        {subtitle && <CardDescription className="text-xs font-medium text-gray-500">{subtitle}</CardDescription>}
+                        {title && <CardTitle className="admin-h3">{title}</CardTitle>}
+                        {subtitle && <CardDescription className="admin-description">{subtitle}</CardDescription>}
                     </div>
                     {headerAction && <div>{headerAction}</div>}
                 </CardHeader>
             )}
-            <CardContent className={cn("p-5", !title && !subtitle && !headerAction && "pt-5", contentClassName)}>
+            <CardContent className={cn("p-6", !title && !subtitle && !headerAction && "pt-6", contentClassName)}>
                 {children}
             </CardContent>
             {footer && (
-                <CardFooter className="bg-gray-50/40 border-t border-gray-100/50 px-5 py-3">
+                <CardFooter className="bg-[#F7F9FC] border-t border-[#E8EDF5] px-6 py-4">
                     {footer}
                 </CardFooter>
             )}

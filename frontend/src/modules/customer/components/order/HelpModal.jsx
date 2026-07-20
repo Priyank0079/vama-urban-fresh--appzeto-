@@ -92,7 +92,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
                                 <div className="p-6 overflow-y-auto">
                                     <div className="flex items-center justify-between mb-6">
                                         <div>
-                                            <h2 className="text-xl font-black text-slate-800">Need Help?</h2>
+                                            <h2 className="text-xl font-semibold text-slate-800">Need Help?</h2>
                                             <p className="text-sm text-slate-500 font-medium">Select an issue with your order</p>
                                         </div>
                                         <button onClick={handleClose} className="p-2 bg-slate-50 rounded-full hover:bg-slate-100 transition-colors">
@@ -142,7 +142,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
                                                 <ArrowLeft size={20} className="text-slate-500" />
                                             </button>
                                             <div>
-                                                <h2 className="text-xl font-black text-slate-800">Raise a Ticket</h2>
+                                                <h2 className="text-xl font-semibold text-slate-800">Raise a Ticket</h2>
                                                 <p className="text-sm text-slate-500 font-medium">Describe your issue in detail</p>
                                             </div>
                                         </div>
@@ -153,7 +153,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
 
                                     <form onSubmit={handleTicketSubmit} className="space-y-6">
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Subject</label>
+                                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Subject</label>
                                             <input
                                                 type="text"
                                                 required
@@ -171,7 +171,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
                                                     type="button"
                                                     onClick={() => setTicketData({ ...ticketData, priority: p })}
                                                     className={cn(
-                                                        "py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border",
+                                                        "py-3 rounded-xl text-[10px] font-semibold uppercase tracking-widest transition-all border",
                                                         ticketData.priority === p
                                                             ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-brand-100"
                                                             : "bg-white text-slate-400 border-slate-100 hover:bg-slate-50"
@@ -183,7 +183,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
                                         </div>
 
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Description</label>
+                                            <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-1">Description</label>
                                             <textarea
                                                 required
                                                 value={ticketData.description}
@@ -196,7 +196,7 @@ const HelpModal = ({ isOpen, onClose, orderId }) => {
                                         <Button
                                             type="submit"
                                             disabled={ticketLoading}
-                                            className="w-full h-14 bg-primary hover:bg-[#0b721b] text-white text-lg font-black rounded-2xl shadow-xl shadow-brand-100 transition-all active:scale-95"
+                                            className="w-full h-14 bg-primary hover:bg-[#0b721b] text-white text-lg font-semibold rounded-2xl shadow-xl shadow-brand-100 transition-all active:scale-95"
                                         >
                                             {ticketLoading ? (
                                                 <div className="flex items-center gap-2 text-center w-full justify-center">

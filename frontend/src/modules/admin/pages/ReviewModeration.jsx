@@ -111,8 +111,8 @@ const ReviewModeration = () => {
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex bg-slate-100 p-1 rounded-xl">
-                        <button className="px-5 py-2 rounded-lg text-[10px] font-black uppercase bg-white text-slate-900 shadow-sm">ALL REVIEWS</button>
-                        <button className="px-5 py-2 rounded-lg text-[10px] font-black uppercase text-slate-400 hover:text-slate-600">FLAGGED ONLY</button>
+                        <button className="px-5 py-2 rounded-lg text-[10px] font-semibold uppercase bg-white text-slate-900 shadow-sm">ALL REVIEWS</button>
+                        <button className="px-5 py-2 rounded-lg text-[10px] font-semibold uppercase text-slate-400 hover:text-slate-600">FLAGGED ONLY</button>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@ const ReviewModeration = () => {
                                         className="h-12 w-12 rounded-2xl bg-slate-50 ring-2 ring-white shadow-sm object-cover"
                                     />
                                     <div>
-                                        <h4 className="text-sm font-black text-slate-900">{r.user}</h4>
+                                        <h4 className="text-sm font-semibold text-slate-900">{r.user}</h4>
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{r.date}</p>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@ const ReviewModeration = () => {
                                         <HiOutlineBuildingStorefront className="h-4 w-4" />
                                         <span className="text-[11px] font-bold">{r.store}</span>
                                     </div>
-                                    <p className="text-[10px] font-black text-primary uppercase tracking-tighter">Item: {r.item}</p>
+                                    <p className="text-[10px] font-semibold text-primary uppercase tracking-tighter">Item: {r.item}</p>
                                 </div>
                             </div>
 
@@ -158,7 +158,7 @@ const ReviewModeration = () => {
                             <div className="flex-1 space-y-4">
                                 <div className="flex items-center gap-2 flex-wrap">
                                     {r.status === 'flagged' && (
-                                        <Badge variant="danger" className="text-[8px] font-black uppercase tracking-widest flex items-center gap-1">
+                                        <Badge variant="danger" className="text-[8px] font-semibold uppercase tracking-widest flex items-center gap-1">
                                             <HiOutlineExclamationTriangle className="h-3 w-3" />
                                             FLAGGED BY SYSTEM
                                         </Badge>
@@ -177,7 +177,7 @@ const ReviewModeration = () => {
                                 {r.status !== 'approved' && (
                                     <button
                                         onClick={() => handleApprove(r.id)}
-                                        className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-brand-500 text-primary-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-brand-200 hover:bg-black  transition-all active:scale-95"
+                                        className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-brand-500 text-primary-foreground rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-lg shadow-brand-200 hover:bg-black  transition-all active:scale-95"
                                     >
                                         <HiOutlineShieldCheck className="h-4 w-4" />
                                         APPROVE
@@ -185,14 +185,14 @@ const ReviewModeration = () => {
                                 )}
                                 <button
                                     onClick={() => handleDelete(r.id)}
-                                    className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-white text-rose-500 ring-1 ring-rose-100 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 transition-all active:scale-95"
+                                    className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-white text-rose-500 ring-1 ring-rose-100 rounded-2xl text-[10px] font-semibold uppercase tracking-widest hover:bg-rose-50 transition-all active:scale-95"
                                 >
                                     <HiOutlineTrash className="h-4 w-4" />
                                     REMOVE
                                 </button>
                                 <button
                                     onClick={() => handleReplyClick(r)}
-                                    className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-slate-800 transition-all active:scale-95"
+                                    className="flex-1 w-full flex items-center justify-center gap-2 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-semibold uppercase tracking-widest shadow-xl hover:bg-slate-800 transition-all active:scale-95"
                                 >
                                     REPLY
                                 </button>
@@ -224,7 +224,7 @@ const ReviewModeration = () => {
                 <div className="space-y-4">
                     {selectedReview && (
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                            <p className="text-[10px] font-black text-slate-400 uppercase mb-2">Review from {selectedReview.user}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase mb-2">Review from {selectedReview.user}</p>
                             <p className="text-xs font-medium text-slate-600 italic">"{selectedReview.comment}"</p>
                         </div>
                     )}
@@ -237,13 +237,13 @@ const ReviewModeration = () => {
                     <div className="flex gap-3">
                         <button
                             onClick={() => setIsReplyModalOpen(false)}
-                            className="flex-1 py-4 bg-slate-100 text-slate-400 text-[10px] font-black uppercase rounded-2xl"
+                            className="flex-1 py-4 bg-slate-100 text-slate-400 text-[10px] font-semibold uppercase rounded-2xl"
                         >
                             CANCEL
                         </button>
                         <button
                             onClick={submitReply}
-                            className="flex-1 py-4 bg-primary text-primary-foreground text-[10px] font-black uppercase rounded-2xl shadow-lg shadow-primary/20"
+                            className="flex-1 py-4 bg-primary text-primary-foreground text-[10px] font-semibold uppercase rounded-2xl shadow-lg shadow-primary/20"
                         >
                             PUBLISH REPLY
                         </button>

@@ -292,7 +292,7 @@ const NotificationComposer = () => {
                                             type="button"
                                             onClick={() => openEmojiPicker('title')}
                                             className={cn(
-                                                "inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl transition-all ring-1",
+                                                "inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest px-3 py-1.5 rounded-xl transition-all ring-1",
                                                 emojiPickerOpen && emojiTarget === 'title'
                                                     ? "bg-primary/10 text-primary ring-primary/20"
                                                     : "bg-slate-50 text-slate-500 ring-slate-200 hover:bg-slate-100 hover:text-slate-700"
@@ -325,7 +325,7 @@ const NotificationComposer = () => {
                                             type="button"
                                             onClick={() => openEmojiPicker('message')}
                                             className={cn(
-                                                "inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl transition-all ring-1",
+                                                "inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest px-3 py-1.5 rounded-xl transition-all ring-1",
                                                 emojiPickerOpen && emojiTarget === 'message'
                                                     ? "bg-primary/10 text-primary ring-primary/20"
                                                     : "bg-slate-50 text-slate-500 ring-slate-200 hover:bg-slate-100 hover:text-slate-700"
@@ -399,7 +399,7 @@ const NotificationComposer = () => {
                                                         setImageFile(null);
                                                         setImagePreview('');
                                                     }}
-                                                    className="text-[10px] font-black uppercase tracking-widest text-rose-600 hover:text-rose-700"
+                                                    className="text-[10px] font-semibold uppercase tracking-widest text-rose-600 hover:text-rose-700"
                                                 >
                                                     Remove
                                                 </button>
@@ -430,13 +430,13 @@ const NotificationComposer = () => {
                             aria-label="Emoji picker"
                         >
                             <div className="flex items-center justify-between mb-2">
-                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500">
                                     Add Emoji
                                 </p>
                                 <button
                                     type="button"
                                     onClick={closeEmojiPicker}
-                                    className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900"
+                                    className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 hover:text-slate-900"
                                 >
                                     Close
                                 </button>
