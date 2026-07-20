@@ -1,8 +1,9 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-const oldUri = 'mongodb+srv://mithilakart47:mithilakart12@cluster0.lmlprde.mongodb.net/zoogno?retryWrites=true&w=majority';
-const newUri = 'mongodb+srv://vamaaurbanfresh:vamaaur123@cluster0.whmsfwe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const newDbName = 'vamaaururbanfresh';
+const oldUri = process.env.OLD_MONGO_URI;
+const newUri = process.env.NEW_MONGO_URI;
+const newDbName = process.env.NEW_DB_NAME || 'vamaaururbanfresh';
 
 async function migrate() {
     console.log("Connecting to old database...");
