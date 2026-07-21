@@ -66,6 +66,7 @@ export default defineConfig({
   build: {
     minify: 'esbuild',
     sourcemap: false,
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -80,9 +81,12 @@ export default defineConfig({
             return 'vendor-mui'
           }
 
-          if (id.includes('framer-motion')) return 'vendor-motion'
+          if (id.includes('framer-motion') || id.includes('motion')) return 'vendor-motion'
           if (id.includes('firebase')) return 'vendor-firebase'
-          if (id.includes('recharts')) return 'vendor-charts'
+          if (id.includes('recharts') || id.includes('d3-')) return 'vendor-charts'
+          if (id.includes('lucide-react')) return 'vendor-icons'
+          if (id.includes('lottie-react')) return 'vendor-lottie'
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor-react'
         },
       },
     },

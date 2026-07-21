@@ -51,6 +51,7 @@ const NotificationsPage = lazy(() => import('../../modules/customer/pages/Notifi
 const SellerModule = lazy(() => import('../../modules/seller/routes/index'));
 const AdminModule = lazy(() => import('../../modules/admin/routes/index'));
 const DeliveryModule = lazy(() => import('../../modules/delivery/routes/index'));
+const WebLaunchLanding = lazy(() => import('../../modules/web/pages/WebLaunchLanding'));
 
 import CustomerLayout from '../../modules/customer/components/layout/CustomerLayout';
 
@@ -145,9 +146,18 @@ const AppRouter = () => {
                     element: <div className="flex h-screen items-center justify-center font-outfit">Unauthorized Access</div>,
                 },
                 {
+                    path: 'web',
+                    element: (
+                        <Suspense fallback={<div className="flex h-screen items-center justify-center font-outfit">Loading...</div>}>
+                            <WebLaunchLanding />
+                        </Suspense>
+                    )
+                },
+                {
                     element: <CustomerLayoutWrapper />,
                     children: [
-                        { index: true, element: <Home /> },
+                        { index: true, element: <WebLaunchLanding /> },
+                        { path: 'user', element: <Home /> },
                         { path: 'categories', element: <CategoriesPage /> },
                         { path: 'category/:categoryName', element: <CategoryProductsPage /> },
                         { path: 'product/:id', element: <ProductDetailPage /> },

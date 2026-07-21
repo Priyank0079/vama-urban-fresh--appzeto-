@@ -326,7 +326,7 @@ const MainLocationHeader = ({
             {/* Left Section: Logo + Location row */}
             <div className="flex items-center gap-4 lg:gap-8">
               <div
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/user")}
                 className="flex items-center gap-3 cursor-pointer group shrink-0">
                 <div className="group-hover:scale-110 transition-all duration-300 w-16 h-16 flex items-center justify-center bg-transparent">
                   {logoAnimData ? (

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-    { label: 'Home', icon: Home, path: '/' },
+    { label: 'Home', icon: Home, path: '/user' },
     { label: 'Category', icon: LayoutGrid, path: '/categories' },
     { label: 'Orders', icon: ShoppingBag, path: '/orders' },
     { label: 'Profile', icon: User, path: '/profile' },
