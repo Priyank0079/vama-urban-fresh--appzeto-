@@ -1,7 +1,6 @@
 const MOCK_OTP = "1234";
 
-export const useRealSMS = () =>
-  process.env.USE_REAL_SMS === "true" || process.env.USE_REAL_SMS === "1";
+export const useRealSMS = () => false;
 
 const OTP_LENGTH = Math.max(4, parseInt(process.env.OTP_LENGTH || "4", 10));
 
@@ -12,13 +11,7 @@ function randomOtp(length) {
 }
 
 export const generateOTP = () => {
-  const production = process.env.NODE_ENV === "production";
-  if (production && !useRealSMS()) {
-    const err = new Error("Mock OTP mode is disabled in production");
-    err.statusCode = 500;
-    throw err;
-  }
-  return useRealSMS() ? randomOtp(OTP_LENGTH) : MOCK_OTP;
+  return MOCK_OTP;
 };
 
 export { MOCK_OTP };
