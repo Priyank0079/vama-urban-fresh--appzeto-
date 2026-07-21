@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Sparkles,
   Zap,
@@ -13,19 +14,68 @@ import {
   Flame,
   X,
   ArrowRight,
-  MessageCircle
+  MessageCircle,
+  Star
 } from "lucide-react";
 import { toast } from "sonner";
 import heroVideo from "../create_a_this_size_phone_video (1).mp4";
 import LogoImage from "@/assets/Logo.png";
 import { useSettings } from "@core/context/SettingsContext";
 
-// Sample product mockups
+// Sample product mockups with rich details
 const PRODUCTS = [
-  { id: 1, name: "Organic Farm Milk", category: "Dairy & Eggs", price: "₹65", time: "8 mins", tag: "Fresh Daily", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=80" },
-  { id: 2, name: "Fresh Hass Avocado", category: "Fruits & Veggies", price: "₹149", time: "10 mins", tag: "Organic", img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&auto=format&fit=crop&q=80" },
-  { id: 3, name: "Artisanal Sourdough", category: "Bakery", price: "₹95", time: "12 mins", tag: "Hot Baked", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80" },
-  { id: 4, name: "Cold-Pressed Juice", category: "Beverages", price: "₹120", time: "7 mins", tag: "Trending", img: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&auto=format&fit=crop&q=80" }
+  {
+    id: 1,
+    name: "Organic Farm Milk",
+    category: "Dairy & Eggs",
+    price: "₹65",
+    mrp: "₹75",
+    time: "8 mins",
+    tag: "Fresh Daily",
+    unit: "500 ml",
+    rating: 4.9,
+    description: "Pure, farm-fresh pasteurized whole milk sourced directly from local organic dairy farms every morning. Rich in calcium and nutrients with zero preservatives.",
+    img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: 2,
+    name: "Fresh Hass Avocado",
+    category: "Fruits & Veggies",
+    price: "₹149",
+    mrp: "₹180",
+    time: "10 mins",
+    tag: "Organic",
+    unit: "1 pc (approx. 200g)",
+    rating: 4.8,
+    description: "Handpicked premium Hass avocados with rich, creamy texture. Perfect for fresh guacamole, salads, and healthy morning toast.",
+    img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: 3,
+    name: "Artisanal Sourdough",
+    category: "Bakery",
+    price: "₹95",
+    mrp: "₹120",
+    time: "12 mins",
+    tag: "Hot Baked",
+    unit: "400g loaf",
+    rating: 4.9,
+    description: "Slow-fermented sourdough bread baked fresh in dark store wood-fired ovens. Crispy golden crust with soft, airy crumb.",
+    img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80"
+  },
+  {
+    id: 4,
+    name: "Cold-Pressed Juice",
+    category: "Beverages",
+    price: "₹120",
+    mrp: "₹150",
+    time: "7 mins",
+    tag: "Trending",
+    unit: "250 ml",
+    rating: 4.7,
+    description: "100% natural cold-pressed orange & passion fruit blend. No added sugar, no artificial flavors, packed with immune-boosting Vitamin C.",
+    img: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&auto=format&fit=crop&q=80"
+  }
 ];
 
 const FEATURES = [
@@ -60,10 +110,12 @@ const FAQS = [
 ];
 
 export default function WebLaunchLanding() {
+  const navigate = useNavigate();
   const { settings } = useSettings();
   const logoUrl = settings?.logoUrl || LogoImage;
   const appName = settings?.appName || "Vamaa Urban Fresh";
   const [email, setEmail] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,6 +127,33 @@ export default function WebLaunchLanding() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const scrollToSection = (e, targetId) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (!element) return;
+
+    const navHeight = 80;
+    const elementRect = element.getBoundingClientRect();
+    const absoluteElementTop = elementRect.top + window.pageYOffset;
+    const elementHeight = elementRect.height;
+    const windowHeight = window.innerHeight;
+
+    // Calculate center offset so section header is centered on screen
+    let targetScrollY = absoluteElementTop - navHeight;
+    if (elementHeight < windowHeight - navHeight) {
+      targetScrollY = absoluteElementTop - (windowHeight - elementHeight) / 2;
+    }
+
+    window.scrollTo({
+      top: Math.max(0, targetScrollY),
+      behavior: "smooth"
+    });
+
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -106,7 +185,7 @@ export default function WebLaunchLanding() {
   };
 
   const notifyLaunch = () => {
-    toast.info("🚀 App Launching Soon on App Store & Play Store!");
+    navigate("/coming-soon");
   };
 
   return (
@@ -128,11 +207,11 @@ export default function WebLaunchLanding() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600">
-            <a href="#features" className="hover:text-rose-600 transition-colors">Features</a>
-            <a href="#showcase" className="hover:text-rose-600 transition-colors">Products</a>
-            <a href="#howitworks" className="hover:text-rose-600 transition-colors">How it Works</a>
-            <a href="#comparison" className="hover:text-rose-600 transition-colors">Why Us</a>
-            <a href="#faq" className="hover:text-rose-600 transition-colors">FAQ</a>
+            <a href="#features" onClick={(e) => scrollToSection(e, "features")} className="hover:text-rose-600 transition-colors">Features</a>
+            <a href="#showcase" onClick={(e) => scrollToSection(e, "showcase")} className="hover:text-rose-600 transition-colors">Products</a>
+            <a href="#howitworks" onClick={(e) => scrollToSection(e, "howitworks")} className="hover:text-rose-600 transition-colors">How it Works</a>
+            <a href="#comparison" onClick={(e) => scrollToSection(e, "comparison")} className="hover:text-rose-600 transition-colors">Why Us</a>
+            <a href="#faq" onClick={(e) => scrollToSection(e, "faq")} className="hover:text-rose-600 transition-colors">FAQ</a>
           </div>
 
           <div className="hidden md:flex items-center gap-2.5">
@@ -166,35 +245,35 @@ export default function WebLaunchLanding() {
           <div className="md:hidden bg-white/95 backdrop-blur-xl border-b border-rose-100 px-6 py-4 shadow-xl flex flex-col gap-3 animate-in slide-in-from-top-3 duration-200">
             <a
               href="#features"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => scrollToSection(e, "features")}
               className="text-sm font-bold text-slate-700 hover:text-rose-600 py-1"
             >
               Features
             </a>
             <a
               href="#showcase"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => scrollToSection(e, "showcase")}
               className="text-sm font-bold text-slate-700 hover:text-rose-600 py-1"
             >
               Products
             </a>
             <a
               href="#howitworks"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => scrollToSection(e, "howitworks")}
               className="text-sm font-bold text-slate-700 hover:text-rose-600 py-1"
             >
               How it Works
             </a>
             <a
               href="#comparison"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => scrollToSection(e, "comparison")}
               className="text-sm font-bold text-slate-700 hover:text-rose-600 py-1"
             >
               Why Us
             </a>
             <a
               href="#faq"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => scrollToSection(e, "faq")}
               className="text-sm font-bold text-slate-700 hover:text-rose-600 py-1"
             >
               FAQ
@@ -253,6 +332,7 @@ export default function WebLaunchLanding() {
 
               <a
                 href="#howitworks"
+                onClick={(e) => scrollToSection(e, "howitworks")}
                 className="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
               >
                 <Play className="w-3.5 h-3.5 fill-slate-600 text-slate-600" />
@@ -341,17 +421,27 @@ export default function WebLaunchLanding() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {PRODUCTS.map((p) => (
-            <div key={p.id} className="bg-white border border-slate-200 rounded-2xl p-3 overflow-hidden group hover:border-rose-300 transition-all shadow-2xs">
-              <div className="relative h-36 rounded-xl overflow-hidden mb-3 bg-slate-100">
-                <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[10px] font-extrabold text-rose-700 border border-rose-200">
-                  {p.tag}
+            <div
+              key={p.id}
+              className="bg-white border border-slate-200 rounded-2xl p-3 overflow-hidden group hover:border-rose-300 transition-all shadow-2xs cursor-pointer flex flex-col justify-between"
+              onClick={() => setSelectedProduct(p)}
+            >
+              <div>
+                <div className="relative h-36 rounded-xl overflow-hidden mb-3 bg-slate-100">
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[10px] font-extrabold text-rose-700 border border-rose-200">
+                    {p.tag}
+                  </div>
                 </div>
+                <div className="text-[10px] font-bold text-slate-400 mb-0.5">{p.category}</div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1 truncate group-hover:text-rose-600 transition-colors">{p.name}</h3>
+                <div className="text-[11px] font-semibold text-slate-500 mb-2">{p.unit}</div>
               </div>
-              <div className="text-[10px] font-bold text-slate-400 mb-0.5">{p.category}</div>
-              <h3 className="text-sm font-bold text-slate-900 mb-1 truncate">{p.name}</h3>
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                <div className="text-base font-black text-rose-600">{p.price}</div>
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-base font-black text-rose-600">{p.price}</span>
+                  {p.mrp && <span className="text-[10px] font-semibold text-slate-400 line-through">{p.mrp}</span>}
+                </div>
                 <button
                   onClick={() => handlePreOrderWhatsApp(p)}
                   className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold text-[11px] border border-emerald-200 transition-all cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
@@ -485,6 +575,93 @@ export default function WebLaunchLanding() {
           </div>
         </div>
       </footer>
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 z-[600] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedProduct(null)}
+        >
+          <div
+            className="bg-white border border-slate-200 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header Image */}
+            <div className="relative h-56 bg-slate-100">
+              <img
+                src={selectedProduct.img}
+                alt={selectedProduct.name}
+                className="w-full h-full object-cover"
+              />
+              <button
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md text-slate-700 hover:text-slate-950 flex items-center justify-center shadow-md cursor-pointer border border-slate-200/80 transition-transform active:scale-90"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-extrabold text-rose-700 border border-rose-200 shadow-2xs">
+                {selectedProduct.tag}
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-4">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="text-xs font-bold text-rose-600 uppercase tracking-wider mb-0.5">
+                    {selectedProduct.category}
+                  </div>
+                  <h3 className="text-xl font-black text-slate-900 leading-tight">
+                    {selectedProduct.name}
+                  </h3>
+                  <div className="text-xs font-semibold text-slate-500 mt-0.5">
+                    {selectedProduct.unit}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200 text-amber-800 text-xs font-black shrink-0">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  <span>{selectedProduct.rating}</span>
+                </div>
+              </div>
+
+              <p className="text-slate-600 text-xs leading-relaxed bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                {selectedProduct.description}
+              </p>
+
+              {/* ETA Highlight */}
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 bg-rose-50/70 px-4 py-2.5 rounded-2xl border border-rose-100">
+                <span className="flex items-center gap-1.5 text-rose-700">
+                  ⚡ Guaranteed Sub-15 Min Delivery
+                </span>
+                <span className="text-rose-800 font-extrabold">{selectedProduct.time}</span>
+              </div>
+
+              {/* Modal Footer Actions */}
+              <div className="flex items-center justify-between pt-2 border-t border-slate-100 gap-4">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-2xl font-black text-rose-600">{selectedProduct.price}</span>
+                  {selectedProduct.mrp && (
+                    <span className="text-xs font-semibold text-slate-400 line-through">
+                      {selectedProduct.mrp}
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => {
+                    handlePreOrderWhatsApp(selectedProduct);
+                    setSelectedProduct(null);
+                  }}
+                  className="flex-1 py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white/20 text-white" />
+                  <span>Pre-Order via WhatsApp</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

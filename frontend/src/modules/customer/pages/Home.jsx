@@ -453,12 +453,12 @@ const Home = () => {
         </div>
       ) : (
         <>
-          {/* Hero Banner with Marquee Lines (Full Width for Web View) */}
+          {/* Hero Banner with Marquee Lines (Top Marquee hidden on web view, visible on mobile) */}
           <div className="w-full mx-auto px-0 my-0">
-            <PromoMarquee reverse={true} className="w-full rounded-none overflow-hidden" />
+            <PromoMarquee reverse={true} className="w-full rounded-none overflow-hidden md:hidden" />
 
             {heroConfig?.banners?.items?.length > 0 && (
-              <motion.div ref={heroRef} className="w-full will-change-transform mt-0" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
+              <motion.div ref={heroRef} className="w-full will-change-transform mt-2 md:mt-3" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
                 <div className="pt-0">
                   <ExperienceBannerCarousel items={heroConfig.banners.items} fullWidth={false} />
                 </div>

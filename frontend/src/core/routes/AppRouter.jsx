@@ -52,6 +52,7 @@ const SellerModule = lazy(() => import('../../modules/seller/routes/index'));
 const AdminModule = lazy(() => import('../../modules/admin/routes/index'));
 const DeliveryModule = lazy(() => import('../../modules/delivery/routes/index'));
 const WebLaunchLanding = lazy(() => import('../../modules/web/pages/WebLaunchLanding'));
+const ComingSoonPage = lazy(() => import('../../modules/web/pages/ComingSoonPage'));
 
 import CustomerLayout from '../../modules/customer/components/layout/CustomerLayout';
 
@@ -150,6 +151,14 @@ const AppRouter = () => {
                     element: (
                         <Suspense fallback={<div className="flex h-screen items-center justify-center font-outfit">Loading...</div>}>
                             <WebLaunchLanding />
+                        </Suspense>
+                    )
+                },
+                {
+                    path: 'coming-soon',
+                    element: (
+                        <Suspense fallback={<div className="flex h-screen items-center justify-center font-outfit">Loading...</div>}>
+                            <ComingSoonPage />
                         </Suspense>
                     )
                 },
