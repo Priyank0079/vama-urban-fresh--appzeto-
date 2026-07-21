@@ -48,61 +48,67 @@ const OfferSections = ({ sections, noServiceData }) => {
               transition={{ duration: 0.4 }}
               className="mb-4 rounded-none overflow-hidden shadow-[0_18px_35px_rgba(15,23,42,0.16)] bg-white border-y border-slate-100/70 border-x-0 md:border-x">
               <div
-                className="relative flex items-center justify-between px-5 md:px-8 py-5 md:py-6 text-black"
+                className="relative flex items-center justify-between px-5 md:px-8 py-5 md:py-6 text-white overflow-hidden rounded-t-xl"
                 style={{
-                  backgroundColor: bgColor,
-                  backgroundImage: getBackgroundGradientByValue(section.backgroundColor),
+                  background: "linear-gradient(135deg, #e11d48 0%, #be123c 45%, #9f1239 100%)",
                 }}>
+                {/* Decorative background glow & shapes */}
                 <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                  <div className="absolute -top-10 -left-10 w-40 h-40 md:w-56 md:h-56 bg-white/20 rounded-full blur-3xl" />
-                  <div className="absolute -bottom-10 right-0 w-44 h-44 bg-white/10 rounded-full blur-3xl" />
+                  <div className="absolute -top-12 -left-12 w-44 h-44 md:w-60 md:h-60 bg-rose-400/25 rounded-full blur-3xl animate-pulse" />
+                  <div className="absolute -bottom-10 right-10 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl" />
+                  <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-64 h-24 bg-white/5 rotate-12 blur-2xl pointer-events-none" />
                 </div>
-                <div className="flex-1 pr-4">
-                  <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-black/60 mb-1">
-                    Trending right now
-                  </p>
-                  <h3 className="text-xl md:text-2xl font-bold tracking-tight leading-tight drop-shadow-sm">
-                    {section.title}
+
+                <div className="flex-1 pr-4 relative z-10">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-rose-100 mb-2 shadow-sm">
+                    <Sparkles className="w-3 h-3 text-amber-300 fill-amber-300 animate-spin-slow" />
+                    <span>Trending Right Now</span>
+                  </div>
+                  
+                  <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
+                    {section.title || "Trending Deals"}
                   </h3>
-                  {((section.categoryIds || [])
-                    .map((c) => (typeof c === "object" && c?.name ? c.name : null))
-                    .filter(Boolean)
-                    .join(", ") || section.categoryId?.name) && (
-                    <p className="text-[11px] md:text-xs font-semibold text-black/75 mt-1">
+
+                  <p className="text-[11px] md:text-xs font-medium text-rose-100/90 mt-1.5 flex items-center gap-2">
+                    <span className="inline-block px-2 py-0.5 rounded bg-rose-950/40 text-amber-300 font-semibold border border-rose-400/30">
+                      {(sectionProducts.length + sectionSellers.length) > 0 ? `${sectionProducts.length + sectionSellers.length} Hot Items` : "Curated Selection"}
+                    </span>
+                    <span>•</span>
+                    <span className="truncate">
                       {(section.categoryIds || [])
                         .map((c) => (typeof c === "object" && c?.name ? c.name : null))
                         .filter(Boolean)
-                        .join(", ") || section.categoryId?.name}
-                    </p>
-                  )}
+                        .join(", ") || section.categoryId?.name || "Best Prices & Fresh Quality"}
+                    </span>
+                  </p>
                 </div>
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex-shrink-0 shadow-[0_16px_30px_rgba(0,0,0,0.25)] border border-black/10 overflow-hidden relative bg-black/10 transition-transform hover:-translate-y-1 hover:rotate-[-4deg] hover:scale-105">
+
+                {/* Right side item spotlight card */}
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex-shrink-0 shadow-[0_16px_30px_rgba(0,0,0,0.35)] border border-white/25 overflow-hidden relative bg-white/10 transition-transform hover:-translate-y-1 hover:rotate-[-3deg] hover:scale-105">
                   {(sectionProducts[0]?.image || sectionSellers[0]?.image) ? (
                     <>
                       <img
                         src={applyCloudinaryTransform(sectionProducts[0]?.image || sectionSellers[0]?.image, "f_auto,q_auto,w_150")}
                         alt={section.title}
                         loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover scale-110"
+                        className="absolute inset-0 w-full h-full object-cover scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent" />
-                      <div className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full bg-amber-400/60 blur-xl mix-blend-screen" />
+                      <div className="absolute inset-0 bg-gradient-to-tr from-rose-950/80 via-transparent to-transparent" />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-rose-600 to-rose-800" />
                   )}
 
                   {(sectionProducts.length > 0 || sectionSellers.length > 0) && (
-                    <div className="absolute top-1 left-1 px-2 py-0.5 rounded-full bg-black/70 text-[9px] font-semibold text-white/90 tracking-wide flex items-center gap-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-400" />
+                    <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-rose-950/80 text-[9px] font-bold text-rose-100 tracking-wide border border-rose-400/40 shadow-sm">
                       {sectionProducts.length + sectionSellers.length} items
                     </div>
                   )}
 
                   <div className="relative z-10 flex items-center justify-center h-full">
                     <Sparkles
-                      className="text-amber-200 drop-shadow-[0_0_12px_rgba(251,191,36,0.9)]"
-                      size={30}
+                      className="text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.9)] animate-pulse"
+                      size={28}
                     />
                   </div>
                 </div>

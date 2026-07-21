@@ -439,7 +439,7 @@ const Home = () => {
   };
 
   return (
-    <div className={`min-h-screen pt-[240px] md:pt-[300px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
+    <div className={`min-h-screen pt-[228px] md:pt-[150px] ${products.length === 0 && !isLoading ? "bg-white" : "bg-[#F5F7F8]"}`}>
       <div className={cn("contents", isProductDetailOpen && "hidden md:contents")}>
         <MainLocationHeader categories={categories} activeCategory={activeCategory} onCategorySelect={setActiveCategory} />
       </div>
@@ -453,17 +453,20 @@ const Home = () => {
         </div>
       ) : (
         <>
-          <PromoMarquee reverse={true} className="w-full" />
+          {/* Hero Banner with Marquee Lines (Full Width for Web View) */}
+          <div className="w-full mx-auto px-0 my-0">
+            <PromoMarquee reverse={true} className="w-full rounded-none overflow-hidden" />
 
-          {heroConfig?.banners?.items?.length > 0 && (
-            <motion.div ref={heroRef} className="w-full will-change-transform mt-0" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
-              <div className="pt-0">
-                <ExperienceBannerCarousel items={heroConfig.banners.items} fullWidth={false} />
-              </div>
-            </motion.div>
-          )}
+            {heroConfig?.banners?.items?.length > 0 && (
+              <motion.div ref={heroRef} className="w-full will-change-transform mt-0" style={isMobile ? { opacity: 1 } : { opacity, y, scale, pointerEvents }}>
+                <div className="pt-0">
+                  <ExperienceBannerCarousel items={heroConfig.banners.items} fullWidth={false} />
+                </div>
+              </motion.div>
+            )}
 
-          <PromoMarquee className="w-full" />
+            <PromoMarquee className="w-full rounded-none overflow-hidden" />
+          </div>
           <QuickCategorySlider categories={effectiveQuickCategories} onCategoryClick={(id) => navigate(`/category/${id}`)} />
           <LowestPriceSection products={products} onSeeAll={() => navigate("/category/all")} />
           <OfferSections sections={offerSections} noServiceData={noServiceData} />

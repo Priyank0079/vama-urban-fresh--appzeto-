@@ -84,7 +84,7 @@ const ExperienceBannerCarousel = ({ section, items, fullWidth = false, slideGap 
         {visibleItems.map((banner, idx) => (
           <div
             key={idx}
-            className="relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border aspect-[2/1] rounded-none px-0 py-0"
+            className="relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border aspect-[2/1] md:aspect-[10/3.25] md:max-h-[390px] rounded-none px-0 py-0"
             style={{ width: `${100 / totalItems}%` }}
           >
             <img

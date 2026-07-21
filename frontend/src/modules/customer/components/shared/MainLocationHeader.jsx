@@ -322,7 +322,7 @@ const MainLocationHeader = ({
           </motion.button>
 
           {/* Desktop/Tablet Header Layout (md and above) */}
-          <div className="hidden md:flex items-center justify-between relative z-20 px-2 lg:px-6 mb-4 mt-1">
+          <div className="hidden md:flex items-center justify-between relative z-20 px-2 lg:px-6 mb-1 mt-0">
             {/* Left Section: Logo + Location row */}
             <div className="flex items-center gap-4 lg:gap-8">
               <div
@@ -546,28 +546,27 @@ const MainLocationHeader = ({
           </div>
 
           {/* Categories Navigation - Smooth Collapse */}
-          {/* Categories Navigation - Smooth Collapse */}
           {categories.length > 0 && (
-            <div className="relative mt-4 -mx-4 md:mx-0 z-10">
+            <div className="relative mt-2 md:mt-1 -mx-4 md:mx-0 z-10">
               {/* White background block that starts below the curve area */}
-              <div className="absolute top-[12px] inset-x-0 bottom-0 bg-white border-b border-gray-100 shadow-sm z-0" />
+              <div className="absolute top-[8px] md:top-[6px] inset-x-0 bottom-0 bg-white border-b border-gray-100 shadow-sm z-0" />
               
               <motion.div
                 layout
                 transition={{ duration: 0.1 }}
-                className="relative z-10 flex items-end md:justify-center gap-0 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x pt-[16px] min-h-[72px] md:min-h-[78px] pb-0.5">
+                className="relative z-10 flex items-end md:justify-center gap-0 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x pt-[12px] md:pt-[8px] min-h-[64px] md:min-h-[58px] pb-0.5">
                 {categories.map((cat) => {
-                  const isActive = activeCategory?.id === cat.id;
+                  const isActive = String(activeCategory?._id || activeCategory?.id || "") === String(cat._id || cat.id || "");
                   return (
                     <CategoryNavColumn
                       key={cat.id}
                       cat={cat}
                       isActive={isActive}
-                      categoryAccent="#1e293b" // slate-800
+                      categoryAccent={cat.headerColor || "#1e293b"}
                       onCategorySelect={onCategorySelect}
-                      headerFontColor="#64748b" // slate-500 for inactive
-                      headerIconColor="#1e293b" // slate-800 for active
-                      baseHeaderColor={baseHeaderColor}
+                      headerFontColor="#64748b"
+                      headerIconColor="#1e293b"
+                      baseHeaderColor={cat.headerColor || baseHeaderColor}
                     />
                   );
                 })}

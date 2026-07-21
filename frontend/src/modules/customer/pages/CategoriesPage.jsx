@@ -5,8 +5,8 @@ import { customerApi } from '../services/customerApi';
 import { applyCloudinaryTransform } from '@/core/utils/imageUtils';
 
 const COLORS = [
-    "#F2EEE4", "#EFE7E2", "#EAF1F4", "#F0E8F2",
-    "#EAF4EC", "#F5F1E6", "#EEF2F6", "#F2EEF5"
+    "#FEE2E2", "#FFEDD5", "#FFE4E6", "#FECDD3",
+    "#FFF1F2", "#FEF3C7", "#FECACA", "#FDA4AF"
 ];
 
 const CategoriesPage = () => {
@@ -143,18 +143,27 @@ const CategoriesPage = () => {
                 {groups.map((group, groupIdx) => (
                     <div key={groupIdx} className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${groupIdx * 100}ms` }}>
                         {/* Group Title */}
-                        <h2 className="text-xl md:text-2xl font-semibold text-[#1A1A1A] mb-6 px-1">
-                            {group.title}
-                        </h2>
+                        <div className="flex items-center justify-between mb-4 pb-2 border-b border-rose-100/80 px-1">
+                            <div className="flex items-center gap-2.5">
+                                <span className="w-1.5 h-6 bg-gradient-to-b from-rose-500 to-rose-700 rounded-full shadow-sm" />
+                                <h2 className="text-lg md:text-xl font-bold tracking-tight text-rose-700 md:text-rose-800">
+                                    {group.title}
+                                </h2>
+                            </div>
+                            <span className="text-[11px] md:text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200/60 shadow-2xs">
+                                {group.categories.length} {group.categories.length === 1 ? 'category' : 'categories'}
+                            </span>
+                        </div>
 
-                        {/* Categories Grid */}
-                        <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-8">
-                            {group.categories.map((category) => (
-                                <div key={category.id} className="flex flex-col group cursor-pointer">
-                                    <Link
-                                        to={`/category/${category.id}`}
-                                        className="block"
-                                    >
+                        {/* Categories Grid Card Box */}
+                        <div className="bg-gradient-to-b from-rose-50/40 via-white to-rose-50/20 rounded-3xl p-4 md:p-6 border border-rose-100/80 shadow-[0_4px_20px_rgba(225,29,72,0.05)]">
+                            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-x-3 gap-y-6">
+                                {group.categories.map((category) => (
+                                    <div key={category.id} className="flex flex-col items-center text-center group cursor-pointer">
+                                        <Link
+                                            to={`/category/${category.id}`}
+                                            className="block w-full"
+                                        >
                                         <div className="aspect-square mb-2 [perspective:1000px]">
                                             <div
                                                 className="relative w-full h-full transition-transform duration-500 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] will-change-transform"
@@ -165,7 +174,7 @@ const CategoriesPage = () => {
                                                 }}
                                             >
                                                 <div
-                                                    className="absolute inset-0 rounded-full p-2.5 flex items-center justify-center shadow-sm"
+                                                    className="absolute inset-0 rounded-2xl p-2.5 flex items-center justify-center shadow-md border border-rose-200/80 transition-all duration-300 group-hover:scale-105"
                                                     style={{
                                                         backgroundColor: category.color,
                                                         transform: 'rotateY(0deg)',
@@ -177,12 +186,12 @@ const CategoriesPage = () => {
                                                         src={applyCloudinaryTransform(category.image)}
                                                         alt={category.name}
                                                         loading="lazy"
-                                                        className="w-full h-full rounded-full object-cover"
+                                                        className="w-full h-full rounded-xl object-cover"
                                                     />
                                                 </div>
 
                                                 <div
-                                                    className="absolute inset-0 rounded-full bg-gradient-to-br from-[#F6EFE4] via-[#EEE7F8] to-[#E7F1FB] text-slate-700 flex items-center justify-center p-2 text-center shadow-inner border border-white/70"
+                                                    className="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-100 via-rose-50 to-amber-50 text-rose-950 flex items-center justify-center p-2 text-center shadow-inner border border-rose-300/60"
                                                     style={{
                                                         transform: 'rotateY(180deg)',
                                                         backfaceVisibility: 'hidden',
@@ -196,8 +205,9 @@ const CategoriesPage = () => {
                                             </div>
                                         </div>
                                     </Link>
-                                </div>
-                            ))}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ))}

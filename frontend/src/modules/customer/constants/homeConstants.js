@@ -50,31 +50,31 @@ export const ICON_COMPONENTS = {
 
 export const QUICK_CATEGORY_PALETTES = [
   {
-    bgFrom: "#ffd96a",
-    bgVia: "#ffeaa0",
-    bgTo: "#fff0c7",
-    glowColor: "rgba(255,184,0,0.18)",
-    frameColor: "#f0d98a",
+    bgFrom: "#ffe4e6", // rose-100
+    bgVia: "#fff1f2",  // rose-50
+    bgTo: "#ffffff",
+    glowColor: "rgba(225,29,72,0.12)",
+    frameColor: "#fecdd3",
   },
   {
-    bgFrom: "var(--primary)",
-    bgVia: "#cffafe",
-    bgTo: "#ecfeff",
-    glowColor: "rgba(97,218,251,0.18)",
-    frameColor: "#a5f3fc",
+    bgFrom: "#ffedd5", // orange-100
+    bgVia: "#fff7ed",  // orange-50
+    bgTo: "#ffffff",
+    glowColor: "rgba(249,115,22,0.12)",
+    frameColor: "#fed7aa",
   },
   {
-    bgFrom: "#f3a25d",
-    bgVia: "#f9c48b",
-    bgTo: "#fee0bf",
-    glowColor: "rgba(255,139,61,0.16)",
-    frameColor: "#efc08e",
+    bgFrom: "#fecdd3", // rose-200
+    bgVia: "#ffe4e6",  // rose-100
+    bgTo: "#fff1f2",
+    glowColor: "rgba(190,18,60,0.14)",
+    frameColor: "#fda4af",
   },
   {
-    bgFrom: "#b8eff0",
-    bgVia: "#d5f7f5",
-    bgTo: "#edfdfc",
-    glowColor: "rgba(122,215,215,0.16)",
-    frameColor: "#b9e5e3",
+    bgFrom: "#fef3c7", // amber-100
+    bgVia: "#fffbeb",  // amber-50
+    bgTo: "#ffffff",
+    glowColor: "rgba(245,158,11,0.12)",
+    frameColor: "#fde68a",
   },
 ];
