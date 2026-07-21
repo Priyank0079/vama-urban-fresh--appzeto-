@@ -98,25 +98,27 @@ export async function issueCustomerOtp({
   const phone = normalizeAndValidatePhone(rawPhone);
   const now = new Date();
 
-  const sendAllowed = await incrementWindowCounter(`otp:send:phone:${phone}`, {
-    limit: OTP_SEND_LIMIT_PER_WINDOW(),
-    windowSeconds: OTP_SEND_LIMIT_WINDOW_SECONDS(),
-  });
-  if (!sendAllowed) {
-    const err = new Error("Too many OTP requests. Try again later.");
-    err.statusCode = 429;
-    throw err;
-  }
-
-  let customer = await Customer.findOne({ phone }).select(
-    "+otpHash +otpExpiresAt +otpFailedAttempts +otpLockedUntil +otpLastSentAt +otpSessionVersion +otp +otpExpiry",
-  );
-
   const isTestNumber = [
     "+911111111111",
     "+916268423925",
     "+919111966732",
   ].includes(phone);
+
+  if (!isTestNumber) {
+    const sendAllowed = await incrementWindowCounter(`otp:send:phone:${phone}`, {
+      limit: OTP_SEND_LIMIT_PER_WINDOW(),
+      windowSeconds: OTP_SEND_LIMIT_WINDOW_SECONDS(),
+    });
+    if (!sendAllowed) {
+      const err = new Error("Too many OTP requests. Try again later.");
+      err.statusCode = 429;
+      throw err;
+    }
+  }
+
+  let customer = await Customer.findOne({ phone }).select(
+    "+otpHash +otpExpiresAt +otpFailedAttempts +otpLockedUntil +otpLastSentAt +otpSessionVersion +otp +otpExpiry",
+  );
 
   if (flow === "login" && (!customer || !customer.isVerified)) {
     if (useRealSMS() && !isTestNumber) {
@@ -152,7 +154,7 @@ export async function issueCustomerOtp({
     );
   }
 
-  if (customer.otpLockedUntil && customer.otpLockedUntil > now) {
+  if (!isTestNumber && customer.otpLockedUntil && customer.otpLockedUntil > now) {
     const err = new Error("OTP verification is temporarily locked for this number");
     err.statusCode = 423;
     throw err;
@@ -160,7 +162,7 @@ export async function issueCustomerOtp({
 
   const lastSentAt = customer.otpLastSentAt ? new Date(customer.otpLastSentAt) : null;
   const cooldownMs = OTP_RESEND_COOLDOWN_SECONDS() * 1000;
-  if (lastSentAt && now.getTime() - lastSentAt.getTime() < cooldownMs) {
+  if (!isTestNumber && lastSentAt && now.getTime() - lastSentAt.getTime() < cooldownMs) {
     const waitSec = Math.ceil((cooldownMs - (now.getTime() - lastSentAt.getTime())) / 1000);
     const err = new Error(`Please wait ${waitSec}s before requesting another OTP`);
     err.statusCode = 429;
@@ -217,14 +219,22 @@ export async function verifyCustomerOtpCode({
     throw err;
   }
 
-  const verifyAllowed = await incrementWindowCounter(`otp:verify:phone:${phone}`, {
-    limit: OTP_VERIFY_LIMIT_PER_WINDOW(),
-    windowSeconds: OTP_VERIFY_LIMIT_WINDOW_SECONDS(),
-  });
-  if (!verifyAllowed) {
-    const err = new Error("Too many OTP verification attempts. Try again later.");
-    err.statusCode = 429;
-    throw err;
+  const isTestNumber = [
+    "+911111111111",
+    "+916268423925",
+    "+919111966732",
+  ].includes(phone);
+
+  if (!isTestNumber) {
+    const verifyAllowed = await incrementWindowCounter(`otp:verify:phone:${phone}`, {
+      limit: OTP_VERIFY_LIMIT_PER_WINDOW(),
+      windowSeconds: OTP_VERIFY_LIMIT_WINDOW_SECONDS(),
+    });
+    if (!verifyAllowed) {
+      const err = new Error("Too many OTP verification attempts. Try again later.");
+      err.statusCode = 429;
+      throw err;
+    }
   }
 
   const customer = await Customer.findOne({ phone }).select(
@@ -237,7 +247,7 @@ export async function verifyCustomerOtpCode({
   }
 
   const now = new Date();
-  if (customer.otpLockedUntil && customer.otpLockedUntil > now) {
+  if (!isTestNumber && customer.otpLockedUntil && customer.otpLockedUntil > now) {
     const err = new Error("Too many failed attempts. Please try again later.");
     err.statusCode = 423;
     throw err;
