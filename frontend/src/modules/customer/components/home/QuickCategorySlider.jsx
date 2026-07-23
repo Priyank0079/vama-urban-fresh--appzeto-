@@ -51,10 +51,14 @@ const QuickCategorySlider = ({ categories, onCategoryClick }) => {
           backgroundPosition: "center",
         }}>
         {/* Simple & Professional Centered Heading */}
-        <div className="relative z-10 px-4 mb-2 text-center">
-          <h2 className="text-[17px] md:text-[20px] font-bold tracking-tight text-slate-900 leading-none">
+        <div className="relative z-10 px-4 mb-3 text-center flex flex-col items-center">
+          <span className="text-[9px] md:text-[10px] font-extrabold uppercase tracking-widest text-rose-500 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100/50 mb-1">
+            Shop By
+          </span>
+          <h2 className="text-[18px] md:text-[22px] font-extrabold tracking-tight bg-gradient-to-r from-slate-950 via-rose-700 to-slate-950 bg-clip-text text-transparent leading-tight">
             Quick Categories
           </h2>
+          <div className="w-8 h-[2.5px] rounded-full bg-gradient-to-r from-rose-500 to-amber-400 mt-3 shadow-xs" />
         </div>
 
         {/* Scrollable Category Cards Container */}
@@ -74,26 +78,26 @@ const QuickCategorySlider = ({ categories, onCategoryClick }) => {
               <div
                 key={cat.id}
                 onClick={() => onCategoryClick(cat.id)}
-                className="flex flex-col items-center gap-1.5 min-w-[86px] md:min-w-[106px] lg:min-w-[118px] cursor-pointer group/item snap-start transition-all active:scale-95">
+                className="flex flex-col items-center gap-1.5 min-w-[98px] md:min-w-[106px] lg:min-w-[118px] cursor-pointer group/item snap-start transition-all active:scale-95">
                 <div
-                  className="relative w-[86px] h-[94px] md:w-[106px] md:h-[114px] lg:w-[118px] lg:h-[126px] rounded-2xl md:rounded-3xl shadow-[0_4px_16px_rgba(225,29,72,0.08)] flex flex-col items-center justify-between p-2.5 transition-all duration-300 group-hover/item:-translate-y-1.5 group-hover/item:shadow-[0_12px_24px_rgba(225,29,72,0.18)] border overflow-hidden backdrop-blur-xs"
+                  className="relative w-[98px] h-[104px] md:w-[106px] md:h-[114px] lg:w-[118px] lg:h-[126px] rounded-2xl md:rounded-[22px] lg:rounded-3xl shadow-[0_4px_14px_rgba(0,0,0,0.04)] flex flex-col items-center justify-between p-1.5 pb-2 md:p-2 md:pb-2.5 lg:p-2 lg:pb-3 transition-all duration-300 group-hover/item:-translate-y-1.5 group-hover/item:shadow-[0_12px_24px_rgba(0,0,0,0.08)] border overflow-hidden backdrop-blur-xs"
                   style={{
                     background: `linear-gradient(145deg, ${palette.bgFrom} 0%, ${palette.bgVia || palette.bgFrom} 55%, ${palette.bgTo || '#ffffff'} 100%)`,
-                    borderColor: palette.frameColor || 'rgba(244,63,94,0.2)'
+                    borderColor: palette.frameColor || 'rgba(244,63,94,0.15)'
                   }}>
-                  {/* Category Image Circle */}
-                  <div className="relative w-13 h-13 md:w-15 md:h-15 rounded-full bg-white/95 p-1 shadow-sm border border-white/70 flex items-center justify-center transition-transform duration-300 group-hover/item:scale-110">
+                  {/* Category Image Rectangle */}
+                  <div className="relative w-[86px] h-[64px] md:w-[90px] md:h-[68px] lg:w-[102px] lg:h-[76px] rounded-xl bg-white p-1.5 shadow-[0_2px_8px_rgba(0,0,0,0.03)] border border-white/60 flex items-center justify-center transition-all duration-300 group-hover/item:scale-105">
                     <img
                       src={displayImage}
                       alt={cat.name}
                       loading="lazy"
-                      className="w-full h-full object-contain rounded-full"
+                      className="w-full h-full object-contain rounded-lg"
                     />
                   </div>
 
                   {/* Title */}
-                  <div className="w-full text-center">
-                    <span className="block text-[10.5px] md:text-[12px] font-bold text-slate-800 leading-tight whitespace-nowrap overflow-hidden text-ellipsis group-hover/item:text-rose-600 transition-colors">
+                  <div className="w-full text-center px-1">
+                    <span className="block text-[11px] md:text-[12px] font-bold text-slate-800 leading-tight whitespace-nowrap overflow-hidden text-ellipsis group-hover/item:text-rose-600 transition-colors">
                       {cat.name}
                     </span>
                   </div>

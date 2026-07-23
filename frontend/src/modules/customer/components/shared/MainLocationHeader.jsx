@@ -38,7 +38,7 @@ function CategoryNavColumn({
   headerIconColor,
   baseHeaderColor,
 }) {
-  const iconColor = isActive ? "#ffffff" : (headerIconColor || "#111111");
+  const iconColor = isActive ? baseHeaderColor : (headerIconColor || "#64748b");
   const activeBgColor = baseHeaderColor || "var(--primary)";
 
   return (
@@ -46,40 +46,21 @@ function CategoryNavColumn({
       layout
       whileTap={{ scale: 0.96 }}
       onClick={() => onCategorySelect && onCategorySelect(cat)}
-      className="relative z-[2] flex min-w-[60px] shrink-0 cursor-pointer flex-col items-center gap-0.5 px-2 pb-1 pt-1 snap-start md:min-w-[80px] md:px-4 transition-colors duration-200"
+      className="relative z-[2] flex min-w-[70px] shrink-0 cursor-pointer flex-col items-center gap-1.5 px-2.5 pb-2.5 pt-2 snap-start md:min-w-[90px] md:px-4 transition-all duration-200 group"
     >
-      {/* Animated bump SVG for active tab */}
-      {isActive && (
-        <motion.div 
-          layoutId="activeCategoryBump"
-          className="absolute bottom-full left-1/2 w-[70px] h-[16px] -translate-x-1/2 pointer-events-none z-0"
-        >
-          <svg viewBox="0 0 100 30" width="100%" height="100%" preserveAspectRatio="none">
-            {/* Flawless C1 continuous bell curve bump */}
-            <path d="M0,30 Q25,30 25,15 T50,0 T75,15 T100,30 Z" fill="#ffffff" />
-          </svg>
-        </motion.div>
-      )}
-
       <motion.div
-        animate={{ 
-          y: isActive ? -12 : 0,
-        }}
-        transition={{ type: "spring", stiffness: 450, damping: 28 }}
-        className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full md:h-10 md:w-10"
+        className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-105"
         style={{
-          backgroundColor: isActive ? activeBgColor : "transparent",
-          boxShadow: isActive ? `0 4px 12px ${activeBgColor}66` : "none",
+          color: iconColor,
         }}
       >
         {typeof cat.icon === "function" ||
         (typeof cat.icon === "object" && cat.icon.$$typeof) ? (
           <cat.icon
             sx={{
-              fontSize: { xs: 18, md: 22 },
+              fontSize: { xs: 18, md: 20 },
               color: iconColor,
-              opacity: isActive ? 1 : 0.62,
-              transition: "opacity 0.2s, transform 0.2s",
+              transition: "color 0.2s, transform 0.2s",
             }}
           />
         ) : (
@@ -87,33 +68,39 @@ function CategoryNavColumn({
             src={applyCloudinaryTransform(cat.icon, "f_auto,q_auto,w_100")}
             alt={cat.name}
             loading="lazy"
-            className="h-5 w-5 object-contain md:h-6 md:w-6"
+            className="h-5 w-5 object-contain"
             style={{ 
-              opacity: isActive ? 1 : 0.62,
-              filter: isActive ? "brightness(0) invert(1)" : "none" 
+              filter: isActive ? `drop-shadow(0px 2px 4px ${activeBgColor}33)` : "none" 
             }}
           />
         )}
       </motion.div>
-      <motion.div 
-        animate={{ y: isActive ? -2 : 0 }}
-        className="relative mt-px w-full"
-      >
+      <div className="relative w-full text-center">
         <span
           className={cn(
-            "relative z-10 mx-auto block max-w-[72px] truncate px-1 text-center text-[9px] uppercase tracking-tight md:max-w-[88px] md:text-[10px]",
-            isActive ? "font-bold" : "font-semibold",
+            "relative z-10 mx-auto block max-w-[76px] truncate px-1 text-center text-[10px] uppercase tracking-wider md:max-w-[92px] md:text-[11px] transition-colors duration-200",
+            isActive ? "font-bold" : "font-semibold text-slate-500 group-hover:text-slate-800",
           )}
           style={{
-            color: isActive ? activeBgColor : (headerFontColor || "#111111"),
-            opacity: isActive ? 1 : 0.68,
-          }}>
+            color: isActive ? activeBgColor : undefined,
+          }}
+        >
           {cat.name}
         </span>
-      </motion.div>
+      </div>
+
+      {isActive && (
+        <motion.div
+          layoutId="activeCategoryLine"
+          className="absolute bottom-0 left-3 right-3 h-[3px] rounded-t-full"
+          style={{ backgroundColor: activeBgColor }}
+          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+        />
+      )}
     </motion.div>
   );
 }
+
 
 const MainLocationHeader = ({
   categories = [],
@@ -398,32 +385,39 @@ const MainLocationHeader = ({
             </div>
 
             {/* Center Section: Search Bar */}
-            <div className="flex-1 max-w-[450px] lg:max-w-2xl px-6">
+            <div className="flex-grow max-w-[700px] lg:max-w-4xl px-4 lg:px-8">
               <motion.div
                 onClick={handleSearchClick}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+                whileHover={{ scale: 1.005 }}
+                whileTap={{ scale: 0.995 }}
                 style={{ backgroundColor: searchBarBg }}
-                className="rounded-full px-4 h-11 shadow-md flex items-center border border-white/50 transition-all duration-200 focus-within:ring-2 focus-within:ring-brand-400/60 cursor-pointer">
-                <SearchIcon sx={{ color: "#000000", fontSize: 20 }} />
+                className="rounded-full px-4.5 h-11.5 shadow-md flex items-center border border-white/20 transition-all duration-200 cursor-pointer relative group">
+                <SearchIcon sx={{ color: "rgba(0,0,0,0.55)", fontSize: 20 }} />
                 <input
                   type="text"
                   placeholder={searchPlaceholder || "Search Products..."}
                   readOnly
-                  className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-semibold placeholder:text-black text-[15px] cursor-pointer"
+                  className="flex-1 bg-transparent border-none outline-none pl-2 text-slate-800 font-semibold placeholder:text-slate-600 text-[14px] cursor-pointer"
                 />
-                <div className="flex items-center gap-2.5 border-l border-slate-100 pl-3">
+                
+                {/* Ctrl + K Shortcut Badge */}
+                <div className="hidden lg:flex items-center gap-0.5 bg-black/5 border border-black/10 rounded-md px-1.5 py-0.5 text-[9px] font-bold text-slate-600 select-none mr-2 shadow-2xs">
+                  <span>Ctrl</span>
+                  <span>K</span>
+                </div>
+
+                <div className="flex items-center gap-2.5 border-l border-slate-300/40 pl-3">
                   <button
                     type="button"
                     onClick={handleMicClick}
-                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-700 hover:text-black"
+                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-600 hover:text-black"
                   >
                     <MicIcon sx={{ fontSize: 20 }} />
                   </button>
                   <button
                     type="button"
                     onClick={handleImageSearchClick}
-                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-700 hover:text-black"
+                    className="p-1 hover:bg-black/5 rounded-full transition-colors flex items-center justify-center cursor-pointer text-slate-600 hover:text-black"
                     title="Search by image/camera"
                   >
                     <CameraAltIcon sx={{ fontSize: 20 }} />

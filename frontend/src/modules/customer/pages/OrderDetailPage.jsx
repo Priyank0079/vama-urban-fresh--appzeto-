@@ -728,22 +728,24 @@ const OrderDetailPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pb-24 font-sans">
       {/* Minimal Header */}
-      <div className="bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 py-3 flex items-center justify-between border-b border-slate-100">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="p-2 -ml-2 rounded-full hover:bg-slate-100 transition-colors"
-        >
-          <ChevronLeft size={24} className="text-slate-800" />
-        </button>
-        <div className="flex-1 text-center">
-          <h1 className="text-base font-bold text-slate-800">Order</h1>
-          <p className="text-xs text-slate-500 font-medium">#{order.orderId.slice(-8)}</p>
+      <div className="bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 py-3 border-b border-slate-100">
+        <div className="max-w-3xl md:max-w-4xl mx-auto flex items-center justify-between">
+          <button
+            type="button"
+            onClick={handleBack}
+            className="p-2 -ml-2 rounded-full hover:bg-slate-100 transition-colors"
+          >
+            <ChevronLeft size={24} className="text-slate-800" />
+          </button>
+          <div className="flex-1 text-center">
+            <h1 className="text-base font-bold text-slate-800">Order</h1>
+            <p className="text-xs text-slate-500 font-medium">#{order.orderId.slice(-8)}</p>
+          </div>
+          <div className="w-10" />
         </div>
-        <div className="w-10" />
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-4 space-y-4">
+      <div className="max-w-3xl md:max-w-4xl mx-auto px-4 py-4 space-y-4">
         {/* Payment Required Card - Only for Online Pending Orders */}
         {isAwaitingOnlinePayment && (
           <motion.div

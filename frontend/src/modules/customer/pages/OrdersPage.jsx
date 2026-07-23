@@ -51,17 +51,19 @@ const OrdersPage = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 pb-24">
-            <div className="sticky top-0 z-30 bg-slate-50/95 backdrop-blur-sm px-4 pt-4 pb-3 border-b border-slate-200/60 mb-4 flex items-center gap-2">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-slate-200/70 rounded-full transition-colors -ml-1"
-                >
-                    <ChevronLeft size={22} className="text-slate-800" />
-                </button>
-                <h1 className="text-xl font-semibold text-slate-900 tracking-tight">My Orders</h1>
+            <div className="sticky top-0 z-30 bg-slate-50/95 backdrop-blur-sm border-b border-slate-200/60 mb-4">
+                <div className="max-w-3xl md:max-w-4xl mx-auto px-4 pt-4 pb-3 flex items-center gap-2">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="w-10 h-10 flex items-center justify-center hover:bg-slate-200/70 rounded-full transition-colors -ml-1"
+                    >
+                        <ChevronLeft size={22} className="text-slate-800" />
+                    </button>
+                    <h1 className="text-xl font-semibold text-slate-900 tracking-tight">My Orders</h1>
+                </div>
             </div>
 
-            <div className="space-y-4 px-4 pb-2">
+            <div className="max-w-3xl md:max-w-4xl mx-auto px-4 pb-2 space-y-4">
                 {orders.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20 text-center">
                         <Package size={56} className="text-slate-300 mb-4" />

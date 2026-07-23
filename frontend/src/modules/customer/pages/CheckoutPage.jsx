@@ -71,10 +71,11 @@ import CheckoutRecommendedProducts from "./checkout/components/CheckoutRecommend
 import CheckoutWishlistSection from "./checkout/components/CheckoutWishlistSection";
 import CheckoutOrderSuccess from "./checkout/components/CheckoutOrderSuccess";
 
-const placesLibrary = ["places"];
+const placesLibrary = ["places", "geometry"];
 
 const CheckoutPage = () => {
   const { isLoaded } = useLoadScript({
+    id: "google-map-script",
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries: placesLibrary,
   });
@@ -894,14 +895,14 @@ const CheckoutPage = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-brand-50/50 via-transparent to-transparent pointer-events-none" />
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-brand-100/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
         <div className="absolute top-40 -left-20 w-60 h-60 bg-yellow-100/40 rounded-full blur-3xl pointer-events-none animate-pulse" />
-        <div className="relative z-10 flex flex-col items-center text-center max-w-sm mx-auto">
-          <div ref={emptyCartAnimRef} className="relative w-56 h-56 md:w-64 md:h-64 mb-8 flex items-center justify-center">
+        <div className="relative z-10 flex flex-col items-center text-center max-w-md md:max-w-2xl w-full mx-auto p-4">
+          <div ref={emptyCartAnimRef} className="relative w-56 h-56 md:w-72 md:h-72 mb-8 flex items-center justify-center">
             <motion.div
               animate={emptyCartVisible ? { y: [-8, 8, -8] } : { y: 0 }}
               transition={emptyCartVisible ? { duration: 4, repeat: Infinity, ease: "easeInOut" } : { duration: 0 }}
               className="relative z-10 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-brand-100">
               {emptyBoxData ? (
-                <Lottie animationData={emptyBoxData} loop className="h-36 w-36 md:h-44 md:w-44" />
+                <Lottie animationData={emptyBoxData} loop className="h-36 w-36 md:h-48 md:w-48" />
               ) : (
                 <div className="w-56 h-56" />
               )}
@@ -912,20 +913,20 @@ const CheckoutPage = () => {
               className="absolute inset-0 border-2 border-dashed border-slate-200 rounded-full"
             />
           </div>
-          <h2 className="text-3xl font-semibold text-slate-800 mb-3 tracking-tight">Your Cart is Empty</h2>
-          <p className="text-slate-500 mb-8 leading-relaxed font-medium">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 mb-4 tracking-tight">Your Cart is Empty</h2>
+          <p className="text-slate-500 text-sm md:text-base mb-10 leading-relaxed font-medium">
             It feels lighter than air! <br />
             Explore our aisles and fill it with goodies.
           </p>
           <Link
             to="/"
-            className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-[var(--brand-400)] text-white font-bold rounded-2xl overflow-hidden shadow-xl shadow-brand-600/20 transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto">
+            className="group relative inline-flex items-center justify-center px-8 py-4 md:px-12 md:py-4 bg-gradient-to-r from-primary to-[var(--brand-400)] text-white font-bold rounded-2xl overflow-hidden shadow-xl shadow-brand-600/20 transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-72">
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             <span className="relative flex items-center gap-2 text-lg">
               Start Shopping <ChevronRight size={20} />
             </span>
           </Link>
-          <div className="mt-8 flex gap-6 text-slate-400">
+          <div className="mt-12 flex gap-8 md:gap-16 text-slate-400">
             <div className="flex flex-col items-center gap-2">
               <div className="p-3 bg-slate-50 rounded-2xl"><Clock size={20} /></div>
               <span className="text-[10px] font-bold uppercase tracking-wider">Fast Delivery</span>
