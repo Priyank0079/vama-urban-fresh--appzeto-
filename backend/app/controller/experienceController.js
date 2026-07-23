@@ -513,6 +513,7 @@ export const upsertHeroConfig = async (req, res) => {
         .filter((b) => b && b.imageUrl)
         .map((b) => ({
           imageUrl: b.imageUrl,
+          mobileImageUrl: b.mobileImageUrl || "",
           title: b.title || "",
           subtitle: b.subtitle || "",
           linkType: b.linkType || "none",

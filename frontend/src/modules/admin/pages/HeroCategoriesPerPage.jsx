@@ -13,11 +13,13 @@ import { cn } from "@/lib/utils";
 
 const emptyBannerItem = () => ({
   imageUrl: "",
+  mobileImageUrl: "",
   title: "",
   subtitle: "",
   linkType: "none",
   linkValue: "",
   isUploading: false,
+  isUploadingMobile: false,
 });
 
 export default function HeroCategoriesPerPage() {
@@ -111,7 +113,7 @@ export default function HeroCategoriesPerPage() {
       const catIds = result.categoryIds || [];
       setFormBanners(
         items.length
-          ? items.map((b) => ({ ...b, isUploading: false }))
+          ? items.map((b) => ({ ...b, isUploading: false, isUploadingMobile: false }))
           : [emptyBannerItem()]
       );
       setFormCategoryIds(Array.isArray(catIds) ? catIds : []);
@@ -155,6 +157,24 @@ export default function HeroCategoriesPerPage() {
     }
   };
 
+  const handleMobileBannerFileChange = async (idx, file) => {
+    if (!file) return;
+    updateBannerItem(idx, { isUploadingMobile: true });
+    try {
+      const fd = new FormData();
+      fd.append("image", file);
+      const res = await adminApi.uploadExperienceBanner(fd);
+      const url = res.data?.result?.url || res.data?.url;
+      if (!url) throw new Error("Upload failed");
+      updateBannerItem(idx, { mobileImageUrl: url, isUploadingMobile: false });
+      showToast("Mobile banner image uploaded", "success");
+    } catch (e) {
+      console.error(e);
+      updateBannerItem(idx, { isUploadingMobile: false });
+      showToast("Failed to upload mobile banner image", "error");
+    }
+  };
+
   const toggleCategory = (catId) => {
     setFormCategoryIds((prev) =>
       prev.includes(catId) ? prev.filter((id) => id !== catId) : [...prev, catId]
@@ -164,6 +184,7 @@ export default function HeroCategoriesPerPage() {
   const handleSave = async () => {
     const items = formBanners.filter((b) => b.imageUrl).map((b) => ({
       imageUrl: b.imageUrl,
+      mobileImageUrl: b.mobileImageUrl || "",
       title: b.title || "",
       subtitle: b.subtitle || "",
       linkType: b.linkType || "none",
@@ -322,7 +343,7 @@ export default function HeroCategoriesPerPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
-                  Hero banners (2:1 Ratio - e.g. 1200x600px)
+                  Hero Banners (Mobile: 2:1 Ratio - e.g. 1000x500px | Web: 5.26:1 Ratio - e.g. 1920x365px, keep text centered)
                 </label>
                 <button
                   type="button"
@@ -339,31 +360,75 @@ export default function HeroCategoriesPerPage() {
                     <div className="flex items-start gap-3">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
-                          <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center shrink-0">
-                            {item.imageUrl ? (
-                              <img
-                                src={item.imageUrl}
-                                alt={item.title || `Banner ${idx + 1}`}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <HiOutlinePhoto className="h-6 w-6 text-slate-300" />
+                          <div className="flex gap-3">
+                            <div className="flex flex-col items-center gap-1">
+                              <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center shrink-0">
+                                {item.imageUrl ? (
+                                  <img
+                                    src={item.imageUrl}
+                                    alt={item.title || `Banner ${idx + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <HiOutlinePhoto className="h-6 w-6 text-slate-300" />
+                                )}
+                              </div>
+                              <span className="text-[8px] font-bold text-slate-400">WEB (1920x365)</span>
+                            </div>
+
+                            {editingRow.pageType === "home" && (
+                              <div className="flex flex-col items-center gap-1">
+                                <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center shrink-0">
+                                  {item.mobileImageUrl ? (
+                                    <img
+                                      src={item.mobileImageUrl}
+                                      alt={`Mobile Banner ${idx + 1}`}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <HiOutlinePhoto className="h-6 w-6 text-slate-300" />
+                                  )}
+                                </div>
+                                <span className="text-[8px] font-bold text-slate-400">MOBILE (2:1)</span>
+                              </div>
                             )}
                           </div>
                           <div className="flex-1 min-w-0 space-y-1">
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              id={`hero-banner-file-${idx}`}
-                              onChange={(e) => handleBannerFileChange(idx, e.target.files?.[0])}
-                            />
-                            <label
-                              htmlFor={`hero-banner-file-${idx}`}
-                              className="inline-block px-2 py-1 rounded-lg bg-slate-100 text-[10px] font-bold text-slate-600 cursor-pointer hover:bg-slate-200"
-                            >
-                              {item.isUploading ? "Uploading…" : item.imageUrl ? "Change" : "Upload"}
-                            </label>
+                            <div className="flex flex-wrap gap-2">
+                              <div>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  id={`hero-banner-file-${idx}`}
+                                  onChange={(e) => handleBannerFileChange(idx, e.target.files?.[0])}
+                                />
+                                <label
+                                  htmlFor={`hero-banner-file-${idx}`}
+                                  className="inline-block px-2 py-1 rounded-lg bg-slate-100 text-[10px] font-bold text-slate-600 cursor-pointer hover:bg-slate-200"
+                                >
+                                  {item.isUploading ? "Uploading Web…" : item.imageUrl ? "Change Web" : "Upload Web"}
+                                </label>
+                              </div>
+
+                              {editingRow.pageType === "home" && (
+                                <div>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    id={`hero-banner-mobile-file-${idx}`}
+                                    onChange={(e) => handleMobileBannerFileChange(idx, e.target.files?.[0])}
+                                  />
+                                  <label
+                                    htmlFor={`hero-banner-mobile-file-${idx}`}
+                                    className="inline-block px-2 py-1 rounded-lg bg-slate-100 text-[10px] font-bold text-slate-600 cursor-pointer hover:bg-slate-200"
+                                  >
+                                    {item.isUploadingMobile ? "Uploading Mobile…" : item.mobileImageUrl ? "Change Mobile" : "Upload Mobile"}
+                                  </label>
+                                </div>
+                              )}
+                            </div>
                             <input
                               value={item.title || ""}
                               onChange={(e) => updateBannerItem(idx, { title: e.target.value })}

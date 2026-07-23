@@ -15,6 +15,7 @@ const ExperienceBannerCarousel = ({ section, items, fullWidth = false, slideGap 
   if (!items.length) return null;
 
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [isMobile, setIsMobile] = React.useState(false);
   const [visibleCount, setVisibleCount] = React.useState(() =>
     Math.min(items.length, BANNER_CHUNK_SIZE)
   );
@@ -23,6 +24,15 @@ const ExperienceBannerCarousel = ({ section, items, fullWidth = false, slideGap 
   const x = useMotionValue(0);
   const containerRef = React.useRef(null);
   const hasMore = visibleCount < items.length;
+
+  React.useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(isMobileOrWebView());
+    };
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
 
   const loadMore = React.useCallback(() => {
     setVisibleCount((prev) => Math.min(items.length, prev + BANNER_CHUNK_SIZE));
@@ -77,36 +87,39 @@ const ExperienceBannerCarousel = ({ section, items, fullWidth = false, slideGap 
         dragElastic={0.2}
         onDragEnd={handleDragEnd}
         animate={{ x: `-${(activeIndex / totalItems) * 100}%` }}
-        transition={isMobileOrWebView() ? { type: "tween", ease: "easeInOut", duration: 0.3 } : { type: "spring", stiffness: 300, damping: 30 }}
+        transition={isMobile ? { type: "tween", ease: "easeInOut", duration: 0.3 } : { type: "spring", stiffness: 300, damping: 30 }}
         className="flex"
         style={{ width: `${totalItems * 100}%` }}
       >
-        {visibleItems.map((banner, idx) => (
-          <div
-            key={idx}
-            className="relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border aspect-[2/1] md:aspect-[10/3.25] md:max-h-[390px] rounded-none px-0 py-0"
-            style={{ width: `${100 / totalItems}%` }}
-          >
-            <img
-              src={getBannerOptimizedSrc(banner.imageUrl)}
-              srcSet={
-                isCloudinaryUrl(banner.imageUrl)
-                  ? buildCloudinarySrcSet(
-                      banner.imageUrl,
-                      [{ w: 412 }, { w: 824 }, { w: 1248 }],
-                      "f_auto,q_auto,c_scale"
-                    )
-                  : undefined
-              }
-              sizes="100vw"
-              alt={banner.title || section?.title || "Banner"}
-              className="w-full h-full object-cover object-center pointer-events-none rounded-none"
-              loading={idx === 0 ? "eager" : "lazy"}
-              fetchPriority={idx === 0 ? "high" : "low"}
-              decoding="async"
-            />
-          </div>
-        ))}
+        {visibleItems.map((banner, idx) => {
+          const chosenUrl = (isMobile && banner.mobileImageUrl) ? banner.mobileImageUrl : banner.imageUrl;
+          return (
+            <div
+              key={idx}
+              className="relative shrink-0 overflow-hidden bg-slate-100 flex items-center justify-center box-border aspect-[2/1] md:aspect-[1920/365] md:max-h-[365px] rounded-none px-0 py-0"
+              style={{ width: `${100 / totalItems}%` }}
+            >
+              <img
+                src={getBannerOptimizedSrc(chosenUrl)}
+                srcSet={
+                  isCloudinaryUrl(chosenUrl)
+                    ? buildCloudinarySrcSet(
+                        chosenUrl,
+                        [{ w: 412 }, { w: 824 }, { w: 1248 }],
+                        "f_auto,q_auto,c_scale"
+                      )
+                    : undefined
+                }
+                sizes="100vw"
+                alt={banner.title || section?.title || "Banner"}
+                className="w-full h-full object-cover object-center pointer-events-none rounded-none"
+                loading={idx === 0 ? "eager" : "lazy"}
+                fetchPriority={idx === 0 ? "high" : "low"}
+                decoding="async"
+              />
+            </div>
+          );
+        })}
       </motion.div>
     </div>
   );

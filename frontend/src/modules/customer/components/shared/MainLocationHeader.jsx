@@ -27,6 +27,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function CategoryNavColumn({
   cat,
@@ -45,7 +46,7 @@ function CategoryNavColumn({
       layout
       whileTap={{ scale: 0.96 }}
       onClick={() => onCategorySelect && onCategorySelect(cat)}
-      className="relative z-[2] flex min-w-[50px] shrink-0 cursor-pointer flex-col items-center gap-0.5 px-1 pb-1 pt-1 snap-start md:min-w-[60px] transition-colors duration-200"
+      className="relative z-[2] flex min-w-[60px] shrink-0 cursor-pointer flex-col items-center gap-0.5 px-2 pb-1 pt-1 snap-start md:min-w-[80px] md:px-4 transition-colors duration-200"
     >
       {/* Animated bump SVG for active tab */}
       {isActive && (
@@ -321,12 +322,27 @@ const MainLocationHeader = ({
             <NotificationsNoneOutlinedIcon sx={{ fontSize: 28 }} />
           </motion.button>
 
+          {/* WhatsApp Support/Order Icon (Mobile) */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              const message = encodeURIComponent("Hello Vamaa Urban Fresh! I would like to place a direct order / make an inquiry.");
+              window.open("https://wa.me/918305357624?text=" + message, "_blank");
+            }}
+            className="absolute top-5 right-32 sm:top-6 sm:right-36 md:hidden z-20 cursor-pointer hover:text-[#25D366] transition-colors"
+            style={{ color: headerFontColor }}
+            title="Direct Order / Inquiry via WhatsApp"
+          >
+            <WhatsAppIcon sx={{ fontSize: 28 }} />
+          </motion.button>
+
           {/* Desktop/Tablet Header Layout (md and above) */}
           <div className="hidden md:flex items-center justify-between relative z-20 px-2 lg:px-6 mb-1 mt-0">
             {/* Left Section: Logo + Location row */}
             <div className="flex items-center gap-4 lg:gap-8">
               <div
-                onClick={() => navigate("/user")}
+                onClick={() => navigate("/")}
                 className="flex items-center gap-3 cursor-pointer group shrink-0">
                 <div className="group-hover:scale-110 transition-all duration-300 w-16 h-16 flex items-center justify-center bg-transparent">
                   {logoAnimData ? (
@@ -345,13 +361,12 @@ const MainLocationHeader = ({
                   )}
                 </div>
               </div>
-
               {/* Location Block (Desktop inline row) */}
-              <div className="flex flex-col border-l border-black/10 pl-4 lg:pl-8 h-10 justify-center">
-                <div className="flex items-center gap-1.5 opacity-70">
-                  <AccessTimeIcon sx={{ fontSize: 13, color: headerFontColor }} />
+              <div className="flex flex-col border-l border-white/20 pl-4 lg:pl-6 justify-center">
+                <div className="flex items-center gap-1 opacity-90 mb-0.5">
+                  <AccessTimeIcon sx={{ fontSize: 12, color: headerFontColor }} />
                   <span 
-                    className="text-[11px] font-bold uppercase tracking-wider leading-none"
+                    className="text-[10px] font-extrabold uppercase tracking-wider leading-none"
                     style={{ color: headerFontColor }}
                   >
                     {currentLocation.time}
@@ -364,18 +379,19 @@ const MainLocationHeader = ({
                   onClick={() => {
                     setIsLocationOpen(true);
                   }}
-                  className="flex items-center gap-1 text-slate-900 hover:text-slate-700 cursor-pointer group active:scale-95 transition-all border-0 bg-transparent p-0 text-left">
-                  <LocationOnIcon sx={{ fontSize: 14, color: "inherit" }} />
-                  <div 
-                    className="text-[13px] font-bold leading-tight max-w-[250px] lg:max-w-[320px] truncate"
-                    style={{ color: headerFontColor }}
+                  className="flex items-center gap-0.5 hover:opacity-85 cursor-pointer group active:scale-95 transition-all border-0 bg-transparent p-0 text-left"
+                  style={{ color: headerFontColor }}
+                >
+                  <LocationOnIcon sx={{ fontSize: 13, color: "inherit" }} />
+                  <span 
+                    className="text-[12px] font-bold leading-tight max-w-[180px] lg:max-w-[240px] truncate"
                   >
                     {isFetchingLocation
                       ? "Detecting location..."
                       : currentLocation.name}
-                  </div>
+                  </span>
                   <ChevronDownIcon
-                    sx={{ fontSize: 12, opacity: 0.5, color: headerFontColor }}
+                    sx={{ fontSize: 12, opacity: 0.7, color: "inherit" }}
                   />
                 </button>
               </div>
@@ -418,6 +434,20 @@ const MainLocationHeader = ({
 
             {/* Right Section: Action Icons */}
             <div className="flex items-center gap-5 lg:gap-8 shrink-0">
+              <motion.button
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  const message = encodeURIComponent("Hello Vamaa Urban Fresh! I would like to place a direct order / make an inquiry.");
+                  window.open("https://wa.me/918305357624?text=" + message, "_blank");
+                }}
+                className="transition-all hover:text-[#25D366]"
+                style={{ color: headerFontColor }}
+                title="Direct Order / Inquiry via WhatsApp"
+              >
+                <WhatsAppIcon sx={{ fontSize: 25 }} />
+              </motion.button>
+
               <motion.button
                 whileHover={{ scale: 1.15, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
@@ -547,14 +577,14 @@ const MainLocationHeader = ({
 
           {/* Categories Navigation - Smooth Collapse */}
           {categories.length > 0 && (
-            <div className="relative mt-2 md:mt-1 -mx-4 md:mx-0 z-10">
+            <div className="relative mt-2 md:mt-1 -mx-4 z-10">
               {/* White background block that starts below the curve area */}
               <div className="absolute top-[8px] md:top-[6px] inset-x-0 bottom-0 bg-white border-b border-gray-100 shadow-sm z-0" />
               
               <motion.div
                 layout
                 transition={{ duration: 0.1 }}
-                className="relative z-10 flex items-end md:justify-center gap-0 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x pt-[12px] md:pt-[8px] min-h-[64px] md:min-h-[58px] pb-0.5">
+                className="relative z-10 flex items-end md:justify-center gap-3 md:gap-6 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x pt-[12px] md:pt-[8px] min-h-[64px] md:min-h-[58px] pb-0.5">
                 {categories.map((cat) => {
                   const isActive = String(activeCategory?._id || activeCategory?.id || "") === String(cat._id || cat.id || "");
                   return (

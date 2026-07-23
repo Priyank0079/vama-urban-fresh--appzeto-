@@ -165,7 +165,7 @@ const AppRouter = () => {
                 {
                     element: <CustomerLayoutWrapper />,
                     children: [
-                        { index: true, element: <WebLaunchLanding /> },
+                        { index: true, element: <Home /> },
                         { path: 'user', element: <Home /> },
                         { path: 'categories', element: <CategoriesPage /> },
                         { path: 'category/:categoryName', element: <CategoryProductsPage /> },

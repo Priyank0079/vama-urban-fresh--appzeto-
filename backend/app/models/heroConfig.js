@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const heroBannerItemSchema = new mongoose.Schema(
   {
     imageUrl: { type: String, required: true },
+    mobileImageUrl: { type: String, trim: true },
     title: { type: String, trim: true },
     subtitle: { type: String, trim: true },
     linkType: {
